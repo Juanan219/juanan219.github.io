@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hugo 101 on JuananBlog</title>
-    <link>https://juanan219.github.io/series/hugo-101/</link>
-    <description>Recent content in Hugo 101 on JuananBlog</description>
+    <title>Linux on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/linux/</link>
+    <description>Recent content in Linux on JuananBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 04 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Bienvenidos a JuananBlog</title>
-      <link>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</link>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</guid>
-      <description>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</description>
-    </item>
-    
+    <lastBuildDate>Thu, 04 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
       <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>
