@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/02/servidor-de-correos/</loc>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</loc>
     <lastmod>2021-02-04T00:00:00+00:00</lastmod>
   </url>
@@ -13,28 +18,28 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/asir/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/correo/</loc>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/bienvenida/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/dovecot/</loc>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/series/hugo-101/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/implementaci%C3%B3n-de-aplicaciones-web/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/imaps/</loc>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -48,18 +53,18 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/linux/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/postfix/</loc>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/posts/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/series/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -73,8 +78,18 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/tags/servicios/</loc>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/smtps/</loc>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/tags/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -85,6 +100,31 @@
                 hreflang="en"
                 href="https://juanan219.github.io/tags/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/thunderbird/</loc>
+    <lastmod>2021-02-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/asir/</loc>
+    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/bienvenida/</loc>
+    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/implementaci%C3%B3n-de-aplicaciones-web/</loc>
+    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/linux/</loc>
+    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
