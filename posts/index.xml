@@ -735,17 +735,6 @@ sudo systemctl restart postfix
         </item>
         
         <item>
-            <title>Bienvenidos a JuananBlog</title>
-            <link>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</link>
-            <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-            
-            <guid>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</guid>
-            <description>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</description>
-            <content type="html"><![CDATA[<p>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</p>
-]]></content>
-        </item>
-        
-        <item>
             <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
             <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>
             <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
@@ -840,6 +829,17 @@ git commit -am &quot;Archivos estáticos HUGO&quot;
 git push
 </code></pre><p>Por último, si nos dirigimos a la configuración de nuestro nuevo repositorio de GitHub, si bajamos, podremos ver un apartado llamado GitHub Pages, en el cual, si todo ha salido bien, nos dirá que nuestra página está subida a <a href="https://juanan219.github.io/">la url que le hemos configurado</a></p>
 <p><img src="/web_estatica/1.PNG" alt="Captura 1"></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Bienvenidos a JuananBlog</title>
+            <link>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</link>
+            <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</guid>
+            <description>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</description>
+            <content type="html"><![CDATA[<p>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</p>
 ]]></content>
         </item>
         
