@@ -7,7 +7,52 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 11 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Apuntes</title>
+      <link>https://juanan219.github.io/tags/apuntes/</link>
+      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/apuntes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Documentación</title>
+      <link>https://juanan219.github.io/tags/documentaci%C3%B3n/</link>
+      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/documentaci%C3%B3n/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FCP</title>
+      <link>https://juanan219.github.io/tags/fcp/</link>
+      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/fcp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>iSCSI</title>
+      <link>https://juanan219.github.io/tags/iscsi/</link>
+      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/iscsi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SAN</title>
+      <link>https://juanan219.github.io/tags/san/</link>
+      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/san/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Configuracion</title>
       <link>https://juanan219.github.io/tags/configuracion/</link>
@@ -50,51 +95,6 @@
       <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/postfix/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Servicios</title>
-      <link>https://juanan219.github.io/tags/servicios/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/servicios/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>SMTPS</title>
-      <link>https://juanan219.github.io/tags/smtps/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/smtps/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ASIR</title>
-      <link>https://juanan219.github.io/tags/asir/</link>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/asir/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bienvenida</title>
-      <link>https://juanan219.github.io/tags/bienvenida/</link>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/bienvenida/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Implementación de aplicaciones Web</title>
-      <link>https://juanan219.github.io/tags/implementaci%C3%B3n-de-aplicaciones-web/</link>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/implementaci%C3%B3n-de-aplicaciones-web/</guid>
       <description></description>
     </item>
     

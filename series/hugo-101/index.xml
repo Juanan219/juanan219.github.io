@@ -7,7 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 11 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Apuntes iSCSI</title>
+      <link>https://juanan219.github.io/posts/2021/02/apuntes-iscsi/</link>
+      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/apuntes-iscsi/</guid>
+      <description>Storage Area Network (SAN) Redes de almacenamiento   Es una red de almacenamiento que proporciona dispositivos de bloques a los servidores, esta red es una red infependiente a la red local de nuestra organización.
+  Los elementos típicos de una SAN son:
+  Red de alta velocidad (cobre o fibra óptica)
+  Equipos o servidores que proporcionan el almacenamiento
+  Servidores que usan los dispositivos de bloques</description>
+    </item>
+    
     <item>
       <title>Servidor de correos</title>
       <link>https://juanan219.github.io/posts/2021/02/servidor-de-correos/</link>
