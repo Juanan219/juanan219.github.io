@@ -1,65 +1,869 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on JuananBlog</title>
-    <link>https://juanan219.github.io/posts/</link>
-    <description>Recent content in Posts on JuananBlog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sat, 13 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Prueba</title>
-      <link>https://juanan219.github.io/posts/2021/02/prueba/</link>
-      <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/prueba/</guid>
-      <description>Prueba</description>
-    </item>
-    
-    <item>
-      <title>Apuntes iSCSI</title>
-      <link>https://juanan219.github.io/posts/2021/02/apuntes-iscsi/</link>
-      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/apuntes-iscsi/</guid>
-      <description>Storage Area Network (SAN) Redes de almacenamiento   Es una red de almacenamiento que proporciona dispositivos de bloques a los servidores, esta red es una red infependiente a la red local de nuestra organización.
+    <channel>
+        <title>Posts on JuananBlog</title>
+        <link>https://juanan219.github.io/posts/</link>
+        <description>Recent content in Posts on JuananBlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+        <lastBuildDate>Sat, 13 Feb 2021 00:00:00 +0000</lastBuildDate>
+        <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Prueba</title>
+            <link>https://juanan219.github.io/posts/2021/02/prueba/</link>
+            <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/prueba/</guid>
+            <description>Prueba</description>
+            <content type="html"><![CDATA[<p>Prueba</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Prueba2</title>
+            <link>https://juanan219.github.io/posts/2021/02/prueba2/</link>
+            <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/prueba2/</guid>
+            <description>Prueba2</description>
+            <content type="html"><![CDATA[<p>Prueba2</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Apuntes iSCSI</title>
+            <link>https://juanan219.github.io/posts/2021/02/apuntes-iscsi/</link>
+            <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/apuntes-iscsi/</guid>
+            <description>Storage Area Network (SAN) Redes de almacenamiento   Es una red de almacenamiento que proporciona dispositivos de bloques a los servidores, esta red es una red infependiente a la red local de nuestra organización.
   Los elementos típicos de una SAN son:
   Red de alta velocidad (cobre o fibra óptica)
   Equipos o servidores que proporcionan el almacenamiento
   Servidores que usan los dispositivos de bloques</description>
-    </item>
-    
-    <item>
-      <title>Servidor de correos</title>
-      <link>https://juanan219.github.io/posts/2021/02/servidor-de-correos/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/servidor-de-correos/</guid>
-      <description>En esta entrada vamos a configurar un servidor de correos en un VPS, para ello primero deberemos configurar el nombre del servidor de correos, el cual será mail.iesgn16.es, cuyo nombre aparecerá en el registro MX de nuestro DNS.
+            <content type="html"><![CDATA[<h2 id="storage-area-network-san">Storage Area Network (SAN)</h2>
+<h3 id="redes-de-almacenamiento">Redes de almacenamiento</h3>
+<ul>
+<li>
+<p>Es una red de almacenamiento que proporciona dispositivos de bloques a los servidores, esta red es una red infependiente a la red local de nuestra organización.</p>
+</li>
+<li>
+<p>Los elementos típicos de una SAN son:</p>
+<ul>
+<li>
+<p>Red de alta velocidad (cobre o fibra óptica)</p>
+</li>
+<li>
+<p>Equipos o servidores que proporcionan el almacenamiento</p>
+</li>
+<li>
+<p>Servidores que usan los dispositivos de bloques</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Los protocolos más usados en este tipo de redes son:</p>
+<ul>
+<li>
+<p>iSCSI</p>
+</li>
+<li>
+<p>Fibre Channel Protocol (FCP)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="esquema-de-ejemplo-de-una-san">Esquema de ejemplo de una SAN</h4>
+<p><img src="/iSCSI/1.png" alt="Captura 1"></p>
+<h2 id="iscsi">iSCSI</h2>
+<ul>
+<li>
+<p>Es un protocolo que se usa sobre todo en redes de almacenamiento (aunque para usar iSCSI no es imprescindible tener una SAN, sería lo recomendable, ya que la SAN nos proporciona un mecanismo de aislamiento adecuado para que podamos usar dispositivos de bloques de una forma más segura), pero también se puede usar en una red local.</p>
+</li>
+<li>
+<p>Nos proporciona acceso a dispositivos de bloques sobre TCP/IP</p>
+</li>
+<li>
+<p>Alternativa económica a FCP</p>
+</li>
+<li>
+<p>Usado habitualmente en redes con velocidades de 1 Gbps o 10 Gbps</p>
+</li>
+</ul>
+<h3 id="elementos-iscsi">Elementos iSCSI</h3>
+<ul>
+<li>
+<p><strong>Unidad Lógica (LUN):</strong> Es un dispositivo de bloques a compartir por el servidor iSCSI (Por ejemplo 3 discos duros que hay en el servidor iSCSI)</p>
+</li>
+<li>
+<p><strong>Target:</strong> Recurso a compartir desde el servidor. Un target incluye uno o varios LUN. (Explicación: El target contiene los 3 discos duros del servidor para cuando el cliente se conecte, use dicho target, por lo que el cliente tiene 3 discos duros adicionales en su sistema operativo a través de una sola conexión. De forma alternativa, podemos plantear que cada una de las conexiones tenga su dispositivo de forma independiente, por lo que en este caso, el cliente tendría 3 targets con 3 conexiones independientes)</p>
+</li>
+<li>
+<p><strong>Initiator:</strong> Cliente iSCSI</p>
+</li>
+<li>
+<p><strong>Multipath:</strong> Varias rutas entre initiator y servidor para garantizar la disponibilidad de la conexión, es decir, si tenemos varias formas de conectar el cliente con el servidor, se haría uso de esta característica, ya que si no está disponible la conexión por una ruta, se usa la ruta alternativa.</p>
+</li>
+<li>
+<p>IQN es el formato más extendido para la descripción de los recursos. Por ejemplo: <code>iqn.2020-01.es.tinaja:sdb4</code> (iqn.[fecha significativa].[nombre a la inversa del dominio o servidor]:[LUN])</p>
+</li>
+<li>
+<p><strong>iSNS:</strong> Protocolo que permite gestionar recursos de iSCSI como si fuera FCP</p>
+</li>
+</ul>
+<h3 id="implementaciones-de-iscsi">Implementaciones de iSCSI</h3>
+<ul>
+<li>
+<p>iSCSI tiene soporte en la mayoría de sistemas operativos</p>
+</li>
+<li>
+<p>En Linux usamos <code>open-iscsi</code> como initiator</p>
+</li>
+<li>
+<p>Existen algunas opciones en Linux para el servidor iSCSI:</p>
+<ul>
+<li>
+<p>Linux-IO (LIO) (Versión implementada en el kérnel de Linux)</p>
+</li>
+<li>
+<p>tgt (Es la más usada)</p>
+</li>
+<li>
+<p>scst</p>
+</li>
+<li>
+<p>istgt</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="demo-iscsi">Demo iSCSI</h2>
+<ul>
+<li>Instalamos <code>tgt</code></li>
+</ul>
+<pre><code>sudo apt-get install tgt
+</code></pre><ul>
+<li>
+<p>Hay dos formas de usar este software:</p>
+<ul>
+<li>
+<p>Podemos dirigirnos al directorio <code>/etc/tgt/</code> y definir ahí la configuración modificando los ficheros que sean oportunos. De esta manera la configuración es permanente, es decir, se guardan los cambios.</p>
+</li>
+<li>
+<p>Desde la línea de comandos, por lo que al no estar definida la configuración en ningún sitio, sino hecha &ldquo;en caliente&rdquo;, no se guardan los cambios a la hora de reiniciar la máquina. (Esta es la forma que usaremos en esta demo)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Definimos un target:</p>
+<ul>
+<li><strong>&ndash;lld:</strong> El controlador, en este caso sera <code>iscsi</code> (<code>--lld iscsi</code>)</li>
+<li><strong>&ndash;op:</strong> La operación que deseamos hacer, en este caso será crear un nuevo target, por lo que el valor será <code>new</code> (<code>--op new</code>)</li>
+<li><strong>&ndash;mode:</strong> Lo que queremos crear, en este caso es un target, por lo que el valor es <code>target</code> (<code>--mode target</code>)</li>
+<li><strong>&ndash;tid:</strong> El ID de nuestro nuevo target, en este caso le vamos a asignar el id <code>1</code> (<code>--tid 1</code>)</li>
+<li><strong>-T:</strong> El nombre del target que vamos a definir, en este caso será <code>iqn.&quot;año-mes de creación.dominio:nombre_target&quot;</code> (<code>--T iqn.2021-02.es.juanan:target1</code>)</li>
+</ul>
+</li>
+</ul>
+<pre><code>sudo tgtadm --lld iscsi --op new --mode target --tid 1 -T iqn.2021-02.es.juanan:target1
+</code></pre><pre><code>* Si queremos eliminar un target, simplemente ejecutamos el siguiente comando
+</code></pre>
+<pre><code>sudo tgtadm --lld iscsi --op delete --mode target --tid 1
+</code></pre><ul>
+<li>
+<p>Le añadimos un dispositivo de bloques:</p>
+<ul>
+<li><strong>&ndash;mode logicalunit:</strong> Le decimos que queremos añadir una unidad lógica</li>
+<li><strong>&ndash;lun 1:</strong> El ID de la unidad lógica que vamos a añadir</li>
+<li><strong>-b /dev/sdb:</strong> Ruta hacia el dispositivo de bloques que vamos a añadir</li>
+</ul>
+</li>
+</ul>
+<pre><code>sudo tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 1 -b /dev/sdb
+</code></pre><ul>
+<li>Le añadimos un segundo y tercer dispositivo de bloques</li>
+</ul>
+<pre><code>sudo tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 2 -b /dev/sdc
+sudo tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 3 -b /dev/sdd
+</code></pre><pre><code>* Si queremos eliminar alguna de las unidades lógicas que hemos añadido, ejecutamos el siguiente comando:
+</code></pre>
+<pre><code>sudo tgtadm --lld iscsi --op delete --mode logicalunit --tid 1 --lun 2
+</code></pre><ul>
+<li>Comprobamos que el target está bien definido</li>
+</ul>
+<pre><code>sudo tgtadm --lld iscsi --op show --mode target
+</code></pre><pre><code>* Salida del comando anterior
+</code></pre>
+<pre><code>sudo tgtadm --lld iscsi --op show --mode target
+Target 1: iqn.2021-02.es.juanan:target1
+    System information:
+        Driver: iscsi
+        State: ready
+    I_T nexus information:
+    LUN information:
+        LUN: 0
+            Type: controller
+            SCSI ID: IET     00010000
+            SCSI SN: beaf10
+            Size: 0 MB, Block size: 1
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: null
+            Backing store path: None
+            Backing store flags: 
+        LUN: 1
+            Type: disk
+            SCSI ID: IET     00010001
+            SCSI SN: beaf11
+            Size: 1074 MB, Block size: 512
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: rdwr
+            Backing store path: /dev/sdb
+            Backing store flags: 
+        LUN: 2
+            Type: disk
+            SCSI ID: IET     00010002
+            SCSI SN: beaf12
+            Size: 1074 MB, Block size: 512
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: rdwr
+            Backing store path: /dev/sdc
+            Backing store flags: 
+        LUN: 3
+            Type: disk
+            SCSI ID: IET     00010003
+            SCSI SN: beaf13
+            Size: 1074 MB, Block size: 512
+            Online: Yes
+            Removable media: No
+            Prevent removal: No
+            Readonly: No
+            SWP: No
+            Thin-provisioning: No
+            Backing store type: rdwr
+            Backing store path: /dev/sdd
+            Backing store flags: 
+    Account information:
+    ACL information:
+</code></pre><ul>
+<li>
+<p>Explicación:</p>
+<ul>
+<li><strong>Información sobre el target:</strong> Podemos ver que nos muestra el <code>Target 1</code> y su nombre <code>iqn.2021-02.es.juanan:target1</code>. Está en modo <code>ready</code> (<code>State: ready</code>) y tiene un controlador <code>iscsi</code> (<code>Driver: iscsi</code>)</li>
+</ul>
+</li>
+</ul>
+<pre><code>Target 1: iqn.2021-02.es.juanan:target1
+    System information:
+        Driver: iscsi
+        State: ready
+    I_T nexus information:
+</code></pre><pre><code>* **Información de las LUN:** En este apartado (que es el más extenso), podemos ver que tenemos definidas 4 LUNs (`LUN 0, LUN 1, LUN 2 y LUN 3`), pero nosotros solo hemos definido 3 LUNs, esto se debe a que la `LUN 0` es una LUN de control, esto quiere decir que en esta LUN solo se guarda las características de las LUNs y siempre se define cuando se define un target. En las demás LUNs podemos ver información como el tipo de LUN que es (`Type: disk`), si es un dispositivo extraíble (`Removable media: No`), si esta en modo sólo lectura (`Readonly: No`), si tiene aprovisionamiento ligero (`Thin-provisioning: No`), el dispositivo de bloques que tiene asociado (`Backing store path: /dev/sdb`), el modo en el que se encuentra (`Backing store type: rdwr`), etc...
+</code></pre>
+<pre><code>LUN: 0
+    Type: controller
+    SCSI ID: IET     00010000
+    SCSI SN: beaf10
+    Size: 0 MB, Block size: 1
+    Online: Yes
+    Removable media: No
+    Prevent removal: No
+    Readonly: No
+    SWP: No
+    Thin-provisioning: No
+    Backing store type: null
+    Backing store path: None
+    Backing store flags: 
+LUN: 1
+    Type: disk
+    SCSI ID: IET     00010001
+    SCSI SN: beaf11
+    Size: 1074 MB, Block size: 512
+    Online: Yes
+    Removable media: No
+    Prevent removal: No
+    Readonly: No
+    SWP: No
+    Thin-provisioning: No
+    Backing store type: rdwr
+    Backing store path: /dev/sdb
+    Backing store flags: 
+</code></pre><pre><code>* **Información adicional:** Este comando también nos muestra información sobre la cuenta de acceso y sobre las ACL si las tuvieramos
+</code></pre>
+<pre><code>Account information:
+ACL information:
+</code></pre><ul>
+<li>
+<p>Podemos hacer accesible al target creado desde todas las interfaces de red o desde interfaces de red específicas de nuestra máquina. En este caso la haremos accesible a través de todas las interfaces de red de las que disponga nuestra máquina:</p>
+<ul>
+<li><strong>&ndash;op bind:</strong> Operación que nos permite especificar por cuáles interfaces de red queremos hacer accesible un objeto</li>
+<li><strong>&ndash;I ALL:</strong> Le indicamos las interfaces de red por las que queremos hacer accesible este target, en este caso, le hemos puesto el valor <code>ALL</code> para que este target sea accesible por todas las interfaces de red.</li>
+</ul>
+</li>
+</ul>
+<pre><code>sudo tgtadm --lld iscsi --op bind --mode target --tid 1 -I ALL
+</code></pre><ul>
+<li>Cuando tengamos el target configurado y las interfaces de red por las que es accesible definidas, vamos a pasar a la configuración del cliente, ya que, dicho target, debería ser visible desde el cliente. Para conectar el target al cliente, debemos irnos al cliente e instalar el siguiente paquete</li>
+</ul>
+<pre><code>sudo apt-get install open-iscsi
+</code></pre><pre><code>* Al instalar el paquete, se nos asignará un nombre predeterminado, el cual se puede ver en el fichero `/etc/iscsi/initiatorname.iscsi` (Este fichero no se debe editar, a parte, no es necesario editarlo a no ser que lo necesites)
+</code></pre>
+<pre><code>sudo tail /etc/iscsi/initiatorname.iscsi
+
+InitiatorName=iqn.1993-08.org.debian:01:7eb51324d021
+</code></pre><ul>
+<li>Ahora que lo tenemos instalado, podemos ver la información:</li>
+</ul>
+<pre><code>sudo iscsiadm --mode discovery --type sendtargets --portal server
+
+192.168.1.48:3260,1 iqn.2021-02.es.juanan:target1
+</code></pre><ul>
+<li>También nos podemos conectar al target:</li>
+</ul>
+<pre><code>sudo iscsiadm --mode node -T iqn.2021-02.es.juanan:target1 --portal server --login
+</code></pre><pre><code>* Estas son las entradas del log del kernel (`journalctl -f -k`) que podemos ver cuando nos conectamos. Si nos damos cuenta, es como si le conectásemos 3 nuevos discos
+</code></pre>
+<pre><code>Feb 12 20:51:16 initiator kernel: Loading iSCSI transport class v2.0-870.
+Feb 12 20:51:16 initiator kernel: iscsi: registered transport (tcp)
+Feb 12 20:51:16 initiator kernel: iscsi: registered transport (iser)
+Feb 12 22:23:15 initiator kernel: scsi host1: iSCSI Initiator over TCP/IP
+Feb 12 22:23:15 initiator kernel: scsi 1:0:0:0: RAID              IET      Controller       0001 PQ: 0 ANSI: 5
+Feb 12 22:23:15 initiator kernel: scsi 1:0:0:0: Attached scsi generic sg1 type 12
+Feb 12 22:23:15 initiator kernel: scsi 1:0:0:1: Direct-Access     IET      VIRTUAL-DISK     0001 PQ: 0 ANSI: 5
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:1: Attached scsi generic sg2 type 0
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:1: Power-on or device reset occurred
+Feb 12 22:23:15 initiator kernel: scsi 1:0:0:2: Direct-Access     IET      VIRTUAL-DISK     0001 PQ: 0 ANSI: 5
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:1: [sdb] 2097152 512-byte logical blocks: (1.07 GB/1.00 GiB)
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:2: Attached scsi generic sg3 type 0
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:2: Power-on or device reset occurred
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:1: [sdb] Write Protect is off
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:1: [sdb] Mode Sense: 69 00 10 08
+Feb 12 22:23:15 initiator kernel: scsi 1:0:0:3: Direct-Access     IET      VIRTUAL-DISK     0001 PQ: 0 ANSI: 5
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: Attached scsi generic sg4 type 0
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:1: [sdb] Write cache: enabled, read cache: enabled, supports DPO and FUA
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: Power-on or device reset occurred
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:2: [sdc] 2097152 512-byte logical blocks: (1.07 GB/1.00 GiB)
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:2: [sdc] Write Protect is off
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:2: [sdc] Mode Sense: 69 00 10 08
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:2: [sdc] Write cache: enabled, read cache: enabled, supports DPO and FUA
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: [sdd] 2097152 512-byte logical blocks: (1.07 GB/1.00 GiB)
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: [sdd] Write Protect is off
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: [sdd] Mode Sense: 69 00 10 08
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: [sdd] Write cache: enabled, read cache: enabled, supports DPO and FUA
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:2: [sdc] Attached SCSI disk
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:1: [sdb] Attached SCSI disk
+Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: [sdd] Attached SCSI disk
+</code></pre><pre><code>* Esta es la salida del comando `lsblk` antes de conectarnos
+</code></pre>
+<pre><code>lsblk
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda      8:0    0 19.8G  0 disk 
+├─sda1   8:1    0 18.8G  0 part /
+├─sda2   8:2    0    1K  0 part 
+└─sda5   8:5    0 1021M  0 part [SWAP]
+</code></pre><pre><code>* Esta es la salida del comando `lsblk` después de conectarnos
+</code></pre>
+<pre><code>lsblk
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda      8:0    0 19.8G  0 disk 
+├─sda1   8:1    0 18.8G  0 part /
+├─sda2   8:2    0    1K  0 part 
+└─sda5   8:5    0 1021M  0 part [SWAP]
+sdb      8:16   0    1G  0 disk 
+sdc      8:32   0    1G  0 disk 
+sdd      8:48   0    1G  0 disk
+</code></pre><ul>
+<li>Ahora que los tenemos conectados remotamente a nuestra máquina, podemos operar sobre ellos, por ejemplo, si queremos montar uno de los dispositivos (<code>/dev/sdb</code>) de bloques le podemos dar formato <code>ext4</code> y montarlo en <code>/mnt</code></li>
+</ul>
+<pre><code>sudo mkfs.ext4 /dev/sdb
+
+sudo mount /dev/sdb /mnt
+
+lsblk -f
+
+sdb    ext4         86b14bd0-6953-4996-a1da-f82f5d248b51  906.2M     0% /mnt
+</code></pre>]]></content>
+        </item>
+        
+        <item>
+            <title>Servidor de correos</title>
+            <link>https://juanan219.github.io/posts/2021/02/servidor-de-correos/</link>
+            <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/servidor-de-correos/</guid>
+            <description>En esta entrada vamos a configurar un servidor de correos en un VPS, para ello primero deberemos configurar el nombre del servidor de correos, el cual será mail.iesgn16.es, cuyo nombre aparecerá en el registro MX de nuestro DNS.
 Para configurar el mail en nuestro servidor, vamos a instalar postfix
 sudo apt-get update sudo apt-get install postfix Durante la instalación se nos pedirá que configuremos el mailname, es decir, el nombre del servidor de correo.</description>
-    </item>
-    
-    <item>
-      <title>Bienvenidos a JuananBlog</title>
-      <link>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</link>
-      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</guid>
-      <description>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</description>
-    </item>
-    
-    <item>
-      <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
-      <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</guid>
-      <description>En esta práctica vamos a seleccionar una combinación para realizar el depliegue de una web estática y añadir contenido a ella, en mi caso, voy a seleccionar la combinación de HUGO y GitHub Pages.
+            <content type="html"><![CDATA[<p>En esta entrada vamos a configurar un servidor de correos en un VPS, para ello primero deberemos configurar el nombre del servidor de correos, el cual será <code>mail.iesgn16.es</code>, cuyo nombre aparecerá en el registro MX de nuestro DNS.</p>
+<p>Para configurar el mail en nuestro servidor, vamos a instalar postfix</p>
+<pre><code>sudo apt-get update
+
+sudo apt-get install postfix
+</code></pre><p>Durante la instalación se nos pedirá que configuremos el <em>mailname</em>, es decir, el nombre del servidor de correo. Cuando lo tengamos configurado, lo podremos ver con el comando</p>
+<pre><code>cat /etc/mailname
+
+iesgn16.es
+</code></pre><p>Creamos el registro MX y SPF en nuestro DNS</p>
+<p><img src="/correo/1.png" alt="Captura 1"></p>
+<h2 id="gestión-de-correos-desde-el-servidor">Gestión de correos desde el servidor</h2>
+<ul>
+<li><strong>Tarea 1</strong></li>
+</ul>
+<p>Vamos a descargarnos la herramienta que nos permita enviar/leer correos que recibamos en nuestro servidor postfix, dicha herramienta se llama <code>mailutils</code> y se instala de la siguiente manera</p>
+<pre><code>sudo apt-get install mailutils
+</code></pre><p>Ahora que tenemos <code>mailutils</code>, vamos a enviar un correo de prueba</p>
+<pre><code>mail -s &quot;Prueba&quot; initiategnat9@gmail.com
+Cc: 
+Hola, esto es una prueba
+</code></pre><p>Cuando enviamos el correo, podemos verlo en el registro de log de postfix</p>
+<pre><code>Feb  9 12:24:58 fenix postfix/qmgr[30796]: 9C31561C11: removed
+Feb  9 12:31:19 fenix postfix/pickup[30795]: 5285E61C11: uid=1000 from=&lt;debian@fenix.iesgn16.es&gt;
+Feb  9 12:31:19 fenix postfix/cleanup[31354]: 5285E61C11: message-id=&lt;20210209123119.5285E61C11@fenix.iesgn16.es&gt;
+Feb  9 12:31:19 fenix postfix/qmgr[30796]: 5285E61C11: from=&lt;debian@fenix.iesgn16.es&gt;, size=369, nrcpt=1 (queue active)
+Feb  9 12:31:19 fenix postfix/smtp[31356]: 5285E61C11: to=&lt;initiategnat9@gmail.com&gt;, relay=gmail-smtp-in.l.google.com[74.125.140.26]:25, delay=0.54, delays=0.02/0.01/0.31/0.21, dsn=2.0.0, status=sent (250 2.0.0 OK  1612873879 q194si1500502wme.142 - gsmtp)
+Feb  9 12:31:19 fenix postfix/qmgr[30796]: 5285E61C11: removed
+</code></pre><p>Este es el correo que he recibido en mi gmail</p>
+<p><img src="/correo/2.png" alt="Captura 2"></p>
+<p>Este es el registro SPF que he tenido que añadir a mi servidor DNS</p>
+<p><img src="/correo/3.png" alt="Captura 3"></p>
+<ul>
+<li>
+<p><strong>Tarea 2</strong></p>
+<ul>
+<li><strong>a)</strong> Documenta una prueba de funcionamiento, en la que envíes un correo desde el exterior (gmail, hotmail, etc&hellip;) a tu servidor local.</li>
+</ul>
+</li>
+</ul>
+<p>Vamos a comprobar que podemos recibir correos desde el exterior hacia nuestros servidor, para ello, primero deberemos tener configurado nuestro nombre de dominio en el fichero <code>/etc/mailname</code>, en mi caso, el nopmbre de dominio sería <code>iesgn16.es</code>. Ahora revisamos la configuración del DNS para que el registro MX <code>mail.iesgn16.es</code> apunte a <code>fenix.iesgn16.es</code> (Que es la máquina en la que tengo el servidor de correo).</p>
+<p>Cuando todo esté correcto, hacemos una prueba y enviamos un correo a nuestro usuario del servidor</p>
+<p><img src="/correo/4.png" alt="Captura 4"></p>
+<p>Lo abrimos desde nuestro servidor con el comando <code>mail</code></p>
+<pre><code>mail
+&quot;/var/mail/debian&quot;: 1 message 1 new
+&gt;N   1 juanan veintidieci Tue Feb  9 13:00 101/4632  RE: Prueba
+? 1
+Return-Path: &lt;initiategnat9@gmail.com&gt;
+X-Original-To: debian@fenix.iesgn16.es
+Delivered-To: debian@fenix.iesgn16.es
+[...]
+Content-Type: text/plain; charset=&quot;UTF-8&quot;
+Content-Transfer-Encoding: quoted-printable
+
+Correcto, prueba de correo recibida
+
+--=20
+*Fdo: Juan Antonio Reifs Ram=C3=ADrez*
+</code></pre><p>Podemos ver el log en el cual se ve que hemos recibido el correo</p>
+<pre><code>Feb  9 13:00:19 fenix postfix/smtpd[31853]: connect from mail-ej1-f49.google.com[209.85.218.49]
+Feb  9 13:00:19 fenix postfix/smtpd[31853]: CF3EB61A7B: client=mail-ej1-f49.google.com[209.85.218.49]
+Feb  9 13:00:19 fenix postfix/cleanup[31858]: CF3EB61A7B: message-id=&lt;CAFPV5c77w-0rLEWJGaBfgPXzxtJJ=DZvC9ZjyfCTyaeHGWfeYA@mail.gmail.com&gt;
+Feb  9 13:00:19 fenix postfix/qmgr[30796]: CF3EB61A7B: from=&lt;initiategnat9@gmail.com&gt;, size=4614, nrcpt=1 (queue active)
+Feb  9 13:00:19 fenix postfix/local[31859]: CF3EB61A7B: to=&lt;debian@fenix.iesgn16.es&gt;, relay=local, delay=0.02, delays=0.01/0.01/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+</code></pre><h2 id="uso-de-alias-y-redirecciones">Uso de alias y redirecciones</h2>
+<ul>
+<li><strong>Tarea 3:</strong></li>
+</ul>
+<p>Los procesos del sistema pueden mandar correos para informar sobre su estado. Por ejemplo, cuando se ejecuta una tarea de cron, podemos enviar un correo informando del resultado de la misma. Normalmente estos correos se mandan al usuario root, para hacer esto haremos lo siguiente:</p>
+<pre><code>crontab -e
+
+MAILTO = root
+</code></pre><p>Podemos poner una tarea en el cron para ver cómo se manda el correo.</p>
+<pre><code>debian@fenix:~$ crontab -e
+
+MAILTO = root
+
+8 * * * * sudo apt-get update
+
+sudo su
+
+root@fenix:/home/debian# mail
+&quot;/var/mail/root&quot;: 1 message 1 new
+&gt;N   1 Cron Daemon        Tue Feb  9 19:08  24/894   Cron &lt;debian@fenix&gt; sudo apt-get update
+? 1
+Return-Path: &lt;debian@iesgn16.es&gt;
+X-Original-To: root
+Delivered-To: root@iesgn16.es
+Received: by fenix.iesgn16.es (Postfix, from userid 1000)
+        id 9E7D561A81; Tue,  9 Feb 2021 19:08:02 +0000 (UTC)
+From: root@iesgn16.es (Cron Daemon)
+To: root@iesgn16.es
+Subject: Cron &lt;debian@fenix&gt; sudo apt-get update
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Cron-Env: &lt;MAILTO=root&gt;
+X-Cron-Env: &lt;SHELL=/bin/sh&gt;
+X-Cron-Env: &lt;HOME=/home/debian&gt;
+X-Cron-Env: &lt;PATH=/usr/bin:/bin&gt;
+X-Cron-Env: &lt;LOGNAME=debian&gt;
+Message-Id: &lt;20210209190802.9E7D561A81@fenix.iesgn16.es&gt;
+Date: Tue,  9 Feb 2021 19:08:02 +0000 (UTC)
+
+Hit:1 http://security.debian.org/debian-security buster/updates InRelease
+Hit:2 http://deb.debian.org/debian buster InRelease
+Get:3 http://deb.debian.org/debian buster-updates InRelease [51.9 kB]
+Fetched 51.9 kB in 0s (149 kB/s)
+Reading package lists...
+? q
+Saved 1 message in /root/mbox
+Held 0 messages in /var/mail/root
+</code></pre><p>Posteriormente, usando alias y redirecciones podemos hacer llegar esos correos a nuestro correo personal.</p>
+<pre><code>sudo su -
+
+nano .forward
+
+initiategnat9@gmail.com
+
+exit
+</code></pre><p><img src="/correo/5.png" alt="Captura 5"></p>
+<p>Crea un nuevo alias para que los correos se manden a un usuario sin privilegios y comprueba que llegan a ese usuario.</p>
+<pre><code>sudo nano /etc/aliases
+
+postmaster:    root
+usuario: debian
+
+sudo newaliases
+
+mail
+
+&gt;N   1 Mail Delivery Syst Tue Feb  9 19:42  80/2679  Undelivered Mail Returned to Sender
+</code></pre><h2 id="gestión-de-correos-desde-un-cliente">Gestión de correos desde un cliente</h2>
+<ul>
+<li><strong>Tarea 8:</strong></li>
+</ul>
+<p>Ahora vamos a configurar el buzón de correos de cada usuario siendo de tipo <code>Maildir</code>, para ello vamos a modificar el fichero <code>/etc/postfix/main.cf</code> y comprobamos, mandando un correo, que se nos guardan en ese directorio.</p>
+<pre><code>sudo nano /etc/postfix/main.cf
+
+[...]
+home_mailbox = Maildir/
+mailbox_command =
+
+sudo systemctl restart postfix
+
+debian@fenix:~$ ls
+Maildir
+
+debian@fenix:~$ ls Maildir/
+cur  new  tmp
+
+debian@fenix:~$ ls Maildir/new/
+1612941963.V801I20b38M9703.fenix
+</code></pre><p><img src="/correo/6.png" alt="Captura 6"></p>
+<p>Para abrir los correos de tipo maildir desde la terminal, no podemos hacer con mail, asó que instalaremos la herramienta mutt y editamos el fichero <code>~/.muttrc</code></p>
+<pre><code>sudo apt-get install muttrc
+
+debian@fenix:~$ nano ~/.muttrc
+
+set mbox_type=Maildir
+set folder=&quot;~/Maildir&quot;
+set mask=&quot;!^\\.[^.]&quot;
+set mbox=&quot;~/Maildir&quot;
+set record=&quot;+.Sent&quot;
+set postponed=&quot;+.Drafts&quot;
+set spoolfile=&quot;~/Maildir&quot;
+mailboxes `echo -n &quot;+ &quot;; find ~/Maildir -maxdepth 1 -type d -name &quot;.*&quot; -printf &quot;+'%f' &quot;`
+macro index c &quot;&lt;change-folder&gt;?&lt;toggle-mailboxes&gt;&quot; &quot;open a different folder&quot;
+macro pager c &quot;&lt;change-folder&gt;?&lt;toggle-mailboxes&gt;&quot; &quot;open a different folder&quot;
+macro index C &quot;&lt;copy-message&gt;?&lt;toggle-mailboxes&gt;&quot; &quot;copy a message to a mailbox&quot;
+macro index M &quot;&lt;save-message&gt;?&lt;toggle-mailboxes&gt;&quot; &quot;move a message to a mailbox&quot;
+
+macro compose A &quot;&lt;attach-message&gt;?&lt;toggle-mailboxes&gt;&quot; &quot;attach message(s) to this message&quot;
+</code></pre><p>Ahora abrimos el mensaje</p>
+<pre><code>mutt
+
+1     Feb 10 juanan veintidi (2.2K) Prueba Maildir
+
+Date: Wed, 10 Feb 2021 08:54:08 +0100
+From: juanan veintidiecinueve &lt;initiategnat9@gmail.com&gt;
+To: debian@fenix.iesgn16.es
+Subject: Prueba Maildir
+
+Este es un correo que se guardará en Maildir
+
+--
+*Fdo: Juan Antonio Reifs Ramírez*
+
+[image: Mailtrack]
+&lt;https://mailtrack.io?utm_source=gmail&amp;utm_medium=signature&amp;utm_campaign=signaturevirality5&amp;&gt;
+Remitente
+notificado con
+Mailtrack
+&lt;https://mailtrack.io?utm_source=gmail&amp;utm_medium=signature&amp;utm_campaign=signaturevirality5&amp;&gt;
+10/02/21
+08:49:05
+</code></pre><ul>
+<li><strong>Tarea 9:</strong></li>
+</ul>
+<p>Ahora vamos a instalar dovecot para poder ofrecer el protocolo IMAP y lo configuraremos para ofrecer autentificación y cifrado.</p>
+<pre><code>sudo apt-get install dovecot-imapd
+</code></pre><p>Para poder realizar el cifrado de la comunicación, vamos a crear un certificado de LetsEncrypt para el dominio <code>mail.iesgn.es</code>. Para realizarlo instalaremos <code>certbot</code> así que seguimos los siguientes pasos</p>
+<pre><code>sudo apt install snapd
+
+sudo snap install core
+
+sudo snap install core; sudo snap refresh core
+
+sudo snap install --classic certbot
+
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+</code></pre><p>Cuando tengamos <code>certbot</code>instalado, generamos nuestro certificado</p>
+<pre><code>sudo certbot certonly --standalone
+</code></pre><p>Cuando se genere, se guardará en el directorio <code>/etc/letsencrypt/live/mail.iesgn16.es</code>. Ahora que lo tenemos todo listo, vamos a pasar a la configuración de dovecot:</p>
+<ol>
+<li>Editamos el fichero <code>/etc/dovecot/conf.d/10-auth.conf</code> para habilitar el mecanismo de autentificación</li>
+</ol>
+<pre><code>sudo nano /etc/dovecot/conf.d/10-auth.conf
+
+disable_plaintext_auth = yes
+[...]
+auth_mechanisms = plain login
+</code></pre><ol start="2">
+<li>Configuramos el directorio Maildir y comentamos la configuración mbox que viene predeterminada en dovecot</li>
+</ol>
+<pre><code>sudo nano /etc/dovecot/conf.d/10-mail.conf
+
+mail_location = maildir:~/Maildir
+[...]
+#mail_location = mbox:~/mail:INBOX=/var/mail/%u
+</code></pre><ol start="3">
+<li>Descomentamos las siguientes líneas para habilitar el imaps</li>
+</ol>
+<pre><code>sudo nano /etc/dovecot/conf.d/10-master.conf
+
+service imap-login {
+  inet_listener imap {
+    port = 143
+  }
+  inet_listener imaps {
+    port = 993
+    ssl = yes
+  }
+[...]
+unix_listener /var/spool/postfix/private/auth {
+    mode = 0666
+    user = postfix
+    group = postfix
+}
+</code></pre><ol start="4">
+<li>Por último configuramos nuestros certificados y reiniciamos dovecot</li>
+</ol>
+<pre><code>sudo nano /etc/dovecot/conf.d/10-ssl.conf
+
+ssl = required
+[...]
+ssl_cert = &lt;/etc/letsencrypt/live/mail.iesgn16.es/cert.pem
+ssl_key = &lt;/etc/letsencrypt/live/mail.iesgn16.es/privkey.pem
+
+sudo systemctl restart dovecot
+</code></pre><p>Podemos verificar la configuración de nuestro dovecot con el comando <code>dovecot -n</code></p>
+<p>Ahora vamos a hacer una prueba, para verificar que recibimos mensajes en nuestro Mailbox, para ello vamos a enviar un correo de prueba desde gmail</p>
+<p><img src="/correo/7.png" alt="Captura 7"></p>
+<pre><code>ls Maildir/new/
+1613034771.V801I2154fM907367.fenix
+
+mutt
+1 N + Feb 11 juanan veintidi (2.2K) Prueba Maildir
+
+Date: Thu, 11 Feb 2021 10:12:40 +0100
+From: juanan veintidiecinueve &lt;initiategnat9@gmail.com&gt;
+To: debian@iesgn16.es
+Subject: Prueba Maildir
+
+Este mensaje tiene que llegar a tu Maildir
+
+--
+*Fdo: Juan Antonio Reifs Ramírez*
+
+[image: Mailtrack]
+&lt;https://mailtrack.io?utm_source=gmail&amp;utm_medium=signature&amp;utm_campaign=signaturevirality5&amp;&gt;
+Remitente
+notificado con
+Mailtrack
+&lt;https://mailtrack.io?utm_source=gmail&amp;utm_medium=signature&amp;utm_campaign=signaturevirality5&amp;&gt;
+11/02/21
+10:12:20
+</code></pre><p>Por último, vamos a configurar un cliente de correo, en este caso será Thunderbird:</p>
+<ol>
+<li>Iniciamos sesión</li>
+</ol>
+<p><img src="/correo/8.png" alt="Captura 8"></p>
+<ol start="2">
+<li>Configuramos manualmente</li>
+</ol>
+<p><img src="/correo/9.png" alt="Captura 9"></p>
+<p>Como podemos ver, hemos recibido el mensaje que hemos enviado anteriormente</p>
+<p><img src="/correo/10.png" alt="Captura 10"></p>
+<ul>
+<li><strong>Tarea 11:</strong></li>
+</ul>
+<p>Vamos a configurar postfix para que podamos enviar correos desde los clientes remotos. La conexión entre el cliente y el servidor debe de estar autentificada con SASL y usando dovecot y, además, debede estar cifrada. Para realizar este cifrado usaremos <code>SMTPS</code>, el cual usa el puerto 465.</p>
+<p>Primero habilitamos SMTP-AUTH para permitir que los clientes se identifiquen a través del mecanismo de autentificación SASL. También se debe usar TLS para cifrar el proceso de autenticación, para ello ejecutamos las siguientes instrucciones para editar el fichero de configuración de postfix.</p>
+<pre><code>sudo postconf -e 'smtpd_sasl_type = dovecot'
+sudo postconf -e 'smtpd_sasl_path = private/auth'
+sudo postconf -e 'smtpd_sasl_local_domain ='
+sudo postconf -e 'smtpd_sasl_security_options = noanonymous'
+sudo postconf -e 'broken_sasl_auth_clients = yes'
+sudo postconf -e 'smtpd_sasl_auth_enable = yes'
+sudo postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
+sudo postconf -e 'smtp_tls_security_level = may'
+sudo postconf -e 'smtpd_tls_security_level = may'
+sudo postconf -e 'smtp_tls_note_starttls_offer = yes'
+sudo postconf -e 'smtpd_tls_loglevel = 1'
+sudo postconf -e 'smtpd_tls_received_header = yes'
+</code></pre><p>Ahora editamos el fichero <code>/etc/postfix/master.cf</code> y descomentamos las siguientes líneas</p>
+<pre><code>sudo nano /etc/postfix/master.cf
+[...]
+smtps     inet  n       -       y       -       -       smtpd
+  -o syslog_name=postfix/smtps
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_reject_unlisted_recipient=no
+  -o smtpd_client_restrictions=$mua_client_restrictions
+  -o smtpd_helo_restrictions=$mua_helo_restrictions
+  -o smtpd_sender_restrictions=$mua_sender_restrictions
+  -o smtpd_recipient_restrictions=
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+[...]
+</code></pre><p>Por último añadimos nuestro certificado y nuestra clave privada al fichero <code>/etc/postfix/main.cf</code> y reiniciamos postfix</p>
+<pre><code>sudo nano /etc/postfix/main.cf
+[...]
+smtpd_tls_cert_file=/etc/letsencrypt/live/mail.iesgn16.es/cert.pem
+smtpd_tls_key_file=/etc/letsencrypt/live/mail.iesgn16.es/privkey.pem
+[...]
+
+sudo systemctl restart postfix
+</code></pre><p>Ahora nos dirigimos a Thunderbird y modificamos los valores de SMTP
+<img src="/correo/11.png" alt="Captura 11"></p>
+<p>Para comprobar que funciona, vamos a enviar un correo desde Thunderbird hacia mi gmail personal
+<img src="/correo/12.png" alt="Captura 12"></p>
+<p><img src="/correo/13.png" alt="Captura 13"></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Bienvenidos a JuananBlog</title>
+            <link>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</link>
+            <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</guid>
+            <description>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</description>
+            <content type="html"><![CDATA[<p>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
+            <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>
+            <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</guid>
+            <description>En esta práctica vamos a seleccionar una combinación para realizar el depliegue de una web estática y añadir contenido a ella, en mi caso, voy a seleccionar la combinación de HUGO y GitHub Pages.
 Para comenzar, vamos a instalar la herramientas necesarias para realizar esta práctica, así que instalaremos git y hugo
 sudo apt-get update sudo apt-get install git hugo Cuando tengamos los paquetes descargados, vamos a comenzar a montar nuestro sitio y como vamos a subirlo a github, creamos un nuevo repositorio vacío y lo clonamos a nuestro directorio de trabajo, para más tarde comenzar a crear nuestro sitio</description>
-    </item>
-    
-  </channel>
+            <content type="html"><![CDATA[<p>En esta práctica vamos a seleccionar una combinación para realizar el depliegue de una web estática y añadir contenido a ella, en mi caso, voy a seleccionar la combinación de HUGO y GitHub Pages.</p>
+<p>Para comenzar, vamos a instalar la herramientas necesarias para realizar esta práctica, así que instalaremos git y hugo</p>
+<pre><code>sudo apt-get update
+
+sudo apt-get install git hugo
+</code></pre><p>Cuando tengamos los paquetes descargados, vamos a comenzar a montar nuestro sitio y como vamos a subirlo a github, creamos un nuevo repositorio vacío y lo clonamos a nuestro directorio de trabajo, para más tarde comenzar a crear nuestro sitio</p>
+<pre><code>git clone git@github.com:Juanan219/JuananBlog.git
+
+hugo new site --force JuananBlog/
+</code></pre><p>Si queremos, ya podemos hacer el primer commit en github y comenzar a subir los archivos</p>
+<pre><code>git add .
+
+git commit -am &quot;Primer commit&quot;
+
+git push
+</code></pre><p>Ahora vamos a añadir un tema de los <a href="https://themes.gohugo.io/">temas de hugo</a>, para ello vamos a clonar el repositorio de uno de ellos en el directorio themes</p>
+<pre><code>git clone git@github.com:rhazdon/hugo-theme-hello-friend-ng.git
+</code></pre><p>En esta práctica no me voy a parar a adaptar el tema entero, así que cogeré el tema de ejemplo que viene en el directorio que hemos clonado y vamos a adaptarlo para que funcione</p>
+<pre><code>cd ..
+
+cp -r themes/hugo-theme-hello-friend-ng/exampleSite/* .
+</code></pre><p>Cuando tengamos todos los archivos de ejemplo copiados al directorio principal de nuestro sitio, vamos a editar el config.toml para poner nuestros enlaces y nuestro nombre junto a la fecha actual</p>
+<pre><code>nano config.toml
+baseURL = &quot;https://juanan219.github.io&quot;
+title   = &quot;JuananBlog&quot;
+[...]
+[author]
+  name = &quot;Juan antonio Reifs&quot;
+[...]
+[params]
+  dateform        = &quot;Feb 4, 2021&quot;
+  dateformShort   = &quot;Feb 4&quot;
+  dateformNum     = &quot;2021-02-04&quot;
+  dateformNumTime = &quot;2021-02-04 11:35&quot;
+[...]
+description = &quot;Blog de Informática&quot;
+[...]
+homeSubtitle = &quot;Blog de Informática&quot;
+[...]
+[[params.social]]
+    name = &quot;twitter&quot;
+    url  = &quot;https://twitter.com/juanan219&quot;
+
+  [[params.social]]
+    name = &quot;email&quot;
+    url  = &quot;mailto:initiategnat9@gmail.com&quot;
+
+  [[params.social]]
+    name = &quot;github&quot;
+    url  = &quot;https://github.com/juanan219&quot;
+
+  [[params.social]]
+    name = &quot;linkedin&quot;
+    url  = &quot;https://www.linkedin.com/in/juan-antonio-reifs-ram%C3%ADrez-b78b40162/&quot;
+
+#  [[params.social]]
+#    name = &quot;stackoverflow&quot;
+#    url  = &quot;https://www.stackoverflow.com/&quot;
+</code></pre><p>Ahora vamos a eliminar los posts de ejemplo y vamos a crear uno, pero al ejecutar el comando para crear un nuevo usuario me salía el siguiente error <code>Error: module &quot;hello-friend-ng&quot; not found;...</code> y para solucionarlo simplemente tuve que cambiar el nombre del tema y ya pude agregar un nuevo post.</p>
+<pre><code>mv themes/hugo-theme-hello-friend-ng/ themes/hello-friend-ng
+
+hugo new posts/Bienvenida.md
+
+cd content/posts/
+
+rm creating-a-new-theme.md  goisforlovers.fr.md  goisforlovers.md  hugoisforlovers.fr.md  migrate-from-jekyll.fr.md
+</code></pre><p>Creamos un archivo <code>gitignore</code> para no subir la carpeta public que vamos a generar con el contenido html</p>
+<pre><code>nano .gitignore
+
+public/
+</code></pre><p>Ahora que tenemos todo listo, vamos a crear un repositorio de github para github pages llamado juanan219.github.io y vamos a clonar dicho repositorio en nuestra máquina y vamos a generar dentro de él los archivos estáticos de hugo</p>
+<pre><code>git clone git@github.com:Juanan219/juanan219.github.io.git
+
+cd JuananBlog/
+
+hugo -d ../juanan219.github.io/
+</code></pre><p>Cuando hayamos generado todos los archivos vamos a subirlos al nuevo repositorio</p>
+<pre><code>cd ../juanan219.github.io/
+
+git add --all
+
+git commit -am &quot;Archivos estáticos HUGO&quot;
+
+git push
+</code></pre><p>Por último, si nos dirigimos a la configuración de nuestro nuevo repositorio de GitHub, si bajamos, podremos ver un apartado llamado GitHub Pages, en el cual, si todo ha salido bien, nos dirá que nuestra página está subida a <a href="https://juanan219.github.io/">la url que le hemos configurado</a></p>
+<p><img src="/web_estatica/1.PNG" alt="Captura 1"></p>
+]]></content>
+        </item>
+        
+    </channel>
 </rss>
