@@ -7,7 +7,61 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Fri, 12 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>initiator</title>
+      <link>https://juanan219.github.io/tags/initiator/</link>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/initiator/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>iSCSI</title>
+      <link>https://juanan219.github.io/tags/iscsi/</link>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/iscsi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://juanan219.github.io/tags/linux/</link>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Practica</title>
+      <link>https://juanan219.github.io/tags/practica/</link>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/practica/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>targets</title>
+      <link>https://juanan219.github.io/tags/targets/</link>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/targets/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Windows</title>
+      <link>https://juanan219.github.io/tags/windows/</link>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/windows/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Apuntes</title>
       <link>https://juanan219.github.io/tags/apuntes/</link>
@@ -36,65 +90,11 @@
     </item>
     
     <item>
-      <title>iSCSI</title>
-      <link>https://juanan219.github.io/tags/iscsi/</link>
-      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/iscsi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>SAN</title>
       <link>https://juanan219.github.io/tags/san/</link>
       <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/san/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Configuracion</title>
-      <link>https://juanan219.github.io/tags/configuracion/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/configuracion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Correo</title>
-      <link>https://juanan219.github.io/tags/correo/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/correo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Dovecot</title>
-      <link>https://juanan219.github.io/tags/dovecot/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/dovecot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>IMTPS</title>
-      <link>https://juanan219.github.io/tags/imtps/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/imtps/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Postfix</title>
-      <link>https://juanan219.github.io/tags/postfix/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/postfix/</guid>
       <description></description>
     </item>
     

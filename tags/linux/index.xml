@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 04 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Practica iSCSI</title>
+      <link>https://juanan219.github.io/posts/2021/02/practica-iscsi/</link>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/practica-iscsi/</guid>
+      <description>Creación de targets en Linux Primero vamos a crear un target con una LUN, para ello primero vamos a instalar el paquete tgt en el servidor
+sudo apt-get install tgt Ahora vamos a definir dos targets, uno para un cliente Linux y otro para un cliente Windows. Para definirlos de forma persistente, deberemos editar el fichero /etc/tgt/targets.conf y reiniciamos el servicio tgt
+sudo nano etc/tgt/targets.conf [...] &amp;lt;target iqn.2021-02.es.juanan:target1&amp;gt; backing-store /dev/sdb &amp;lt;/target&amp;gt; &amp;lt;target iqn.</description>
+    </item>
+    
     <item>
       <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
       <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>

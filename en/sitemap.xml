@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/02/practica-iscsi/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/02/apuntes-iscsi/</loc>
     <lastmod>2021-02-12T00:00:00+00:00</lastmod>
   </url>
@@ -23,6 +28,91 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/series/hugo-101/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/initiator/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/iscsi/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://juanan219.github.io/fr/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://juanan219.github.io/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/linux/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/posts/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/practica/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/series/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://juanan219.github.io/fr/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://juanan219.github.io/series/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://juanan219.github.io/fr/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://juanan219.github.io/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/targets/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/windows/</loc>
+    <lastmod>2021-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/tags/apuntes/</loc>
     <lastmod>2021-02-12T00:00:00+00:00</lastmod>
   </url>
@@ -38,68 +128,8 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/series/hugo-101/</loc>
-    <lastmod>2021-02-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/iscsi/</loc>
-    <lastmod>2021-02-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/</loc>
-    <lastmod>2021-02-12T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr"
-                href="https://juanan219.github.io/fr/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://juanan219.github.io/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/posts/</loc>
-    <lastmod>2021-02-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://juanan219.github.io/tags/san/</loc>
     <lastmod>2021-02-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/series/</loc>
-    <lastmod>2021-02-12T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr"
-                href="https://juanan219.github.io/fr/series/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://juanan219.github.io/series/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/</loc>
-    <lastmod>2021-02-12T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr"
-                href="https://juanan219.github.io/fr/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://juanan219.github.io/tags/"
-                />
   </url>
   
   <url>
@@ -149,11 +179,6 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/implementaci%C3%B3n-de-aplicaciones-web/</loc>
-    <lastmod>2021-02-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/linux/</loc>
     <lastmod>2021-02-04T00:00:00+00:00</lastmod>
   </url>
   
