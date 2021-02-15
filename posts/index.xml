@@ -365,8 +365,9 @@ sudo systemctl restart tgt.service
 </li>
 </ul>
 <pre><code>sudo tgtadm --lld iscsi --op new --mode target --tid 1 -T iqn.2021-02.es.juanan:target1
-</code></pre><pre><code>* Si queremos eliminar un target, simplemente ejecutamos el siguiente comando
-</code></pre>
+</code></pre><ul>
+<li>Si queremos eliminar un target, simplemente ejecutamos el siguiente comando</li>
+</ul>
 <pre><code>sudo tgtadm --lld iscsi --op delete --mode target --tid 1
 </code></pre><ul>
 <li>
@@ -384,15 +385,17 @@ sudo systemctl restart tgt.service
 </ul>
 <pre><code>sudo tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 2 -b /dev/sdc
 sudo tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 3 -b /dev/sdd
-</code></pre><pre><code>* Si queremos eliminar alguna de las unidades lógicas que hemos añadido, ejecutamos el siguiente comando:
-</code></pre>
+</code></pre><ul>
+<li>Si queremos eliminar alguna de las unidades lógicas que hemos añadido, ejecutamos el siguiente comando:</li>
+</ul>
 <pre><code>sudo tgtadm --lld iscsi --op delete --mode logicalunit --tid 1 --lun 2
 </code></pre><ul>
 <li>Comprobamos que el target está bien definido</li>
 </ul>
 <pre><code>sudo tgtadm --lld iscsi --op show --mode target
-</code></pre><pre><code>* Salida del comando anterior
-</code></pre>
+</code></pre><ul>
+<li>Salida del comando anterior</li>
+</ul>
 <pre><code>sudo tgtadm --lld iscsi --op show --mode target
 Target 1: iqn.2021-02.es.juanan:target1
     System information:
@@ -471,8 +474,9 @@ Target 1: iqn.2021-02.es.juanan:target1
         Driver: iscsi
         State: ready
     I_T nexus information:
-</code></pre><pre><code>* **Información de las LUN:** En este apartado (que es el más extenso), podemos ver que tenemos definidas 4 LUNs (`LUN 0, LUN 1, LUN 2 y LUN 3`), pero nosotros solo hemos definido 3 LUNs, esto se debe a que la `LUN 0` es una LUN de control, esto quiere decir que en esta LUN solo se guarda las características de las LUNs y siempre se define cuando se define un target. En las demás LUNs podemos ver información como el tipo de LUN que es (`Type: disk`), si es un dispositivo extraíble (`Removable media: No`), si esta en modo sólo lectura (`Readonly: No`), si tiene aprovisionamiento ligero (`Thin-provisioning: No`), el dispositivo de bloques que tiene asociado (`Backing store path: /dev/sdb`), el modo en el que se encuentra (`Backing store type: rdwr`), etc...
-</code></pre>
+</code></pre><ul>
+<li><strong>Información de las LUN:</strong> En este apartado (que es el más extenso), podemos ver que tenemos definidas 4 LUNs (<code>LUN 0, LUN 1, LUN 2 y LUN 3</code>), pero nosotros solo hemos definido 3 LUNs, esto se debe a que la <code>LUN 0</code> es una LUN de control, esto quiere decir que en esta LUN solo se guarda las características de las LUNs y siempre se define cuando se define un target. En las demás LUNs podemos ver información como el tipo de LUN que es (<code>Type: disk</code>), si es un dispositivo extraíble (<code>Removable media: No</code>), si esta en modo sólo lectura (<code>Readonly: No</code>), si tiene aprovisionamiento ligero (<code>Thin-provisioning: No</code>), el dispositivo de bloques que tiene asociado (<code>Backing store path: /dev/sdb</code>), el modo en el que se encuentra (<code>Backing store type: rdwr</code>), etc&hellip;</li>
+</ul>
 <pre><code>LUN: 0
     Type: controller
     SCSI ID: IET     00010000
@@ -501,8 +505,9 @@ LUN: 1
     Backing store type: rdwr
     Backing store path: /dev/sdb
     Backing store flags: 
-</code></pre><pre><code>* **Información adicional:** Este comando también nos muestra información sobre la cuenta de acceso y sobre las ACL si las tuvieramos
-</code></pre>
+</code></pre><ul>
+<li><strong>Información adicional:</strong> Este comando también nos muestra información sobre la cuenta de acceso y sobre las ACL si las tuvieramos</li>
+</ul>
 <pre><code>Account information:
 ACL information:
 </code></pre><ul>
@@ -519,8 +524,9 @@ ACL information:
 <li>Cuando tengamos el target configurado y las interfaces de red por las que es accesible definidas, vamos a pasar a la configuración del cliente, ya que, dicho target, debería ser visible desde el cliente. Para conectar el target al cliente, debemos irnos al cliente e instalar el siguiente paquete</li>
 </ul>
 <pre><code>sudo apt-get install open-iscsi
-</code></pre><pre><code>* Al instalar el paquete, se nos asignará un nombre predeterminado, el cual se puede ver en el fichero `/etc/iscsi/initiatorname.iscsi` (Este fichero no se debe editar, a parte, no es necesario editarlo a no ser que lo necesites)
-</code></pre>
+</code></pre><ul>
+<li>Al instalar el paquete, se nos asignará un nombre predeterminado, el cual se puede ver en el fichero <code>/etc/iscsi/initiatorname.iscsi</code> (Este fichero no se debe editar, a parte, no es necesario editarlo a no ser que lo necesites)</li>
+</ul>
 <pre><code>sudo tail /etc/iscsi/initiatorname.iscsi
 
 InitiatorName=iqn.1993-08.org.debian:01:7eb51324d021
@@ -534,8 +540,9 @@ InitiatorName=iqn.1993-08.org.debian:01:7eb51324d021
 <li>También nos podemos conectar al target:</li>
 </ul>
 <pre><code>sudo iscsiadm --mode node -T iqn.2021-02.es.juanan:target1 --portal server --login
-</code></pre><pre><code>* Estas son las entradas del log del kernel (`journalctl -f -k`) que podemos ver cuando nos conectamos. Si nos damos cuenta, es como si le conectásemos 3 nuevos discos
-</code></pre>
+</code></pre><ul>
+<li>Estas son las entradas del log del kernel (<code>journalctl -f -k</code>) que podemos ver cuando nos conectamos. Si nos damos cuenta, es como si le conectásemos 3 nuevos discos</li>
+</ul>
 <pre><code>Feb 12 20:51:16 initiator kernel: Loading iSCSI transport class v2.0-870.
 Feb 12 20:51:16 initiator kernel: iscsi: registered transport (tcp)
 Feb 12 20:51:16 initiator kernel: iscsi: registered transport (iser)
@@ -566,16 +573,18 @@ Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: [sdd] Write cache: enabled, read c
 Feb 12 22:23:15 initiator kernel: sd 1:0:0:2: [sdc] Attached SCSI disk
 Feb 12 22:23:15 initiator kernel: sd 1:0:0:1: [sdb] Attached SCSI disk
 Feb 12 22:23:15 initiator kernel: sd 1:0:0:3: [sdd] Attached SCSI disk
-</code></pre><pre><code>* Esta es la salida del comando `lsblk` antes de conectarnos
-</code></pre>
+</code></pre><ul>
+<li>Esta es la salida del comando <code>lsblk</code> antes de conectarnos</li>
+</ul>
 <pre><code>lsblk
 NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 sda      8:0    0 19.8G  0 disk 
 ├─sda1   8:1    0 18.8G  0 part /
 ├─sda2   8:2    0    1K  0 part 
 └─sda5   8:5    0 1021M  0 part [SWAP]
-</code></pre><pre><code>* Esta es la salida del comando `lsblk` después de conectarnos
-</code></pre>
+</code></pre><ul>
+<li>Esta es la salida del comando <code>lsblk</code> después de conectarnos</li>
+</ul>
 <pre><code>lsblk
 NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 sda      8:0    0 19.8G  0 disk 
