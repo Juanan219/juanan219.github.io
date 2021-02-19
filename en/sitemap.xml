@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/02/rendimiento-de-servidor-web-con-cach%C3%A9-varnish/</loc>
+    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/02/practica-iscsi/</loc>
     <lastmod>2021-02-15T00:00:00+00:00</lastmod>
   </url>
@@ -44,6 +49,11 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/cache/</loc>
+    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/cach%C3%A9/</loc>
     <lastmod>2021-02-19T00:00:00+00:00</lastmod>
   </url>
   
@@ -88,12 +98,22 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/tags/ningx/</loc>
+    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/</loc>
     <lastmod>2021-02-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/tags/proxy/</loc>
+    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/rendimiento/</loc>
     <lastmod>2021-02-19T00:00:00+00:00</lastmod>
   </url>
   
@@ -115,6 +135,11 @@
                 hreflang="en"
                 href="https://juanan219.github.io/series/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/servidor/</loc>
+    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -140,6 +165,16 @@
                 hreflang="en"
                 href="https://juanan219.github.io/tags/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/varnish/</loc>
+    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/web/</loc>
+    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>

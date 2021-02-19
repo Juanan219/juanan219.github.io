@@ -56,6 +56,187 @@
         </item>
         
         <item>
+            <title>Rendimiento de servidor Web con caché Varnish</title>
+            <link>https://juanan219.github.io/posts/2021/02/rendimiento-de-servidor-web-con-cach%C3%A9-varnish/</link>
+            <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/rendimiento-de-servidor-web-con-cach%C3%A9-varnish/</guid>
+            <description>Según las pruebas de rendimiento que se han realizado con el comando ab a varias configuraciones de servidores webs sirviendo un Wordpress, la mejor configuraciónm para este tipo de escenarios es PHP-FPM (Socket Unix) + NGINX.
+El comando usado para las pruebas es el siguiente:
+ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.phpAumento de rendimiento en la ejecución de scripts PHP  Tarea 1:  Vamos a configurar una máquina con la configuración ganadora: PHP-FPM (Socket Unix) + NGINX.</description>
+            <content type="html"><![CDATA[<p>Según las pruebas de rendimiento que se han realizado con el comando <code>ab</code> a varias configuraciones de servidores webs sirviendo un Wordpress, la mejor configuraciónm para este tipo de escenarios es <code>PHP-FPM (Socket Unix) + NGINX</code>.</p>
+<p>El comando usado para las pruebas es el siguiente:</p>
+<pre><code>ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.php
+</code></pre><h2 id="aumento-de-rendimiento-en-la-ejecución-de-scripts-php">Aumento de rendimiento en la ejecución de scripts PHP</h2>
+<ul>
+<li><strong>Tarea 1:</strong></li>
+</ul>
+<p>Vamos a configurar una máquina con la configuración ganadora: <code>PHP-FPM (Socket Unix) + NGINX</code>. Para ello vamos a ejecutar una <a href="https://github.com/josedom24/ansible_nginx_fpm_php">receta de ansible</a> y vamos a terminar la configuración del sitio.</p>
+<p>Primero instalamos <code>ansible</code> y <code>git</code></p>
+<pre><code>sudo apt-get update
+sudo apt-get install ansible
+sudo apt-get install git
+</code></pre><p>Clonamos el repositorio</p>
+<pre><code>mkdir GitHub
+cd GitHub/
+git clone https://github.com/josedom24/ansible_nginx_fpm_php
+</code></pre><p>He creado una máquina en <code>vagrant</code> con la ip <code>192.168.1.113</code> y he modificado el fichero hosts del repositorio que acabo de clonar y he cambiadp la IP que trae configurada, por la ip de mi máquina</p>
+<pre><code>nano hosts
+
+[servidores_web]
+nodo1 ansible_ssh_host=172.22.201.58 ansible_python_interpreter=/usr/bin/python3
+</code></pre><p>También he cambiado el usuario remoto y he añadido la clave de vagrant a <code>ssh-agent</code></p>
+<pre><code>nano ansible.cfg
+
+[defaults]
+inventory = hosts
+remote_user = vagrant
+host_key_checking = False
+
+ssh-add .vagrant/machines/server/virtualbox/private_key
+</code></pre><p>ab -t 10 -c 200 -k http:/127.0.0.1/wordpress/index.php
+Ejecutamos el playbook y esperamos a que termine todo el proceso</p>
+<pre><code>ansible-playbook site.yaml
+</code></pre><p>Esta es la configuración de wordpewss</p>
+<p><strong>INSERTAR VIDEO</strong></p>
+<ul>
+<li><strong>Tarea 2:</strong></li>
+</ul>
+<p>Ahora vamos a realizar las pruebas de rendimiento desde la misma máquina, es decir, vamos a ejecutar instrucciones similares a:</p>
+<pre><code>ab -t 10 -c 200 -k http:/127.0.0.1/wordpress/index.php
+</code></pre><p>Pero antes de usar ese comando deberemos instalar el paquete en el que se encuentra, en este caso es <code>apache2-utils</code></p>
+<pre><code>sudo apt-get install apache2-utils
+</code></pre><ul>
+<li>
+<p>Vamos a realizar dicha prueba con diferentes valores de concurrencia:</p>
+<ul>
+<li><strong>50:</strong></li>
+</ul>
+</li>
+</ul>
+<pre><code>ab -t 10 -c 50 -k http:/127.0.0.1/wordpress/index.php
+[...]
+Requests per second:    115.25 [#/sec] (mean)
+[...]
+</code></pre><pre><code>* **100:**
+</code></pre>
+<pre><code>ab -t 10 -c 100 -k http://127.0.0.1/wordpress/index.php
+[...]
+Requests per second:    127.95 [#/sec] (mean)
+[...]
+</code></pre><pre><code>* **200:**
+</code></pre>
+<pre><code>ab -t 10 -c 200 -k http://127.0.0.1/wordpress/index.php
+[...]
+Requests per second:    9519.44 [#/sec] (mean)
+[...]
+</code></pre><pre><code>* **250:**
+</code></pre>
+<pre><code>ab -t 10 -c 250 -k http://127.0.0.1/wordpress/index.php
+[...]
+Requests per second:    8189.23 [#/sec] (mean)
+[...]
+</code></pre><pre><code>* **500:**
+</code></pre>
+<pre><code>ab -t 10 -c 500 -k http://127.0.0.1/wordpress/index.php
+[...]
+Requests per second:    9385.39 [#/sec] (mean)
+[...]
+</code></pre><p>La media de las respuestas por segundo es de 5444,402.</p>
+<ul>
+<li><strong>Tarea 3:</strong></li>
+</ul>
+<p>Ahora vamos a configurar la <code>caché Varnish</code>, la cual es un proxy inverso que estará escuchando en el puerto 80 y se va a comunicar con el servidor web por el puerto 8080. Para instalar <code>Varnish</code> simplemente lo podemos hacer con apt</p>
+<pre><code>sudo apt-get install varnish
+</code></pre><p>Una vez instalado <code>varnish</code> en nuestra máquina, editaremos el fichero <code>/etc/default/varnish</code> para configurar el demonio y que escuche desde el puerto 80 por la interfaz pública del servidor.</p>
+<pre><code>sudo nano /etc/default/varnish
+[...]
+DAEMON_OPTS=&quot;-a :80 \
+             -T localhost:6082 \
+             -f /etc/varnish/default.vcl \
+             -S /etc/varnish/secret \
+             -s malloc,1G&quot;
+[...]
+</code></pre><p>Ahora modificaremos la unidad de <code>systemd</code> para que <code>varnish</code> arranque en el puerto 80, para ello vamos a editar el fichero <code>/lib/systemd/system/varnish.service</code> y modificamos al siguiente línea:</p>
+<pre><code>ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,1G
+</code></pre><p>Por último modificamos el fichero <code>/etc/varnish/default.vcl</code> para que este coja el <code>puerto 8080</code>, en el cual vamos a poner a escucha a nuestro servidor <code>nginx</code></p>
+<pre><code>sudo nano /etc/varnish/default.vcl
+[...]
+backend default {
+    .host = &quot;127.0.0.1&quot;;
+    .port = &quot;8080&quot;;
+}
+[...]
+</code></pre><p>Y reiniciamos tanto <code>varnish</code> como <code>systemd</code></p>
+<pre><code>sudo systemctl daemon-reload
+sudo systemctl restart varnish
+</code></pre><p>Ahora vamos a modificar nuestro virtualhost, lo pondremos a escuchar en el <code>puerto 8080</code> y recargamos el servicio</p>
+<pre><code>sudo nano /etc/nginx/sites-available/default
+server {
+        listen 8080 ;
+[...]
+
+sudo systemctl restart nginx.service
+</code></pre><p>Comprobamos que varnish está escuchando en el <code>puerto 80</code> y nginx está en el <code>puerto 8080</code></p>
+<pre><code>sudo netstat -putan
+[...]
+tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN      700/nginx: master p 
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      378/varnishd
+[...]
+</code></pre><p>Ahora que lo tenemos todo funcionando, vamos a volver a realizar las mismas pruebas de concurrencia de antes y vamos a comparar los resultados</p>
+<ul>
+<li><strong>50:</strong></li>
+</ul>
+<pre><code>ab -t 10 -c 50 -k http://127.0.0.1/
+[...]
+Requests per second:    17403.75 [#/sec] (mean)
+[...]
+</code></pre><ul>
+<li><strong>100:</strong></li>
+</ul>
+<pre><code>ab -t 10 -c 100 -k http://127.0.0.1/
+[...]
+Requests per second:    16256.04 [#/sec] (mean)
+[...]
+</code></pre><ul>
+<li><strong>200:</strong></li>
+</ul>
+<pre><code>ab -t 10 -c 200 -k http://127.0.0.1/
+[...]
+Requests per second:    14731.21 [#/sec] (mean)
+[...]
+</code></pre><ul>
+<li><strong>250:</strong></li>
+</ul>
+<pre><code>ab -t 10 -c 250 -k http://127.0.0.1/
+[...]
+Requests per second:    15370.86 [#/sec] (mean)
+[...]
+</code></pre><p>La media de peticiones con <code>varnish</code> es de 15940,465 peticiones por segundo, mientras que sin él la media era de 5444,402 peticiones por segundo.</p>
+<p>Si comprobamos el fichero <code>/var/log/nginx/access.log</code> podemos ver que sólo se registra en el log la primera petición, ya que las siguientes peticiones las gestiona varnish.</p>
+<pre><code>sudo tail /var/log/nginx/access.log
+[...]
+127.0.0.1 - - [19/Feb/2021:09:39:27 +0000] &quot;GET /wordpress/index.php HTTP/1.1&quot; 301 5 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:39:36 +0000] &quot;GET / HTTP/1.1&quot; 200 3488 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:41:49 +0000] &quot;GET / HTTP/1.1&quot; 200 3488 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:46:56 +0000] &quot;GET / HTTP/1.1&quot; 200 3488 &quot;-&quot; &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36&quot;
+127.0.0.1 - - [19/Feb/2021:09:47:06 +0000] &quot;GET /favicon.ico HTTP/1.1&quot; 404 199 &quot;http://www.juanan.es/&quot; &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36&quot;
+</code></pre><p>Los registros de <code>varnish</code> se guardan en el fichero <code>/var/log/varnish/varnishncsa.log</code></p>
+<pre><code>sudo tail /var/log/varnish/varnishncsa.log
+127.0.0.1 - - [19/Feb/2021:09:42:55 +0000] &quot;GET http://127.0.0.1/ HTTP/1.0&quot; 200 8667 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:42:55 +0000] &quot;GET http://127.0.0.1/ HTTP/1.0&quot; 200 8667 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:42:55 +0000] &quot;GET http://127.0.0.1/ HTTP/1.0&quot; 200 8667 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:42:55 +0000] &quot;GET http://127.0.0.1/ HTTP/1.0&quot; 200 8667 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:42:55 +0000] &quot;GET http://127.0.0.1/ HTTP/1.0&quot; 200 8667 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:42:55 +0000] &quot;GET http://127.0.0.1/ HTTP/1.0&quot; 200 8667 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+127.0.0.1 - - [19/Feb/2021:09:42:55 +0000] &quot;GET http://127.0.0.1/ HTTP/1.0&quot; 200 8667 &quot;-&quot; &quot;ApacheBench/2.3&quot;
+172.22.4.124 - - [19/Feb/2021:09:46:56 +0000] &quot;GET http://www.juanan.es/ HTTP/1.1&quot; 200 3476 &quot;-&quot; &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36&quot;
+172.22.4.124 - - [19/Feb/2021:09:47:06 +0000] &quot;GET http://www.juanan.es/favicon.ico HTTP/1.1&quot; 404 188 &quot;http://www.juanan.es/&quot; &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36&quot;
+172.22.4.124 - - [19/Feb/2021:09:47:40 +0000] &quot;GET http://www.juanan.es/ HTTP/1.1&quot; 200 3476 &quot;-&quot; &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36&quot;
+</code></pre>]]></content>
+        </item>
+        
+        <item>
             <title>Practica iSCSI</title>
             <link>https://juanan219.github.io/posts/2021/02/practica-iscsi/</link>
             <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
