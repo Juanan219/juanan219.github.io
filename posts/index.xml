@@ -6,8 +6,54 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Apuntes de Proxy, Proxy Inverso y Balanceador de carga</title>
+            <link>https://juanan219.github.io/posts/2021/02/apuntes-de-proxy-proxy-inverso-y-balanceador-de-carga/</link>
+            <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/apuntes-de-proxy-proxy-inverso-y-balanceador-de-carga/</guid>
+            <description>Proxy/Caché   Proxy: Proporcionaconexión a internet cuando no tenemos enrutadores / NAT. Por lo tanto gestiona la comunicación HTTP y la podemos filtrar.
+  Caché: Guarda ficheros de internet para que las futuras búsquedas de esos ficheros en la red no sea necesario volver a descargarlos de internet, sino descargarlosn directamente desde el proxy.
+  Herramientas   DansGuardian: es un software de filtro de contenido, diseñado para controlar el acceso a sitios web.</description>
+            <content type="html"><![CDATA[<h2 id="proxycaché">Proxy/Caché</h2>
+<ul>
+<li>
+<p><strong>Proxy:</strong> Proporcionaconexión a internet cuando no tenemos enrutadores / NAT. Por lo tanto gestiona la comunicación HTTP y la podemos filtrar.</p>
+</li>
+<li>
+<p><strong>Caché:</strong> Guarda ficheros de internet para que las futuras búsquedas de esos ficheros en la red no sea necesario volver a descargarlos de internet, sino descargarlosn directamente desde el proxy.</p>
+</li>
+</ul>
+<h3 id="herramientas">Herramientas</h3>
+<ul>
+<li>
+<p><strong>DansGuardian:</strong> es un software de filtro de contenido, diseñado para controlar el acceso a sitios web.</p>
+</li>
+<li>
+<p><strong>Sarg (Squid Analysis Report Generator):</strong> es una herramienta que permite a los administradores de sistemas ver de una manera sencilla y amigable qué sitios de Internet visitan los usuarios de la red local usando los logs de Squid.</p>
+</li>
+</ul>
+<h2 id="proxy-inverso">Proxy inverso</h2>
+<ul>
+<li>
+<p>Un proxy inverso es un tipo de servidor proxy que recupera los recursos en nombre de un cliente desde uno o más servidores. Por lo tanto el cliente hace la petición al puerto 80 del proxy y éste es el que hace la petición al servidor web que normalmente está en una red interna no accesible desde el cliente.</p>
+</li>
+<li>
+<p>Un proxy inverso también  puede teer funciones de <strong>caché</strong> cuando es capaz de guardar informaiṕon de los servidores internos y ofrecerla en las próximas peticiones.</p>
+</li>
+<li>
+<p>Teienen proxy inverso <code>apache2</code>, <code>nginx</code>, <code>varnish</code>, <code>traefikck</code>, etc&hellip;</p>
+</li>
+</ul>
+<h2 id="balanceador-de-varga">Balanceador de varga</h2>
+<ul>
+<li>Un <strong>Balanceador de carga</strong> fundamentalmente es un dispositivo de hardware o software que se pone al frente de un conjunto de servidores que atienden a una aplicación y tal como su nombre lo indica, asigna o balancea las solicitudes que llegan de los clientes a los servidores usando algún algoritmo.</li>
+</ul>
+]]></content>
+        </item>
         
         <item>
             <title>Practica iSCSI</title>

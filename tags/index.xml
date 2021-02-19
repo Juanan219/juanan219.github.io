@@ -7,94 +7,94 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>initiator</title>
-      <link>https://juanan219.github.io/tags/initiator/</link>
-      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/initiator/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>iSCSI</title>
-      <link>https://juanan219.github.io/tags/iscsi/</link>
-      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/iscsi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Linux</title>
-      <link>https://juanan219.github.io/tags/linux/</link>
-      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Practica</title>
-      <link>https://juanan219.github.io/tags/practica/</link>
-      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/practica/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>targets</title>
-      <link>https://juanan219.github.io/tags/targets/</link>
-      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/targets/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Windows</title>
-      <link>https://juanan219.github.io/tags/windows/</link>
-      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/windows/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Apuntes</title>
       <link>https://juanan219.github.io/tags/apuntes/</link>
-      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/apuntes/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Documentación</title>
-      <link>https://juanan219.github.io/tags/documentaci%C3%B3n/</link>
-      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      <title>Balanceador</title>
+      <link>https://juanan219.github.io/tags/balanceador/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://juanan219.github.io/tags/documentaci%C3%B3n/</guid>
+      <guid>https://juanan219.github.io/tags/balanceador/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>FCP</title>
-      <link>https://juanan219.github.io/tags/fcp/</link>
-      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      <title>Cache</title>
+      <link>https://juanan219.github.io/tags/cache/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://juanan219.github.io/tags/fcp/</guid>
+      <guid>https://juanan219.github.io/tags/cache/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>SAN</title>
-      <link>https://juanan219.github.io/tags/san/</link>
-      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      <title>DansGuardian</title>
+      <link>https://juanan219.github.io/tags/dansguardian/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://juanan219.github.io/tags/san/</guid>
+      <guid>https://juanan219.github.io/tags/dansguardian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HTTP</title>
+      <link>https://juanan219.github.io/tags/http/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HTTPS</title>
+      <link>https://juanan219.github.io/tags/https/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/https/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Inverso</title>
+      <link>https://juanan219.github.io/tags/inverso/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/inverso/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Proxy</title>
+      <link>https://juanan219.github.io/tags/proxy/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/proxy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sarg</title>
+      <link>https://juanan219.github.io/tags/sarg/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/sarg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Servidores</title>
+      <link>https://juanan219.github.io/tags/servidores/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/servidores/</guid>
       <description></description>
     </item>
     

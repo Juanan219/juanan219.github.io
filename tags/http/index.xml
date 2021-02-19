@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HTTP on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/http/</link>
+    <description>Recent content in HTTP on JuananBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/http/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Apuntes de Proxy, Proxy Inverso y Balanceador de carga</title>
+      <link>https://juanan219.github.io/posts/2021/02/apuntes-de-proxy-proxy-inverso-y-balanceador-de-carga/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/apuntes-de-proxy-proxy-inverso-y-balanceador-de-carga/</guid>
+      <description>Proxy/Caché   Proxy: Proporcionaconexión a internet cuando no tenemos enrutadores / NAT. Por lo tanto gestiona la comunicación HTTP y la podemos filtrar.
+  Caché: Guarda ficheros de internet para que las futuras búsquedas de esos ficheros en la red no sea necesario volver a descargarlos de internet, sino descargarlosn directamente desde el proxy.
+  Herramientas   DansGuardian: es un software de filtro de contenido, diseñado para controlar el acceso a sitios web.</description>
+    </item>
+    
+  </channel>
+</rss>
