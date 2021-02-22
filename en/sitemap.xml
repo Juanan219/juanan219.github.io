@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/</loc>
     <lastmod>2021-02-22T00:00:00+00:00</lastmod>
   </url>
@@ -43,7 +48,32 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/tags/apache/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/aplicaciones/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/apuntes/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/tags/clave/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/docker/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/dockerhub/</loc>
     <lastmod>2021-02-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -63,6 +93,11 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/tags/introduccion/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/</loc>
     <lastmod>2021-02-22T00:00:00+00:00</lastmod>
     <xhtml:link
@@ -75,6 +110,16 @@
                 hreflang="en"
                 href="https://juanan219.github.io/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/nextcloud/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/ningx/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -128,8 +173,8 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/apuntes/</loc>
-    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/web/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -168,11 +213,6 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/ningx/</loc>
-    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://juanan219.github.io/tags/proxy/</loc>
     <lastmod>2021-02-19T00:00:00+00:00</lastmod>
   </url>
@@ -204,11 +244,6 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/varnish/</loc>
-    <lastmod>2021-02-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/web/</loc>
     <lastmod>2021-02-19T00:00:00+00:00</lastmod>
   </url>
   

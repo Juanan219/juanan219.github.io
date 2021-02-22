@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Web on JuananBlog</title>
-    <link>https://juanan219.github.io/tags/web/</link>
-    <description>Recent content in Web on JuananBlog</description>
+    <title>Aplicaciones on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/aplicaciones/</link>
+    <description>Recent content in Aplicaciones on JuananBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 22 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/web/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/aplicaciones/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduccion a Docker</title>
       <link>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</link>
@@ -18,17 +18,6 @@
 Docker está formado por varios componentes:
   Docker Engine: Es un demonio de cualquier distribución Linux, el cual tiene una API para gestionar las imágenes y contenedores. Sirve para crear imágenes, subirlas y bajarlas de un registro docker, ejecutar y gestionar contenedores.
   Docker Client: Este es el CLI (Command Line Interface) que nos permite controlar Docker Engine.</description>
-    </item>
-    
-    <item>
-      <title>Rendimiento de servidor Web con caché Varnish</title>
-      <link>https://juanan219.github.io/posts/2021/02/rendimiento-de-servidor-web-con-cach%C3%A9-varnish/</link>
-      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/rendimiento-de-servidor-web-con-cach%C3%A9-varnish/</guid>
-      <description>Según las pruebas de rendimiento que se han realizado con el comando ab a varias configuraciones de servidores webs sirviendo un Wordpress, la mejor configuración para este tipo de escenarios es PHP-FPM (Socket Unix) + NGINX.
-El comando usado para las pruebas es el siguiente:
-ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.phpAumento de rendimiento en la ejecución de scripts PHP  Tarea 1:  Vamos a configurar una máquina con la configuración ganadora: PHP-FPM (Socket Unix) + NGINX.</description>
     </item>
     
   </channel>
