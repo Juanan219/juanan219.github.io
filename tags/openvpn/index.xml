@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OpenVPN on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/openvpn/</link>
+    <description>Recent content in OpenVPN on JuananBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/openvpn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configuración de VPN con clave secreta</title>
+      <link>https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/</link>
+      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/</guid>
+      <description>Configuración de openVPN de acceso remoto con clave estática compartida Vamos a levantar un escenario en OpenStack con una receta de heat. En este ejercico, vamos a configurar una VPN basada en SSL/TLS usando OpenVPN.
+Configuración Tenemos dos máquinas debian, una que va a actuar como Router llamada vpn_server y la otra como cliente, llamada lan. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina lan pueda acceder a internet a través de vpn_server, para ello cambiamos el valor 0 por el valor 1 del fichero /proc/sys/net/ipv4/ip_forward y creamos una regla NAT en iptables</description>
+    </item>
+    
+  </channel>
+</rss>

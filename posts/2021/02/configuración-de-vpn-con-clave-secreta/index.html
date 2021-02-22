@@ -5,16 +5,17 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="map[name:Juan Antonio Reifs]">
-<meta name="description" content="Bienvenidos a mi nuevo sitio web estático generado con HUGO." />
-<meta name="keywords" content=", Bienvenida" />
+<meta name="description" content="Configuración de openVPN de acceso remoto con clave estática compartida Vamos a levantar un escenario en OpenStack con una receta de heat. En este ejercico, vamos a configurar una VPN basada en SSL/TLS usando OpenVPN.
+Configuración Tenemos dos máquinas debian, una que va a actuar como Router llamada vpn_server y la otra como cliente, llamada lan. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina lan pueda acceder a internet a través de vpn_server, para ello cambiamos el valor 0 por el valor 1 del fichero /proc/sys/net/ipv4/ip_forward y creamos una regla NAT en iptables" />
+<meta name="keywords" content=", VPN, Ejercicio, Documentacion, Clave, Secreto, OpenVPN" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/" />
+<link rel="canonical" href="https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/" />
 
 
     <title>
         
-            Bienvenidos a JuananBlog :: JuananBlog  — JuananBlog
+            Configuración de VPN con clave secreta :: JuananBlog  — JuananBlog
         
     </title>
 
@@ -41,30 +42,33 @@
 
 
 
-<meta itemprop="name" content="Bienvenidos a JuananBlog">
-<meta itemprop="description" content="Bienvenidos a mi nuevo sitio web estático generado con HUGO.">
+<meta itemprop="name" content="Configuración de VPN con clave secreta">
+<meta itemprop="description" content="Configuración de openVPN de acceso remoto con clave estática compartida Vamos a levantar un escenario en OpenStack con una receta de heat. En este ejercico, vamos a configurar una VPN basada en SSL/TLS usando OpenVPN.
+Configuración Tenemos dos máquinas debian, una que va a actuar como Router llamada vpn_server y la otra como cliente, llamada lan. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina lan pueda acceder a internet a través de vpn_server, para ello cambiamos el valor 0 por el valor 1 del fichero /proc/sys/net/ipv4/ip_forward y creamos una regla NAT en iptables">
 <meta itemprop="datePublished" content="2021-02-09T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-02-09T00:00:00+00:00" />
-<meta itemprop="wordCount" content="10">
+<meta itemprop="wordCount" content="784">
 <meta itemprop="image" content="https://juanan219.github.io"/>
 
 
 
-<meta itemprop="keywords" content="Bienvenida," />
+<meta itemprop="keywords" content="VPN,Ejercicio,Documentacion,Clave,Secreto,OpenVPN," />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://juanan219.github.io"/>
 
-<meta name="twitter:title" content="Bienvenidos a JuananBlog"/>
-<meta name="twitter:description" content="Bienvenidos a mi nuevo sitio web estático generado con HUGO."/>
+<meta name="twitter:title" content="Configuración de VPN con clave secreta"/>
+<meta name="twitter:description" content="Configuración de openVPN de acceso remoto con clave estática compartida Vamos a levantar un escenario en OpenStack con una receta de heat. En este ejercico, vamos a configurar una VPN basada en SSL/TLS usando OpenVPN.
+Configuración Tenemos dos máquinas debian, una que va a actuar como Router llamada vpn_server y la otra como cliente, llamada lan. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina lan pueda acceder a internet a través de vpn_server, para ello cambiamos el valor 0 por el valor 1 del fichero /proc/sys/net/ipv4/ip_forward y creamos una regla NAT en iptables"/>
 
 
 
 
-    <meta property="og:title" content="Bienvenidos a JuananBlog" />
-<meta property="og:description" content="Bienvenidos a mi nuevo sitio web estático generado con HUGO." />
+    <meta property="og:title" content="Configuración de VPN con clave secreta" />
+<meta property="og:description" content="Configuración de openVPN de acceso remoto con clave estática compartida Vamos a levantar un escenario en OpenStack con una receta de heat. En este ejercico, vamos a configurar una VPN basada en SSL/TLS usando OpenVPN.
+Configuración Tenemos dos máquinas debian, una que va a actuar como Router llamada vpn_server y la otra como cliente, llamada lan. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina lan pueda acceder a internet a través de vpn_server, para ello cambiamos el valor 0 por el valor 1 del fichero /proc/sys/net/ipv4/ip_forward y creamos una regla NAT en iptables" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/" />
+<meta property="og:url" content="https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/" />
 <meta property="og:image" content="https://juanan219.github.io"/>
 <meta property="article:published_time" content="2021-02-09T00:00:00+00:00" />
 <meta property="article:modified_time" content="2021-02-09T00:00:00+00:00" />
@@ -137,7 +141,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        One minute
+        4 minutes
 
         
       </p>
@@ -145,7 +149,7 @@
 
     <article>
       <h1 class="post-title">
-        <a href="https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/">Bienvenidos a JuananBlog</a>
+        <a href="https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/">Configuración de VPN con clave secreta</a>
       </h1>
 
       
@@ -153,7 +157,106 @@
       
 
       <div class="post-content">
-        <p>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</p>
+        <h2 id="configuración-de-openvpn-de-acceso-remoto-con-clave-estática-compartida">Configuración de openVPN de acceso remoto con clave estática compartida</h2>
+<p>Vamos a levantar un escenario en OpenStack con una <a href="https://fp.josedomingo.org/seguridadgs/u04/escenario_vpn.yaml">receta de heat</a>. En este ejercico, vamos a configurar una VPN basada en SSL/TLS usando OpenVPN.</p>
+<h2 id="configuración">Configuración</h2>
+<p>Tenemos dos máquinas debian, una que va a actuar como Router llamada <code>vpn_server</code> y la otra como cliente, llamada <code>lan</code>. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina <code>lan</code> pueda acceder a internet a través de <code>vpn_server</code>, para ello cambiamos el valor <code>0</code> por el valor <code>1</code> del fichero <code>/proc/sys/net/ipv4/ip_forward</code> y creamos una regla <code>NAT</code> en <code>iptables</code></p>
+<pre><code>sudo nano /proc/sys/net/ipv4/ip_forward
+
+1
+
+sudo iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -j MASQUERADE
+</code></pre><p>Por último nos conectamos a <code>lan</code> y comprobamos que tiene conexión con el exterior</p>
+<pre><code>ssh 192.168.100.10
+
+ping www.google.es
+PING www.google.es (216.58.209.67) 56(84) bytes of data.
+64 bytes from waw02s06-in-f67.1e100.net (216.58.209.67): icmp_seq=1 ttl=112 time=180 ms
+--- www.google.es ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 180.366/180.366/180.366/0.000 ms
+</code></pre><p>Ahora que tenemos nuestro escenario funcionando, vamos a comenzar a montar nuestra <code>VPN</code>, así que para empezar vamos a instalar <code>OpenVPN</code> en nuestra máquina como el <code>vpn_server</code></p>
+<pre><code>sudo apt-get install openvpn
+</code></pre><p>El siguiente paso sería decidir cómo se va a realizar la autenticación de los extremos y el cifrado. En este ejercicio realizaremos la forma más sencilla, que es usar una <strong>clave compartida (pre-shared key)</strong>, aunque el uso de certificados es más seguro.</p>
+<h2 id="generación-de-la-clave">Generación de la clave</h2>
+<p>Generamos la clave</p>
+<pre><code>sudo openvpn --genkey --secret clave.key
+</code></pre><h2 id="configuración-del-servidor">Configuración del servidor</h2>
+<p>Movemos la clave generada al directorio <code>/etc/openvpn</code> y creamos el archivo <code>/etc/openvpn/server.conf</code></p>
+<pre><code>mv clave.key /etc/openvpn
+
+sudo nano /etc/openvpn/server.conf
+
+dev tun
+ifconfig 10.10.10.1 10.10.10.2
+secret clave.key
+</code></pre><h2 id="configuración-del-cliente">Configuración del cliente</h2>
+<p>Ahora vamos a pasar a la confgiuración del cliente y lo primero que haremos será instalar <code>openvpn</code> y copiar en el directorio <code>/etc/openvpn</code> del cliente la clave generada anteriormente.</p>
+<pre><code>debian@lan:~$ sudo apt-get install openvpn
+
+debian@vpn-server:~$ scp clave.key debian@192.168.100.10:/home/debian
+
+debian@lan:~$ sudo cp clave.key /etc/openvpn/
+</code></pre><p>Ahora que tenemos todo preparado, vamos a crear un fichero de configuración en el cliente en la ruta <code>/etc/openvpn</code> llamado <code>client.conf</code> y le introducimos la siguiente configuración</p>
+<pre><code>sudo nano /etc/openvpn/client.conf
+
+remote 172.22.201.64
+dev tun
+ifconfig 10.10.10.2 10.10.10.1
+route 192.168.100.0 255.255.255.0
+secret clave.key
+</code></pre><ul>
+<li><strong>remote:</strong> Aquí introducimos la IP de la interfaz de red que accede a internet del servidor VPN (en mi caso sería la 172.22.201.64).</li>
+<li><strong>ifconfig:</strong> Introducimos las IP de las interfaces de túnel. No tienen que coincidir con las IP de nuetra red. (En este caso les he puesto la 10.10.10.1 y 10.10.10.2)</li>
+<li><strong>route:</strong> Añade a la tabla de encaminamiento del cliente una entrada que permita acceder a los recursos de la red local remota (En este ejemplo nuestra red es la <code>192.168.100.0/24</code>).</li>
+</ul>
+<h2 id="establecimiento-de-la-vpn">Establecimiento de la VPN</h2>
+<p>Para establecer la <code>VPN</code> hay que arrancar <code>OpenVPN</code> en ambos extremos y configuramos <code>OpenVPN</code> para que lea los archivos <code>*.conf</code> del directorio <code>/etc/openvpn</code>, así que para configurar esto deberemos editar el fichero <code>/etc/default/openvpn</code> y descomentamops la línea <code>AUTOSTART=&quot;all&quot;</code> y reiniciamos los siguientes servicios</p>
+<pre><code>debian@vpn-server:~$ sudo nano /etc/default/openvpn
+[...]
+AUTOSTART=&quot;all&quot;
+[...]
+debian@vpn-server:~$ sudo systemctl daemon-reload
+debian@vpn-server:~$ sudo systemctl start openvpn
+
+debian@lan:~$ sudo nano /etc/default/openvpn
+[...]
+AUTOSTART=&quot;all&quot;
+[...]
+debian@lan:~$ sudo systemctl daemon-reload
+debian@lan:~$ sudo systemctl start openvpn
+</code></pre><p>Cuando se haya establecido la VPN se habrá creado una interfaz de tipo túnel en ambas máquinas que simulan un enlace PPP. Vamos a compro bar que se han creado las interfaces de red de tipo túnel.</p>
+<pre><code>debian@vpn-server:~$ ip a
+[...]
+4: tun0: &lt;POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none 
+    inet 10.10.10.1 peer 10.10.10.2/32 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::8894:d8a4:ed6a:37a3/64 scope link stable-privacy 
+       valid_lft forever preferred_lft forever
+
+debian@lan:~$ ip a
+[...]
+3: tun0: &lt;POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none 
+    inet 10.10.10.2 peer 10.10.10.1/32 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::e3cb:45d6:17ab:7fb3/64 scope link stable-privacy 
+       valid_lft forever preferred_lft forever
+</code></pre><p>A parte de las interfaces de red, se han creado también las reglas en la tabla de encaminamiento, que permiten el tráfico con la máquina <code>10.10.10.1</code> y con la red remota <code>192.168.100.0/24</code></p>
+<pre><code>debian@vpn-server:~$ sudo ip r
+default via 10.0.0.1 dev eth0 
+10.0.0.0/24 dev eth0 proto kernel scope link src 10.0.0.7 
+10.10.10.2 dev tun0 proto kernel scope link src 10.10.10.1 
+169.254.169.254 via 10.0.0.1 dev eth0 
+192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.2
+
+debian@lan:~$ sudo ip r
+default via 192.168.100.2 dev eth0 
+10.10.10.1 dev tun0 proto kernel scope link src 10.10.10.2 
+169.254.169.254 via 192.168.100.1 dev eth0 
+192.168.100.0/24 dev eth0 proto kernel scope link src 192.168.100.10
+</code></pre><p>A partir de este momento el cliente podría usar todos los recursos de nuestra red local de forma segura, ya que todo el tráfico que pase por ahí irá cifrado a través del túnel.</p>
 
       </div>
     </article>
@@ -165,7 +268,12 @@
     <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
 
-        <span class="tag"><a href="https://juanan219.github.io/tags/bienvenida/">Bienvenida</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/vpn/">VPN</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/ejercicio/">Ejercicio</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/documentacion/">Documentacion</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/clave/">Clave</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/secreto/">Secreto</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/openvpn/">OpenVPN</a></span>
         
     </p>
 
@@ -179,7 +287,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        10 Words
+        784 Words
       </p>
 
       <p>
@@ -201,7 +309,7 @@
       <hr />
       <div class="sharing-buttons">
         
-<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
   <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
     </div>
@@ -209,7 +317,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
   <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
@@ -218,7 +326,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=Bienvenidos%20a%20JuananBlog&amp;caption=Bienvenidos%20a%20JuananBlog&amp;canonicalUrl=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta&amp;caption=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta&amp;canonicalUrl=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
   <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
     <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
@@ -227,7 +335,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="mailto:?subject=Bienvenidos%20a%20JuananBlog&amp;body=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+<a class="resp-sharing-button__link" href="mailto:?subject=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta&amp;body=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
   <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
     </div>
@@ -235,7 +343,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f&amp;media=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f;description=Bienvenidos%20a%20JuananBlog" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f&amp;media=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f;description=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
   <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
     </div>
@@ -243,7 +351,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f&amp;title=Bienvenidos%20a%20JuananBlog&amp;summary=Bienvenidos%20a%20JuananBlog&amp;source=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f&amp;title=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta&amp;summary=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta&amp;source=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
   <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
     </div>
@@ -251,7 +359,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f&amp;resubmit=true&amp;title=Bienvenidos%20a%20JuananBlog" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f&amp;resubmit=true&amp;title=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
   <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
     </div>
@@ -259,7 +367,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f;title=Bienvenidos%20a%20JuananBlog" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f;title=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta" target="_blank" rel="noopener" aria-label="" title="Share on xing">
   <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
     </div>
@@ -267,7 +375,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="whatsapp://send?text=Bienvenidos%20a%20JuananBlog%20https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+<a class="resp-sharing-button__link" href="whatsapp://send?text=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta%20https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
   <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
     </div>
@@ -275,7 +383,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f&amp;t=Bienvenidos%20a%20JuananBlog" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f&amp;t=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
   <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
     </div>
@@ -283,7 +391,7 @@
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Bienvenidos%20a%20JuananBlog&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fbienvenidos-a-juananblog%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Configuraci%c3%b3n%20de%20VPN%20con%20clave%20secreta&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f02%2fconfiguraci%25C3%25B3n-de-vpn-con-clave-secreta%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
   <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
     </div>
@@ -302,17 +410,17 @@
         <div class="pagination__buttons">
           
             <span class="button previous">
-              <a href="https://juanan219.github.io/posts/2021/02/servidor-de-correos/">
+              <a href="https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/">
                 <span class="button__icon">←</span>
-                <span class="button__text">Servidor de correos</span>
+                <span class="button__text">Bienvenidos a JuananBlog</span>
               </a>
             </span>
           
 
           
             <span class="button next">
-              <a href="https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/">
-                <span class="button__text">Configuración de VPN con clave secreta</span>
+              <a href="https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/">
+                <span class="button__text">Generar Sitios Web estáticos con HUGO y GitHub Pages</span>
                 <span class="button__icon">→</span>
               </a>
             </span>

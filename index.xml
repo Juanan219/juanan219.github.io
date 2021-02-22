@@ -75,6 +75,16 @@ sudo apt-get update sudo apt-get install postfix Durante la instalación se nos 
     </item>
     
     <item>
+      <title>Configuración de VPN con clave secreta</title>
+      <link>https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/</link>
+      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/</guid>
+      <description>Configuración de openVPN de acceso remoto con clave estática compartida Vamos a levantar un escenario en OpenStack con una receta de heat. En este ejercico, vamos a configurar una VPN basada en SSL/TLS usando OpenVPN.
+Configuración Tenemos dos máquinas debian, una que va a actuar como Router llamada vpn_server y la otra como cliente, llamada lan. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina lan pueda acceder a internet a través de vpn_server, para ello cambiamos el valor 0 por el valor 1 del fichero /proc/sys/net/ipv4/ip_forward y creamos una regla NAT en iptables</description>
+    </item>
+    
+    <item>
       <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
       <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>
       <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
