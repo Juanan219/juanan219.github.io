@@ -532,6 +532,269 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
         </item>
         
         <item>
+            <title>Redes en Docker</title>
+            <link>https://juanan219.github.io/posts/2021/02/redes-en-docker/</link>
+            <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/redes-en-docker/</guid>
+            <description>Introducción a las redes en Docker Cada vez que creamos un contenedor en Docker, éste se conecta a una red virtual y docker hace una configuración del sistema (usando interfaces puente e iptables para que la máquina tenga una ip interna, tenga acceso al exterior, podamos mapear puertos (DNAT), etc&amp;hellip;)
+Podemos ver el comando ip si ejecutamos un contenedor con este comando.
+docker run -it --rm --name docker_debian debian bash -c &#39;ip a&#39; 1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</description>
+            <content type="html"><![CDATA[<h2 id="introducción-a-las-redes-en-docker">Introducción a las redes en Docker</h2>
+<p>Cada vez que creamos un contenedor en Docker, éste se conecta a una red virtual y docker hace una configuración del sistema (usando interfaces puente e iptables para que la máquina tenga una ip interna, tenga acceso al exterior, podamos mapear puertos (DNAT), etc&hellip;)</p>
+<p>Podemos ver el comando ip si ejecutamos un contenedor con este comando.</p>
+<pre><code>docker run -it --rm --name docker_debian debian bash -c 'ip a'
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+56: eth0@if57: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+</code></pre><blockquote>
+<p><strong>Nota:</strong> Si usamos la opción <code>--rm</code> el contenedor se elimina nada más que termina de hacer el proceso que se le ha encargado.</p>
+</blockquote>
+<p>Como podemos ver arriba, a nuestro contenedor se le ha asignado la ip <code>172.17.0.2/16</code> y se ha creado una interfaz tipo <code>bridge</code> en la máquina anfitriona, a la cual se conectan los contenedores.</p>
+<pre><code>ip a
+[...]
+6: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default 
+    link/ether 02:42:65💿e3:5c brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:65ff:fecd:e35c/64 scope link 
+       valid_lft forever preferred_lft forever
+[...]
+</code></pre><p>Además de que se han generado ciertas reglas en el cortafuegos para gestionar las conexiones de los contenedores. Podemos ejecutar <code>iptables -nL</code> e <code>iptables -t nat -nL</code> para comprobar estas reglas.</p>
+<h2 id="tipos-de-redes-en-docker">Tipos de redes en Docker</h2>
+<p>Cuando instalamos docker tenemos las siguientes redes predefinidas:</p>
+<pre><code>docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+09540af8449f        bridge              bridge              local
+2e4b519fab3b        host                host                local
+0ac9f5f0f96b        none                null                local
+</code></pre><ul>
+<li>Si creamos cualquier contenedor, por defecto se va a conectar a la red llamada <code>bridge</code>, cuyo direccionamiento predeterminado es 172.17.0.0/16. Los contenedores conectados a esta red que quieren exponer algún puerto al exterior tienen que usar el parámetro <code>-p</code> para mapear puertos.</li>
+</ul>
+<p>Este tipo de red nos permite:</p>
+<pre><code>* Aislar los contenedores que tengo en distintas subredes docker, de tal manera de que los contenedores de esa subred puedan acceder exclusivamente a contenedores de su misma subred.
+
+* Aislar los contenedores del acceso exterior.
+
+* Publicar servicios que tengamos en los contenedores mediante redirecciones que docker implementará con las reglas iptables necesarias.
+</code></pre>
+<p><img src="/Docker/Documentacion/13.png" alt="Captura 13"></p>
+<ul>
+<li>Si conectamos un contenedor a la red <strong>host</strong>, el contenedor estaría en la misma red que nuestra máquina anfitriona, por lo que cogerá direccionamiento IP de nuestro DHCP, además de que los puertos son accesibles directamente desde el host. Si queremos conectar un contenedor que vamos a crear a una red en concreto, deberemos hacer:</li>
+</ul>
+<pre><code>docker run --name docker_nginx --network host -d nginx
+720ea83dafd587b86799717b5a9fe072245526aa85ca60ec910b7656decc769d
+
+docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+b1f6a0f81813        nginx               &quot;/docker-entrypoint.…&quot;   7 seconds ago       Up 6 seconds                            docker_nginx
+</code></pre><p>Ahora podremos acceder a la página de <code>nginx</code> directamente desde el puerto 80</p>
+<p><img src="/Docker/Documentacion/14.png" alt="Captura 14"></p>
+<ul>
+<li>La red <strong>none</strong> no configurará ninguna IP para el contenedor y no tiene acceso a ningún tipo de red ni equipos. Tiene una dirección <code>loopback</code> y se suele usar para ejecutar trabajos por lotes.</li>
+</ul>
+<h2 id="gestionando-las-redes-en-docker">Gestionando las redes en Docker</h2>
+<p>Tenemos que hacer una diferenciación entre dos tipos de redes <strong>bridged</strong>:</p>
+<ul>
+<li>
+<p>La red creada por defecto por Docker para que funcionen todos los contenedores.</p>
+</li>
+<li>
+<p>Y las redes <code>bridged</code> definidas por el usuario.</p>
+</li>
+</ul>
+<p>Las redes <code>bridged</code> que usan por defecto los contenedores se diferencian en varios aspectos de las redes <code>bridged</code> creadas por nosotros. Estos aspectos son los siguientes:</p>
+<ul>
+<li>
+<p>Las redes que definimos proporcionan <strong>resolución DNS</strong> entre los contenedores, cosa que no hace la red por defecto a no ser que usemos opciones que ya se consideran <code>deprecated</code> (como la opción <code>--link</code>).</p>
+</li>
+<li>
+<p>Puedo conectar en caliente los contenedores a redes <code>bridged</code> definidas por nosotros, mientras que si uso la red por defecto, tengo que parar previamente el contenedor.</p>
+</li>
+<li>
+<p>Me permite gestionar de manera más segura el aislamiento de los contenedores, ya que si no indico una red, al crear el contenedor, éste se conecta a la red por defecto, en la cual puede haber otros contenedores con servicios que no tienen nada que ver con él.</p>
+</li>
+<li>
+<p>Tengo más control sobre las redes si las defino yo, ya que los contenedores de una red por defecto comparten todos la misma configuración de red (MTU, reglas iptables, etc&hellip;)</p>
+</li>
+<li>
+<p>Los contenedores de la red por defecto comparten ciertas variables de entorno, por lo que pueden generar algunos conflictos.</p>
+</li>
+</ul>
+<p>Por todo esto, es muy importante que los contenedores que tenemos en producción se estén ejecutando en redes definidas por nosotros.</p>
+<p>Para gestionar las redes definidas por el usuario:</p>
+<ul>
+<li>
+<p><strong><code>docker network ls</code>:</strong> Lista las redes.</p>
+</li>
+<li>
+<p><strong><code>docker network create</code>:</strong> Crea redes, por ejemplo</p>
+</li>
+</ul>
+<pre><code>docker network create red1
+
+docker netwprk create -d bridge --subnet 172.24.0.0/16 --gateway 172.24.0.1 red2
+</code></pre><ul>
+<li>
+<p><strong><code>docker network prune</code>:</strong> Elimina las redes que no se están usando</p>
+</li>
+<li>
+<p><strong><code>docker network rm</code>:</strong> Elimina la red o redes que le indiquemos, teniendo en cuenta siempre que no podemos eliminar una red mientras se está usando, por lo que deberemos eliminar o desconectar de dicha red el contenedor que la está usando.</p>
+</li>
+<li>
+<p><strong><code>docker network inspect</code>:</strong> Nos da información sobre la red</p>
+</li>
+</ul>
+<p>Cada red que creamos crea un puente de red específico para que podamos ver cada red definida con el comando <code>ip a</code> desde la máquina anfitriona.</p>
+<p><img src="/Docker/Documentacion/15.png" alt="Captura 15"></p>
+<h2 id="asociación-de-redes-a-los-contenedores">Asociación de redes a los contenedores</h2>
+<p>Tenemos dos redes creadas por el usuario</p>
+<pre><code>docker network create --subnet 172.28.0.0/16 --gateway 172.28.0.1 red1
+8ea35d168034d65ea8acc8b51af61467db3ef172efd1cb7130617903c27b61b1
+
+docker network create red2
+692f9cc348f7486e26f63f49f8184f94743160ebd88da65bed057f0508e5ce97
+
+docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+[...]
+8ea35d168034        red1                bridge              local
+692f9cc348f7        red2                bridge              local
+</code></pre><p>Vamos a crear dos contenedores conectados a la <code>red1</code>, el primer contenedor va a tener ls imagen <code>nginx</code> y el segundo va a tener la imagen <code>debian</code>, desde la cual vamos a realizar un dig hacia el servidor web nginx</p>
+<pre><code>docker run --name docker_nginx --network red1 -d nginx
+4decc4259730743ca45883fe2540bddc9289211fe37dd011143b8899094ce7b1
+
+docker run -it --name docker_debian --network red1 debian bash
+
+root@d701cdcce43d:/# apt-get update
+
+root@d701cdcce43d:/# apt-get install dnsutils
+
+root@d701cdcce43d:/# dig docker_nginx
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u3-Debian &lt;&lt;&gt;&gt; docker_nginx
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 64571
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;docker_nginx.      IN  A
+
+;; ANSWER SECTION:
+docker_nginx.   600 IN  A 172.28.0.2
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.11#53(127.0.0.11)
+;; WHEN: Tue Feb 23 13:10:26 UTC 2021
+;; MSG SIZE  rcvd: 58
+</code></pre><ul>
+<li>
+<p><strong><code>docker network connect</code>:</strong> Conectar contenedor a una red</p>
+</li>
+<li>
+<p><strong><code>docker network disconnect</code>:</strong> Desconectar contenedor de una red</p>
+</li>
+</ul>
+<p>Vamos a conectar el contenedor que está ejecutando la imagen de <code>nginx</code> a la <code>red2</code></p>
+<pre><code>docker network connect red2 docker_nginx
+</code></pre><p>Ahora lo vamos a desconectar</p>
+<pre><code>docker network disconnect red2 docker_nginx
+</code></pre><p>Tanto al crear un contenedor con la opción <code>--network</code> como al usar el comando <code>docker network connect</code> podemos usar diferentes opciones:</p>
+<ul>
+<li>
+<p><strong><code>--dns</code>:</strong> Para establecer servidores DNS predeterminados</p>
+</li>
+<li>
+<p><strong><code>--ip6</code>:</strong> Para establecer la dirección IPv6</p>
+</li>
+<li>
+<p><strong><code>--hostname</code> o <code>-h</code>:</strong> Para establecer el nombre de host del contenedor. Si no establecemos el <code>hostname</code> con esta opción, éste será el nombre del propio contenedor.</p>
+</li>
+</ul>
+<h2 id="ejercicio-instalación-de-wordpress">Ejercicio: Instalación de Wordpress</h2>
+<p>Para la instalación de Workdpress necesitaremos dos contenedores:</p>
+<ul>
+<li>
+<p>La base de datos (imagen <code>mariadb</code>)</p>
+</li>
+<li>
+<p>El servidor web con la aplicación (imagen <code>workpress</code>)</p>
+</li>
+</ul>
+<p>Los dos contenedores tienen que estar en la misma red y deben de tener acceso por nombres (resolución DNS) ya que de principio, no sabemos que IP tiene cada contenedor. Por lo tanto vamos a crear los contenedores en la misma red:</p>
+<pre><code>docker network create --subnet 172.10.0.0/16 --gateway 172.10.0.1 red_wp
+2aa05c8085811dced11f38777f286d1e37f1a47654120a86f82026fd316847bf
+
+mkdir -p wordpress/mariadb wordpress/wp
+
+docker run --name maria_wp --network red_wp -v /home/juanan/wordpress/mariadb:/var/lib/mysql -e MYSQL_DATABASE=wp_db -e MYSQL_USER=usuario_wp -e MYSQL_PASSWORD=passwd_wp -e MYSQL_ROOT_PASSWORD=root -d mariadb
+346f6aeb93f65f97e26e592922dc7d947d597da5f32d36caae74edb16b44240e
+
+docker run --name docker_wp --network red_wp -v /home/juanan/wordpress/wp:/var/www/html/wp-content -e WORDPRESS_DB_HOST=maria_wp -e WORDPRESS_DB_USER=usuario_wp -e WORDPRESS_DB_PASSWORD=passwd_wp -e WORDPRESS_DB_NAME=wp_db -p 80:80 -d wordpress
+aad713617b33eac4d316080fd0319516faea84d2719677ffee1a335426e17571
+
+docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
+aad713617b33        wordpress           &quot;docker-entrypoint.s…&quot;   19 seconds ago      Up 17 seconds       0.0.0.0:80-&gt;80/tcp   docker_wp
+346f6aeb93f6        mariadb             &quot;docker-entrypoint.s…&quot;   4 minutes ago       Up 4 minutes        3306/tcp             maria_wp
+</code></pre><p><img src="/Docker/Documentacion/16.png" alt="Captura 16"></p>
+<h1 id="ejercicios">Ejercicios</h1>
+<ol>
+<li><strong>Ejecuta una instrucción docker para visualizar el contenido del fichero <code>wp-config.php</code> y verifica que los parámetros de conexión a la base de datos son los mismos que los que indicamos en las variables de entorno</strong></li>
+</ol>
+<pre><code>docker exec docker_wp bash -c 'cat /var/www/html/wp-config.php'
+[...]
+define( 'DB_NAME', 'wp_db');
+
+/** MySQL database username */
+define( 'DB_USER', 'usuario_wp');
+
+/** MySQL database password */
+define( 'DB_PASSWORD', 'passwd_wp');
+
+/** MySQL hostname */
+define( 'DB_HOST', 'maria_wp');
+[...]
+</code></pre><ol start="2">
+<li><strong>Ejecuta una instrucción docker para comprobar que desde el servidor <code>docker_wp</code> podemos hacer un ping usando el nombre <code>maria_wp</code> (Tendrás que instalar el paquete <code>iputils-ping</code> en dicho contenedor)</strong></li>
+</ol>
+<ul>
+<li>Actualizamos la lista de paquetes e instalamos el paquete <code>iputils-ping</code></li>
+</ul>
+<pre><code>docker exec docker_wp bash -c 'apt-get update &amp;&amp; apt-get install -y iputils-ping &amp;&amp; ping maria_wp'
+[...]
+PING maria_wp (172.10.0.2) 56(84) bytes of data.
+64 bytes from maria_wp.red_wp (172.10.0.2): icmp_seq=1 ttl=64 time=0.156 ms
+64 bytes from maria_wp.red_wp (172.10.0.2): icmp_seq=2 ttl=64 time=0.118 ms
+64 bytes from maria_wp.red_wp (172.10.0.2): icmp_seq=3 ttl=64 time=0.122 ms
+</code></pre><ol start="3">
+<li><strong>Visualiza el fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> del contenedor de la base de datos y comprueba cómo está configurado el parámetro <code>bind-address</code></strong></li>
+</ol>
+<pre><code>docker exec maria_wp bash -c 'cat /etc/mysql/mariadb.conf.d/50-server.cnf | grep &quot;bind-address&quot;'
+#bind-address            = 127.0.0.1
+</code></pre><p>El parámetro <code>bind-address</code> está comentado</p>
+<ol start="4">
+<li><strong>Instala otro CMS PHP siguiendo la documentación de DockerHub de la aplicación seleccionada</strong></li>
+</ol>
+<pre><code>docker network create red_joomla
+b19cc1d0fedb6a59b52b7dab3c99390b4cb9c1aa3a84bb84374dc18826d1bd56
+
+docker run --name my_joomla --network red_joomla -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=joomla_db -e MYSQL_USER=joomla_user -e MYSQL_PASSWORD=joomla_passwd -d mariadb
+938ec4c9b3beb8b4229b9d54e1bc327e6d6c09f1530ff451935750890d0c2d2a
+
+docker run --name docker_joomla --network red_joomla -e JOOMLA_DB_HOST=my_joomla -e JOOMLA_DB_USER=joomla_user -e JOOMLA_DB_PASSWORD=joomla_passwd -e JOOMLA_DB_NAME=joomla_db -p 80:80 -d joomla
+3815c6e2843428eb2a62d595365e8f868afcd3cfe0415b38f911d95132041768
+</code></pre><p><img src="/Docker/Documentacion/17.png" alt="Captura 17"></p>
+]]></content>
+        </item>
+        
+        <item>
             <title>Introduccion a Docker</title>
             <link>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</link>
             <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>

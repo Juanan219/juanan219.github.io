@@ -29,5 +29,16 @@ El nombre de una imágen suele estar formado por tres partes:
 usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
     </item>
     
+    <item>
+      <title>Redes en Docker</title>
+      <link>https://juanan219.github.io/posts/2021/02/redes-en-docker/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/redes-en-docker/</guid>
+      <description>Introducción a las redes en Docker Cada vez que creamos un contenedor en Docker, éste se conecta a una red virtual y docker hace una configuración del sistema (usando interfaces puente e iptables para que la máquina tenga una ip interna, tenga acceso al exterior, podamos mapear puertos (DNAT), etc&amp;hellip;)
+Podemos ver el comando ip si ejecutamos un contenedor con este comando.
+docker run -it --rm --name docker_debian debian bash -c &#39;ip a&#39; 1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</description>
+    </item>
+    
   </channel>
 </rss>
