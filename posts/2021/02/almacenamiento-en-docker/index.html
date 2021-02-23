@@ -47,7 +47,7 @@ docker run --name docker_nginx -p 8080:80 -d nginx c45464659bca8dc80372f7fcbcf1f
 docker run --name docker_nginx -p 8080:80 -d nginx c45464659bca8dc80372f7fcbcf1fa8e2abdb7f3d68dd7eb46a22ef6d5cf824f docker exec docker_nginx bash -c &#39;echo &quot;&lt;h1&gt;Esto es una prueba&lt;/h1&gt;&quot; &gt; /usr/share/nginx/html/index.">
 <meta itemprop="datePublished" content="2021-02-23T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-02-23T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1655">
+<meta itemprop="wordCount" content="1838">
 <meta itemprop="image" content="https://juanan219.github.io"/>
 
 
@@ -141,7 +141,7 @@ docker run --name docker_nginx -p 8080:80 -d nginx c45464659bca8dc80372f7fcbcf1f
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        8 minutes
+        9 minutes
 
         
       </p>
@@ -444,6 +444,36 @@ apache_php
 </code></pre>
 <p><img src="https://juanan219.github.io/Docker/Documentacion/10.png" alt="Captura 10"></p>
 <p>Sí, se sigue visualizando el mismo contenido, ya que el fichero <code>index.html</code> está almacenado en el directorio que usamos como <strong>bind mount</strong>.</p>
+<ol start="3">
+<li>
+<p><strong>Contenedores con almacenamiento persistente</strong></p>
+<ul>
+<li><strong>Crea un contenedor de la imagen <code>nextcloud</code> (usando <code>sqlite</code>) configurando un almacenamiento como nos muestra la <a href="https://hub.docker.com/_/nextcloud">documentación de la imagen</a> en DockerHub (pero utilizando <code>bind mount</code>). Sube algún fichero.</strong></li>
+</ul>
+</li>
+</ol>
+<pre><code>docker run --name docker_nextcloud -v /home/juanan/nextcloud:/var/www/html -p 8080:80 -d nextcloud
+ffe4a54d5410245278ebe2e23ce9afec5c6dcece6f8ae3f52660337ff9ab0047
+
+echo &quot;Esto es un fichero de prueba&quot; &gt; prueba.txt
+</code></pre><p><img src="https://juanan219.github.io/Docker/Documentacion/11.png" alt="Captura 11"></p>
+<p>He subido el archivo llamado <code>prueba.txt</code></p>
+<pre><code>* **Elimina el contenedor**
+</code></pre>
+<pre><code>docker rm -f docker_nextcloud
+docker_nextcloud
+</code></pre><pre><code>* **Crea un contenedor nuevo con la misma configuración de volúmenes. Comprueba que la información que teníamos (ficheros, usuarios, etc...) sigue existiendo**
+</code></pre>
+<pre><code>docker run --name docker_nextcloud -v /home/juanan/nextcloud:/var/www/html -p 8080:80 -d nextcloud
+967f37669b512c53d4bf5b235bd53a8970c04b748517a1a27358617cb633911d
+
+ls nextcloud/
+3rdparty  AUTHORS  console.php  core      custom_apps  index.html  lib  ocm-provider  ocs-provider  remote.php  robots.txt  themes
+apps      config   COPYING      cron.php  data         index.php   occ  ocs           public.php    resources   status.php  version.php
+</code></pre><pre><code>* **Comprueba el contenido del directorio que se ha creado en el host**
+</code></pre>
+<p><img src="https://juanan219.github.io/Docker/Documentacion/12.png" alt="Captura 12"></p>
+<p>Como podemos comprobar, después de haber eliminado el contenedor y habiendo hecho uno nuevo, como los archivos de <code>nextcloud</code> se encontraban en el directorio <code>/home/juanan/nextcloud</code>, siguen estando ahí, por lo que ni los usuarios, ni los datos que hemos subido se han eliminado.</p>
 
       </div>
     </article>
@@ -475,7 +505,7 @@ apache_php
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        1655 Words
+        1838 Words
       </p>
 
       <p>
