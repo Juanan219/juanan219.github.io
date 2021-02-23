@@ -338,6 +338,272 @@ apps      config   COPYING      cron.php  data         index.php   occ  ocs     
         </item>
         
         <item>
+            <title>Creando escenarios multicontenedor con docker-compose</title>
+            <link>https://juanan219.github.io/posts/2021/02/creando-escenarios-multicontenedor-con-docker-compose/</link>
+            <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/creando-escenarios-multicontenedor-con-docker-compose/</guid>
+            <description>En ocasiones, es necesario disponer de múltiples contenedores, como por ejemplo:
+  Cuando necesitamos varios servicios para que la aplicación funcione, como por ejemplo con Wordpress, necesitaríamos un contenedor para la propia aplicación web y otro contenedor para el servidor de bases de datos MySQL.
+  Si tenemos nuestra aplicación construida con microservicios, de los cuales, cada microservicio se ejecutará en un contenedor independiente.
+  Cuando trabajamos en escenarios en los que necesitamos varios contenedores, podemos usar docker-compose para gestionarlos.</description>
+            <content type="html"><![CDATA[<p>En ocasiones, es necesario disponer de múltiples contenedores, como por ejemplo:</p>
+<ul>
+<li>
+<p>Cuando necesitamos varios servicios para que la aplicación funcione, como por ejemplo con <code>Wordpress</code>, necesitaríamos un contenedor para la propia aplicación web y otro contenedor para el servidor de bases de datos <code>MySQL</code>.</p>
+</li>
+<li>
+<p>Si tenemos nuestra aplicación construida con microservicios, de los cuales, cada microservicio se ejecutará en un contenedor independiente.</p>
+</li>
+</ul>
+<p>Cuando trabajamos en escenarios en los que necesitamos varios contenedores, podemos usar <code>docker-compose</code> para gestionarlos.</p>
+<p>Vamos a definir el escenario con un fchero llamado <code>docker-compose.yml</code> y vamos a gestionar el tiempo de vida de las aplicaciones y de todos los componentes que necesitamos con la utilidad <code>docker-compose</code>.</p>
+<h2 id="ventajas-de-usar-doker-compose">Ventajas de usar doker-compose</h2>
+<ul>
+<li>
+<p>Hacer todo de manera declarativa para no tener que repetir el proceso una vez que se construye el escenario.</p>
+</li>
+<li>
+<p>Poner en marcha todos los contenedores que necesita mi aplicación de una sola vez y correctamente configurados.</p>
+</li>
+<li>
+<p>Garantizar que los contenedores se arrancan en el orden adecuado. Por ejemplo: Si mi aplicación no puede funcionar debidamente hasta que el servidor de bases de datos esté en marcha, configuraré el fichero para que se arranque antes el contenedor de la base de datos que el de la aplicación que depende de ella.</p>
+</li>
+<li>
+<p>Asegurarnos de que hay comunicación entre los contenedores que pertenecen a la aplicación.</p>
+</li>
+</ul>
+<h2 id="instalación-de-docker-compose">Instalación de docker-compose</h2>
+<ul>
+<li>Para instalarlo desde repositorios de debian</li>
+</ul>
+<pre><code>sudo apt-get install docker-compose
+</code></pre><ul>
+<li>Para instalarlo con <code>pip</code> desde un entorno virtual:</li>
+</ul>
+<pre><code>python3 -m venv docker-compose
+source docker-compose/bin/activate
+(docker-compose) ~# pip install docker-compose
+</code></pre><h2 id="el-fichero-docker-composeyml">El fichero docker-compose.yml</h2>
+<p>Con el fichero <code>docker-compose.yml</code> definimos el escenario. El programa <code>docker-compose</code> se tiene que ejecutar en el directorio en el cual esté este fichero. Por ejemplo, para la ejecución de un <code>wordpress</code> persistente deberíamos tener un fichero con el siguiente contenido:</p>
+<pre><code>version: '3.1'
+
+services:
+
+	wordpress:
+		container_name: docker_wp
+		image: wordpress
+		restart: always
+		environment:
+			WORDPRESS_DB_HOST: maria_wp
+			WORDPRESS_DB_USER: wordpress_user
+			WORDPRESS_DB_PASSWORD: wordpress_passwd
+			WORDPRESS_DB_NAME: wp_db
+		volumes:
+			- /home/juanan/wordpress/wp:/var/www/html
+
+	db:
+		container_name: maria_wp
+		image: mariadb
+		restart: always
+		environment:
+			MYSQL_DATABASE: wp_db
+			MYSQL_USER: wordpress_user
+			MYSQL_PASSWORD: wordpress_passwd
+			MYSQL_ROOT_PASSWORD: root
+		volumes:
+			- /home/juanan/wordpress/mariadb:/var/lib/mysql
+</code></pre><p>Puedes encontrar todos los parámetros que se pueden definir en la <a href="https://docs.docker.com/compose/compose-file/compose-file-v3/">documentación oficial</a>.</p>
+<p>Algunos parámetros interesantes:</p>
+<ul>
+<li>
+<p><strong><code>restart: always</code>:</strong> Indicamos la política de reinicio del contenedor, ya que si por algún motivo falla, esta se reinicia en lugar de quedarse apagada.</p>
+</li>
+<li>
+<p><strong><code>depend: on</code>:</strong> Indica la dependencia entre contenedores. No va a iniciar un contenedor hasta que otro esté funcionando.</p>
+</li>
+</ul>
+<p>Cuando creamos un escenario con el comando <code>docker-compose</code> se crea una nueva red definida por el usuario <code>docker</code>, en la cual se conectan los contenedores, por lo que tenemos resolución de nombres por DNS que resuelve tanto por el nombre (por ejemplo <code>servidor_mysql</code>) como por el alias (por ejemplo <code>maria_wp</code>).</p>
+<ul>
+<li>Para crear un escenario</li>
+</ul>
+<pre><code>docker compose up -d
+</code></pre><ul>
+<li>Para listar los contenedores</li>
+</ul>
+<pre><code>docker-compose ps
+</code></pre><ul>
+<li>Para parar los contenedores</li>
+</ul>
+<pre><code>docker-compose stop
+</code></pre><ul>
+<li>Para borrar los contenedores</li>
+</ul>
+<pre><code>docker-compose rm
+</code></pre><h2 id="el-comando-docker-compose">El comando docker-compose</h2>
+<p>Una vez que hemos creado el archivo <code>docker-compose.yml</code> tenemos que empezar a crear los contenedores que se describen en su contenido. Esto lo haremos ejecutando el comando <code>docker-compose</code> en el directorio en el que se encuentra el fichero de configuración.</p>
+<p>Los subcomandos más usados son:</p>
+<ul>
+<li>
+<p><strong><code>docker-compose up</code>:</strong> Crea los contenedores (servicios) que están definidos en el <code>docker-compose.yml</code></p>
+</li>
+<li>
+<p><strong><code>docker-compose up -d</code>:</strong> Crea en modo <code>detach</code> los contenedores (servicios) que están descritos en el <code>docker-compose.yml</code></p>
+</li>
+<li>
+<p><strong><code>docker-compose stop</code>:</strong> Detiene los contenedores que se han lanzado con <code>docker-compose up</code></p>
+</li>
+<li>
+<p><strong><code>docker-compose run</code>:</strong> Inicia los contenedores definidos en el <code>docker-compose.yml</code> que estén preparados</p>
+</li>
+<li>
+<p><strong><code>docker-compose rm</code>:</strong> Borra los contenedores preparados del escenario. Con la opción <code>-f</code> borra también los que se estén ejecutando</p>
+</li>
+<li>
+<p><strong><code>docker-compose pause</code>:</strong> Pausa los contenedores que se han lanzado con <code>docker-compose up</code></p>
+</li>
+<li>
+<p><strong><code>docker-compose unpause</code>:</strong> Reaunda los contenedores que están pausados</p>
+</li>
+<li>
+<p><strong><code>docker-compose restart</code>:</strong> Reinicia los contenedores. Este comando es ideal para reiniciar servicios con nuevas configuraciones.</p>
+</li>
+<li>
+<p><strong><code>docker-compose down</code>:</strong> Para los contenedores, los borra y con ellos borra las redes que se han creado con <code>docker-compose up</code> (en el caso de haberse creado)</p>
+</li>
+<li>
+<p><strong><code>docker-compose down -v</code>:</strong> Para los contenedores, los elimina, elimina sus redes y sus volúmenes.</p>
+</li>
+<li>
+<p><strong><code>docker-compose logs servicio1</code>:</strong> Muestra los logs del servicio llamado <code>servicio1</code> que estaba descrito en el <code>docker-compose.yml</code></p>
+</li>
+<li>
+<p><strong><code>docker-compose exec servicio1 /bin/bash</code>:</strong> Ejecuta una orden, en este caso, <code>/bin/bash</code> en el contenedor llamado <code>servicio1</code> que estaba descrito en el <code>docker-compose.yml</code></p>
+</li>
+<li>
+<p><strong><code>docker-compose build</code>:</strong> Ejecuta, si está indicado, el proceso de construcción de una imagen que va a ser usada en el <code>docker-compose.yml</code> a partir de los ficheros <code>dockerfile</code> que se indican.</p>
+</li>
+<li>
+<p><strong><code>docker-compose top</code>:</strong> Muestra los procesos que están ejecutándose en cada uno de los contenedores de los servicios.</p>
+</li>
+</ul>
+<h1 id="ejercicios">Ejercicios</h1>
+<ol>
+<li><strong>Instala <code>docker-compose</code> en tu ordenador. Copia el fichero <code>docker-compose.yml</code> de la <a href="https://hub.docker.com/_/wordpress">documentación</a> de la imagen oficial de <code>wordpress</code></strong></li>
+</ol>
+<pre><code>sudo apt-get install docker-compose
+
+sudo mkdir docker-compose
+
+cd docker-compose/
+
+nano docker-compose.yml
+
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
+</code></pre><ol start="2">
+<li><strong>Modifica el <code>docker-compose.yml</code> para que use el puerto <code>8001</code></strong></li>
+</ol>
+<pre><code>services:
+	wordpress:
+[...]
+		ports:
+			- 8080:8001
+[...]
+</code></pre><ol start="3">
+<li><strong>Modifica el <code>docker-compose.yml</code> para que la base de datos se llame <code>db_wordpress</code></strong></li>
+</ol>
+<pre><code>services:
+	wordpress:
+[...]
+		environment:
+[...]
+			WORDPRESS_DB_NAME: db_wordpress
+[...]
+		db:
+[...]
+			environment:
+				MYSQL_DATABASE: db_wordpress
+[...]
+</code></pre><ol start="4">
+<li><strong>Modifica el <code>docker-compose.yml</code> para usar <code>bind mount</code> en lugar de volúmenes</strong></li>
+</ol>
+<pre><code>services:
+	wordpress:
+[...]
+		volumes:
+			- /home/juanan/wordpress/wp:/var/www/html
+[...]
+	db:
+[...]
+		volumes:
+			- /home/juanan/wordpress/mariadb:/var/lib/mysql
+</code></pre><ol start="5">
+<li><strong>Levanta el escenario con <code>docker-compose</code></strong></li>
+</ol>
+<pre><code>docker-compose up -d
+</code></pre><ol start="6">
+<li><strong>Muestra los contenedores con <code>docker-compose</code></strong></li>
+</ol>
+<pre><code>docker-compose ps
+       Name                     Command               State               Ports             
+--------------------------------------------------------------------------------------------
+juanan_db_1          docker-entrypoint.sh mysqld      Up      3306/tcp, 33060/tcp           
+juanan_wordpress_1   docker-entrypoint.sh apach ...   Up      80/tcp, 0.0.0.0:8080-&gt;8001/tcp
+</code></pre><ol start="7">
+<li><strong>Accede a la aplicación y comprueba que funciona</strong></li>
+</ol>
+<p><img src="/Docker/Documentacion/18.png" alt="Captura 17"></p>
+<ol start="8">
+<li><strong>Comprueba el almacenamiento que has definido y que se ha creado una red de tipo <code>bridge</code></strong></li>
+</ol>
+<pre><code>docker network ls
+[...]
+NETWORK ID          NAME                DRIVER              SCOPE
+64f74f4b8685        juanan_default      bridge              local
+[...]
+</code></pre><ol start="9">
+<li><strong>Borra el escenario con <code>docker-compose</code></strong></li>
+</ol>
+<pre><code>docker-compose down
+Stopping juanan_wordpress_1 ... done
+Stopping juanan_db_1        ... done
+Removing juanan_wordpress_1 ... done
+Removing juanan_db_1        ... done
+Removing network juanan_default
+</code></pre>]]></content>
+        </item>
+        
+        <item>
             <title>Uso de las Imagenes Docker</title>
             <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
             <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>

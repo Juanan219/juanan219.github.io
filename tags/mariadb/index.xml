@@ -9,6 +9,18 @@
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/mariadb/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Creando escenarios multicontenedor con docker-compose</title>
+      <link>https://juanan219.github.io/posts/2021/02/creando-escenarios-multicontenedor-con-docker-compose/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/creando-escenarios-multicontenedor-con-docker-compose/</guid>
+      <description>En ocasiones, es necesario disponer de múltiples contenedores, como por ejemplo:
+  Cuando necesitamos varios servicios para que la aplicación funcione, como por ejemplo con Wordpress, necesitaríamos un contenedor para la propia aplicación web y otro contenedor para el servidor de bases de datos MySQL.
+  Si tenemos nuestra aplicación construida con microservicios, de los cuales, cada microservicio se ejecutará en un contenedor independiente.
+  Cuando trabajamos en escenarios en los que necesitamos varios contenedores, podemos usar docker-compose para gestionarlos.</description>
+    </item>
+    
+    <item>
       <title>Redes en Docker</title>
       <link>https://juanan219.github.io/posts/2021/02/redes-en-docker/</link>
       <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>

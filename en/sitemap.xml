@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/02/creando-escenarios-multicontenedor-con-docker-compose/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</loc>
     <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
@@ -93,6 +98,11 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/tags/docker-compose/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/tags/dockerhub/</loc>
     <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
@@ -139,6 +149,11 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/mariadb/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/multicontenedor/</loc>
     <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -209,6 +224,11 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/wordpress/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/yaml/</loc>
     <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
