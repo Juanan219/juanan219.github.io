@@ -30,5 +30,16 @@ Docker está formado por varios componentes:
 Configuración Tenemos dos máquinas debian, una que va a actuar como Router llamada vpn_server y la otra como cliente, llamada lan. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina lan pueda acceder a internet a través de vpn_server, para ello cambiamos el valor 0 por el valor 1 del fichero /proc/sys/net/ipv4/ip_forward y creamos una regla NAT en iptables</description>
     </item>
     
+    <item>
+      <title>Uso de las Imagenes Docker</title>
+      <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
+      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</guid>
+      <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
+El nombre de una imágen suele estar formado por tres partes:
+usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
+    </item>
+    
   </channel>
 </rss>

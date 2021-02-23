@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Apache on JuananBlog</title>
-    <link>https://juanan219.github.io/tags/apache/</link>
-    <description>Recent content in Apache on JuananBlog</description>
+    <title>Imagenes on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/imagenes/</link>
+    <description>Recent content in Imagenes on JuananBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 22 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/apache/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Introduccion a Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</guid>
-      <description>Introducción a Docker El objetivo de Docker es el despliegue de aplicaciones en capsuladas en contenedores, en lugar de desplegar las aplicaciones en máquinas virtuales.
-Docker está formado por varios componentes:
-  Docker Engine: Es un demonio de cualquier distribución Linux, el cual tiene una API para gestionar las imágenes y contenedores. Sirve para crear imágenes, subirlas y bajarlas de un registro docker, ejecutar y gestionar contenedores.
-  Docker Client: Este es el CLI (Command Line Interface) que nos permite controlar Docker Engine.</description>
-    </item>
-    
+    <lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/imagenes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Uso de las Imagenes Docker</title>
       <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>

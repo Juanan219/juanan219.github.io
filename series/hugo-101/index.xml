@@ -97,6 +97,17 @@ sudo apt-get update sudo apt-get install postfix Durante la instalación se nos 
     </item>
     
     <item>
+      <title>Uso de las Imagenes Docker</title>
+      <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
+      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</guid>
+      <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
+El nombre de una imágen suele estar formado por tres partes:
+usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
+    </item>
+    
+    <item>
       <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
       <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>
       <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
