@@ -9,6 +9,16 @@
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/apache/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Almacenamiento en Docker</title>
+      <link>https://juanan219.github.io/posts/2021/02/almacenamiento-en-docker/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/almacenamiento-en-docker/</guid>
+      <description>Los contenedores son efímeros Los contenedores de docker son efímeros, es decir, todo lo que generamos dentro de un contenedor resisten a las paradas de los contenedores, pero cuando eliminamos un contenedor, todo lo que hay en su interior se elimina con él. Veamos esto creando un contenedor y creando dentro de él un fichero, cuando lo eliminemos, crearemos otro contenedor para comprobar si ese archivo está
+docker run --name docker_nginx -p 8080:80 -d nginx c45464659bca8dc80372f7fcbcf1fa8e2abdb7f3d68dd7eb46a22ef6d5cf824f docker exec docker_nginx bash -c &#39;echo &amp;quot;&amp;lt;h1&amp;gt;Esto es una prueba&amp;lt;/h1&amp;gt;&amp;quot; &amp;gt; /usr/share/nginx/html/index.</description>
+    </item>
+    
+    <item>
       <title>Uso de las Imagenes Docker</title>
       <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
       <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>

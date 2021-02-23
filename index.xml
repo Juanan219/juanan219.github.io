@@ -9,6 +9,16 @@
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Almacenamiento en Docker</title>
+      <link>https://juanan219.github.io/posts/2021/02/almacenamiento-en-docker/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/almacenamiento-en-docker/</guid>
+      <description>Los contenedores son efímeros Los contenedores de docker son efímeros, es decir, todo lo que generamos dentro de un contenedor resisten a las paradas de los contenedores, pero cuando eliminamos un contenedor, todo lo que hay en su interior se elimina con él. Veamos esto creando un contenedor y creando dentro de él un fichero, cuando lo eliminemos, crearemos otro contenedor para comprobar si ese archivo está
+docker run --name docker_nginx -p 8080:80 -d nginx c45464659bca8dc80372f7fcbcf1fa8e2abdb7f3d68dd7eb46a22ef6d5cf824f docker exec docker_nginx bash -c &#39;echo &amp;quot;&amp;lt;h1&amp;gt;Esto es una prueba&amp;lt;/h1&amp;gt;&amp;quot; &amp;gt; /usr/share/nginx/html/index.</description>
+    </item>
+    
+    <item>
       <title>Uso de las Imagenes Docker</title>
       <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
       <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
@@ -105,17 +115,6 @@ sudo apt-get update sudo apt-get install postfix Durante la instalación se nos 
       
       <guid>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</guid>
       <description>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</description>
-    </item>
-    
-    <item>
-      <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
-      <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</guid>
-      <description>En esta práctica vamos a seleccionar una combinación para realizar el depliegue de una web estática y añadir contenido a ella, en mi caso, voy a seleccionar la combinación de HUGO y GitHub Pages.
-Para comenzar, vamos a instalar la herramientas necesarias para realizar esta práctica, así que instalaremos git y hugo
-sudo apt-get update sudo apt-get install git hugo Cuando tengamos los paquetes descargados, vamos a comenzar a montar nuestro sitio y como vamos a subirlo a github, creamos un nuevo repositorio vacío y lo clonamos a nuestro directorio de trabajo, para más tarde comenzar a crear nuestro sitio</description>
     </item>
     
   </channel>
