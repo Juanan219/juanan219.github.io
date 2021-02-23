@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</loc>
     <lastmod>2021-02-22T00:00:00+00:00</lastmod>
   </url>
@@ -43,68 +48,53 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</loc>
-    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</loc>
     <lastmod>2021-02-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/tags/apache/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/aplicaciones/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/tags/apuntes/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/clave/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/tags/docker/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/tags/dockerhub/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/tags/documentacion/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/ejercicio/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/ejercicios/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/series/hugo-101/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/introduccion/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/imagenes/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -115,6 +105,71 @@
                 hreflang="en"
                 href="https://juanan219.github.io/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/php/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/posts/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/series/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://juanan219.github.io/fr/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://juanan219.github.io/series/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://juanan219.github.io/fr/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://juanan219.github.io/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/web/</loc>
+    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/aplicaciones/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/clave/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/ejercicio/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/introduccion/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -133,52 +188,12 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/posts/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://juanan219.github.io/tags/secreto/</loc>
     <lastmod>2021-02-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/series/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr"
-                href="https://juanan219.github.io/fr/series/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://juanan219.github.io/series/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr"
-                href="https://juanan219.github.io/fr/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://juanan219.github.io/tags/"
-                />
-  </url>
-  
-  <url>
     <loc>https://juanan219.github.io/tags/vpn/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/web/</loc>
     <lastmod>2021-02-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -334,21 +349,6 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/bienvenida/</loc>
-    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/ejercicios/</loc>
-    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/imagenes/</loc>
-    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/php/</loc>
     <lastmod>2021-02-09T00:00:00+00:00</lastmod>
   </url>
   

@@ -6,8 +6,202 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Mon, 22 Feb 2021 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Uso de las Imagenes Docker</title>
+            <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
+            <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</guid>
+            <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
+El nombre de una imágen suele estar formado por tres partes:
+usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
+            <content type="html"><![CDATA[<h2 id="registros-de-imágenes-dockerhub">Registros de Imágenes: DockerHub</h2>
+<p><img src="/Docker/Documentacion/3.png" alt="Captura 3"></p>
+<p>Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.</p>
+<p>El nombre de una imágen suele estar formado por tres partes:</p>
+<pre><code>usuario/nombre:etiqueta
+</code></pre><ul>
+<li>
+<p><strong><code>usuario</code>:</strong> El nombre del usuario que ha generado la imagen. Si la subimos a DockerHub, este nombre debe de ser el mismo con el que nos hemos dado de alta en la plataforma. Las <strong>imágenes oficiales</strong> en DockerHub no tienen nombre de usuario, sino que se llaman igual que la imagen. Por ejemplo, la imagen de debian se llamaría <code>debian/debian</code></p>
+</li>
+<li>
+<p><strong><code>nombre</code>:</strong> Nombre significativo de la imagen.</p>
+</li>
+<li>
+<p><strong><code>etiqueta</code>:</strong> Nos permite versionar las imágenes. De esta manera podemos controlar los cambios que vamos haciendo en ellas. Si al descargar una imagen no le ponemos etiqueta, por defecto se descargará la versión <code>latest</code>, por lo que la mayoría de las imágenes tienen una versión con ese nombre.</p>
+</li>
+</ul>
+<h2 id="gestión-de-imágenes">Gestión de imágenes</h2>
+<p>Para crear un contenedor, es necesario crearlo con una imagen que tengamos descargada en nuestro registro local. Por lo tanto al ejecutar <code>docker run</code> se comprueba si tenemos la versión indicada de la imagen, si no es así, se procede a descargarla.</p>
+<p>Las principales instrucciones para trabajar con imágenes son:</p>
+<ul>
+<li>
+<p><strong><code>docker images</code>:</strong> Muestra las imágenes que tenemos en nuestro registro local.</p>
+</li>
+<li>
+<p><strong><code>docker pull</code>:</strong> Nos permite descargar la última versión de la imagen indicada.</p>
+</li>
+<li>
+<p><strong><code>docker rmi</code>:</strong> Nos permite eliminar imágenes (No podemos eliminar una imagen si tenemos un contenedor usándola).</p>
+</li>
+<li>
+<p><strong><code>docker search</code>:</strong> Busca imágenes en DockerHub.</p>
+</li>
+<li>
+<p><strong><code>docker inspect</code>:</strong> No da información sobre la imagen indicada:</p>
+<ul>
+<li>
+<p><code>ID</code> y <code>checksum</code> de la imagen.</p>
+</li>
+<li>
+<p>Los puertos abiertos</p>
+</li>
+<li>
+<p>La arquitectura y el sistema operativo de la imagen</p>
+</li>
+<li>
+<p>El tamaño de la imagen</p>
+</li>
+<li>
+<p>Los volúmenes</p>
+</li>
+<li>
+<p>El ENTRYPOINT (es lo que ejecuta el comando <code>docker run</code>)</p>
+</li>
+<li>
+<p>Las capas</p>
+</li>
+<li>
+<p>Etc&hellip;</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="cómo-se-organizan-las-imágenes">¿Cómo se organizan las imágenes?</h2>
+<p>Las imágenes están hechas de <strong>capas ordenadas</strong>. Las capas son un conjunto de cambios en el sistema de archivos. Cuando tomas todas las capas y las apilas obtienes una nueva imagen que tiene todos los cambios acumulados.</p>
+<p>Si tienes varias imágenes que tienen capas en común, estas capas se almacenarán sólo una vez.</p>
+<p><img src="/Docker/Documentacion/4.png" alt="Captura 4"></p>
+<p>Cuando se crea un nuevo contenedor, todas las capas de la imagen son de sólo lectura, pero se le agrega encima una pequeña capa de lectura-escritura, con lo cual, todos los cambios realizados en dicho contenedor son almacenados en esa capa que se le ha añadido.</p>
+<p>El propio contenedor no puede modificar la imágen (ya que es de sólo lectura), por lo que creará una copia del fichero en su capa superior y desde ahí en adelante, cualquiera que trate de acceder al archivo, obtendrá la capa superior.</p>
+<p><img src="/Docker/Documentacion/5.png" alt="Captura 5"></p>
+<p>Cuando creamos un contenedor, éste ocupa muy poco espacio en el disco, esto se debe a que las capas de la imagen desde la que se ha creado dicho contenedor, se comparten entre otros contenedores.</p>
+<p>Este es el tamaño de la imagen <code>debian</code> que hemos usado en la documentación anterior:</p>
+<pre><code>juanan@juananpc:~$ docker images
+REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
+[...]
+debian                        latest              5890f8ba95f6        2 weeks ago         114MB
+[...]
+</code></pre><p>Vamos a crear un contenedor interactivo y después visualizamos los contenedores con la opción <code>-s</code> (size o tamaño en español) para ver cuánto ocupan</p>
+<pre><code>juanan@juananpc:~$ docker run -it --name contenedor_debian debian /bin/bash
+root@3f284a03c3d9:/# exit
+
+juanan@juananpc:~$ docker ps -a -s
+CONTAINER ID      IMAGE            COMMAND           CREATED           STATUS                     PORTS        NAMES               SIZE
+3f284a03c3d9      debian           &quot;/bin/bash&quot;       8 seconds ago     Exited (0) 5 seconds ago                contenedor_debian   0B (virtual 114MB)
+</code></pre><p>Podemos ver que el tamaño del contenedor es de <code>0B</code> y el tamaño virtual es de <code>114MB</code>, que es el tamaño de la imagen <code>debian</code>, pero si volvemos a arrancar el contenedor, nos conectamos y creamos un fichero, podemos ver que el tamaño cambia</p>
+<pre><code>juanan@juananpc:~$ docker start contenedor_debian
+contenedor_debian
+
+juanan@juananpc:~$ docker attach contenedor_debian
+root@3f284a03c3d9:/# echo 'Hola, esto es un fichero de prueba' &gt; fichero.txt
+root@3f284a03c3d9:/# exit
+
+juanan@juananpc:~$ docker ps -a -s
+CONTAINER ID      IMAGE             COMMAND           CREATED           STATUS                     PORTS          NAMES               SIZE
+3f284a03c3d9      debian            &quot;/bin/bash&quot;       4 minutes ago     Exited (0) 6 seconds ago                  contenedor_debian   91B (virtual 114MB)
+</code></pre><p>Por último, si solicitamos información sobre una imagen podemos ver información sobre las capas:</p>
+<pre><code>docker inspect debian
+[...]
+&quot;RootFS&quot;: {
+            &quot;Type&quot;: &quot;layers&quot;,
+            &quot;Layers&quot;: [
+                &quot;sha256:7f03bfe4d6dc12155877f0d2e8b3429090bad1af7b005f75b7b3a874f386fd5a&quot;
+            ]
+        },
+[...]
+</code></pre><h2 id="creación-de-instancias-desde-imágenes">Creación de instancias desde imágenes</h2>
+<p>Hay dos tipos de imágenes en los repositorios y se dividen según la utilidad que nos ofrecen:</p>
+<ul>
+<li>
+<p>Imágenes para ejecutar contenedores de diferentes sistemas operativos (Ubuntu, CentOS, Debian, etc&hellip;)</p>
+</li>
+<li>
+<p>Imágenes para ejecutar servicios asociados (Apache, MySQL, Tomcat, etc&hellip;)</p>
+</li>
+</ul>
+<p>Todas las imágenes tienen un proceso que se ejecuta por defecto, pero nosotros, al crear un contenedor, podemos indicarle el proceso que queremos que realice al crear dicho contenedor.</p>
+<p>Por ejemplo, en la imagen <code>ubuntu</code>, el proceso por defecto es <code>bash</code>, por lo que podemos ejecutar:</p>
+<pre><code>docker run -it --name contenedor_ubuntu ubuntu
+</code></pre><p>Pero podemos indicar el comando que queremos ejecutar en la creación del contenedor</p>
+<pre><code>docker run -it --name contenedor_ubuntu ubuntu /bin/echo 'Hola mundo'
+</code></pre><p>Otro ejemplo: la imagen <code>httpd:2.4</code> ejecuta un servidor web por defecto, por lo tanto podemos crear el contenedor de la siguiente forma:</p>
+<pre><code>docker run -d --name contenedor_apache -p 8080:80 httpd:2.4
+</code></pre><h1 id="ejercicios">Ejercicios</h1>
+<ol>
+<li><strong>Descarga las siguientes imágenes: <code>ubuntu:18.04</code>, <code>httpd</code>, <code>tomcat:9.0.39-jdk11</code>, <code>jenkins/jenkins:lts</code>, <code>php:7.4-apache</code></strong></li>
+</ol>
+<ul>
+<li><code>ubuntu:18.04</code>:</li>
+</ul>
+<pre><code>docker pull ubuntu:18.04
+</code></pre><ul>
+<li><code>httpd</code>:</li>
+</ul>
+<pre><code>docker pull httpd
+</code></pre><ul>
+<li><code>tomcat:9.0.39-jdk11</code>:</li>
+</ul>
+<pre><code>docker pull tomcat:9.0.39-jdk11
+</code></pre><ul>
+<li><code>jenkins/jenkins:lts</code></li>
+</ul>
+<pre><code>docker pull jenkins/jenkins
+</code></pre><ul>
+<li><code>php:7.4-apache</code>:</li>
+</ul>
+<pre><code>docker pull php:7.4-apache
+</code></pre><ol start="2">
+<li><strong>Muestra las imágenes que tienes descargadas</strong></li>
+</ol>
+<pre><code>docker images
+</code></pre><ol start="3">
+<li><strong>Crea un contenedor demonio con la imagen <code>php:7.4-apache</code></strong></li>
+</ol>
+<pre><code>docker run --name php_apache -p 8080:80 -d php:7.4-apache
+371dba835efa5e4739efbf9d2bdc59f66c79d636dbc20f80e9388b83724adb7e
+
+docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+371dba835efa        php:7.4-apache      &quot;docker-php-entrypoi…&quot;   8 seconds ago       Up 7 seconds        0.0.0.0:8080-&gt;80/tcp   php_apache
+</code></pre><ol start="4">
+<li><strong>Comprueba el tamaño del contenedor en el disco duro</strong></li>
+</ol>
+<pre><code>docker ps -s
+CONTAINER ID     IMAGE             COMMAND                  CREATED              STATUS              PORTS                  NAMES          SIZE
+371dba835efa     php:7.4-apache    &quot;docker-php-entrypoi…&quot;   About a minute ago   Up About a minute   0.0.0.0:8080-&gt;80/tcp   php_apache     2B (virtual 414MB)
+</code></pre><p>El tamaño del contenedor es de <code>2B</code></p>
+<ol start="5">
+<li><strong>Con la opción <code>docker cp</code> podemos copiar ficheros desde o hacia un contenedor. Copia el fichero <code>info.php</code> al directorio <code>/var/www/html</code> del contenedor</strong></li>
+</ol>
+<pre><code>echo '&lt;?php phpinfo(); ?&gt;' &gt; info.php
+
+docker cp info.php php_apache:/var/www/html
+</code></pre><p>Ahora el contenedor ocupa <code>22B</code></p>
+<ol start="6">
+<li><strong>Vuelve a comprobar el espacio del contenedor</strong></li>
+</ol>
+<pre><code>docker ps -s
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES          SIZE
+371dba835efa        php:7.4-apache      &quot;docker-php-entrypoi…&quot;   5 minutes ago       Up 5 minutes        0.0.0.0:8080-&gt;80/tcp   php_apache     22B (virtual 414MB)
+</code></pre><ol start="7">
+<li><strong>Accede al fichero <code>info.php</code> desde un navegador</strong></li>
+</ol>
+<p><img src="/Docker/Documentacion/6.png" alt="Captura 6"></p>
+]]></content>
+        </item>
         
         <item>
             <title>Introduccion a Docker</title>
@@ -1592,200 +1786,6 @@ sudo systemctl restart postfix
             <guid>https://juanan219.github.io/posts/2021/02/bienvenidos-a-juananblog/</guid>
             <description>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</description>
             <content type="html"><![CDATA[<p>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>Uso de las Imagenes Docker</title>
-            <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
-            <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
-            
-            <guid>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</guid>
-            <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
-El nombre de una imágen suele estar formado por tres partes:
-usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
-            <content type="html"><![CDATA[<h2 id="registros-de-imágenes-dockerhub">Registros de Imágenes: DockerHub</h2>
-<p><img src="/Docker/Documentacion/3.png" alt="Captura 3"></p>
-<p>Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.</p>
-<p>El nombre de una imágen suele estar formado por tres partes:</p>
-<pre><code>usuario/nombre:etiqueta
-</code></pre><ul>
-<li>
-<p><strong><code>usuario</code>:</strong> El nombre del usuario que ha generado la imagen. Si la subimos a DockerHub, este nombre debe de ser el mismo con el que nos hemos dado de alta en la plataforma. Las <strong>imágenes oficiales</strong> en DockerHub no tienen nombre de usuario, sino que se llaman igual que la imagen. Por ejemplo, la imagen de debian se llamaría <code>debian/debian</code></p>
-</li>
-<li>
-<p><strong><code>nombre</code>:</strong> Nombre significativo de la imagen.</p>
-</li>
-<li>
-<p><strong><code>etiqueta</code>:</strong> Nos permite versionar las imágenes. De esta manera podemos controlar los cambios que vamos haciendo en ellas. Si al descargar una imagen no le ponemos etiqueta, por defecto se descargará la versión <code>latest</code>, por lo que la mayoría de las imágenes tienen una versión con ese nombre.</p>
-</li>
-</ul>
-<h2 id="gestión-de-imágenes">Gestión de imágenes</h2>
-<p>Para crear un contenedor, es necesario crearlo con una imagen que tengamos descargada en nuestro registro local. Por lo tanto al ejecutar <code>docker run</code> se comprueba si tenemos la versión indicada de la imagen, si no es así, se procede a descargarla.</p>
-<p>Las principales instrucciones para trabajar con imágenes son:</p>
-<ul>
-<li>
-<p><strong><code>docker images</code>:</strong> Muestra las imágenes que tenemos en nuestro registro local.</p>
-</li>
-<li>
-<p><strong><code>docker pull</code>:</strong> Nos permite descargar la última versión de la imagen indicada.</p>
-</li>
-<li>
-<p><strong><code>docker rmi</code>:</strong> Nos permite eliminar imágenes (No podemos eliminar una imagen si tenemos un contenedor usándola).</p>
-</li>
-<li>
-<p><strong><code>docker search</code>:</strong> Busca imágenes en DockerHub.</p>
-</li>
-<li>
-<p><strong><code>docker inspect</code>:</strong> No da información sobre la imagen indicada:</p>
-<ul>
-<li>
-<p><code>ID</code> y <code>checksum</code> de la imagen.</p>
-</li>
-<li>
-<p>Los puertos abiertos</p>
-</li>
-<li>
-<p>La arquitectura y el sistema operativo de la imagen</p>
-</li>
-<li>
-<p>El tamaño de la imagen</p>
-</li>
-<li>
-<p>Los volúmenes</p>
-</li>
-<li>
-<p>El ENTRYPOINT (es lo que ejecuta el comando <code>docker run</code>)</p>
-</li>
-<li>
-<p>Las capas</p>
-</li>
-<li>
-<p>Etc&hellip;</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="cómo-se-organizan-las-imágenes">¿Cómo se organizan las imágenes?</h2>
-<p>Las imágenes están hechas de <strong>capas ordenadas</strong>. Las capas son un conjunto de cambios en el sistema de archivos. Cuando tomas todas las capas y las apilas obtienes una nueva imagen que tiene todos los cambios acumulados.</p>
-<p>Si tienes varias imágenes que tienen capas en común, estas capas se almacenarán sólo una vez.</p>
-<p><img src="/Docker/Documentacion/4.png" alt="Captura 4"></p>
-<p>Cuando se crea un nuevo contenedor, todas las capas de la imagen son de sólo lectura, pero se le agrega encima una pequeña capa de lectura-escritura, con lo cual, todos los cambios realizados en dicho contenedor son almacenados en esa capa que se le ha añadido.</p>
-<p>El propio contenedor no puede modificar la imágen (ya que es de sólo lectura), por lo que creará una copia del fichero en su capa superior y desde ahí en adelante, cualquiera que trate de acceder al archivo, obtendrá la capa superior.</p>
-<p><img src="/Docker/Documentacion/5.png" alt="Captura 5"></p>
-<p>Cuando creamos un contenedor, éste ocupa muy poco espacio en el disco, esto se debe a que las capas de la imagen desde la que se ha creado dicho contenedor, se comparten entre otros contenedores.</p>
-<p>Este es el tamaño de la imagen <code>debian</code> que hemos usado en la documentación anterior:</p>
-<pre><code>juanan@juananpc:~$ docker images
-REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
-[...]
-debian                        latest              5890f8ba95f6        2 weeks ago         114MB
-[...]
-</code></pre><p>Vamos a crear un contenedor interactivo y después visualizamos los contenedores con la opción <code>-s</code> (size o tamaño en español) para ver cuánto ocupan</p>
-<pre><code>juanan@juananpc:~$ docker run -it --name contenedor_debian debian /bin/bash
-root@3f284a03c3d9:/# exit
-
-juanan@juananpc:~$ docker ps -a -s
-CONTAINER ID      IMAGE            COMMAND           CREATED           STATUS                     PORTS        NAMES               SIZE
-3f284a03c3d9      debian           &quot;/bin/bash&quot;       8 seconds ago     Exited (0) 5 seconds ago                contenedor_debian   0B (virtual 114MB)
-</code></pre><p>Podemos ver que el tamaño del contenedor es de <code>0B</code> y el tamaño virtual es de <code>114MB</code>, que es el tamaño de la imagen <code>debian</code>, pero si volvemos a arrancar el contenedor, nos conectamos y creamos un fichero, podemos ver que el tamaño cambia</p>
-<pre><code>juanan@juananpc:~$ docker start contenedor_debian
-contenedor_debian
-
-juanan@juananpc:~$ docker attach contenedor_debian
-root@3f284a03c3d9:/# echo 'Hola, esto es un fichero de prueba' &gt; fichero.txt
-root@3f284a03c3d9:/# exit
-
-juanan@juananpc:~$ docker ps -a -s
-CONTAINER ID      IMAGE             COMMAND           CREATED           STATUS                     PORTS          NAMES               SIZE
-3f284a03c3d9      debian            &quot;/bin/bash&quot;       4 minutes ago     Exited (0) 6 seconds ago                  contenedor_debian   91B (virtual 114MB)
-</code></pre><p>Por último, si solicitamos información sobre una imagen podemos ver información sobre las capas:</p>
-<pre><code>docker inspect debian
-[...]
-&quot;RootFS&quot;: {
-            &quot;Type&quot;: &quot;layers&quot;,
-            &quot;Layers&quot;: [
-                &quot;sha256:7f03bfe4d6dc12155877f0d2e8b3429090bad1af7b005f75b7b3a874f386fd5a&quot;
-            ]
-        },
-[...]
-</code></pre><h2 id="creación-de-instancias-desde-imágenes">Creación de instancias desde imágenes</h2>
-<p>Hay dos tipos de imágenes en los repositorios y se dividen según la utilidad que nos ofrecen:</p>
-<ul>
-<li>
-<p>Imágenes para ejecutar contenedores de diferentes sistemas operativos (Ubuntu, CentOS, Debian, etc&hellip;)</p>
-</li>
-<li>
-<p>Imágenes para ejecutar servicios asociados (Apache, MySQL, Tomcat, etc&hellip;)</p>
-</li>
-</ul>
-<p>Todas las imágenes tienen un proceso que se ejecuta por defecto, pero nosotros, al crear un contenedor, podemos indicarle el proceso que queremos que realice al crear dicho contenedor.</p>
-<p>Por ejemplo, en la imagen <code>ubuntu</code>, el proceso por defecto es <code>bash</code>, por lo que podemos ejecutar:</p>
-<pre><code>docker run -it --name contenedor_ubuntu ubuntu
-</code></pre><p>Pero podemos indicar el comando que queremos ejecutar en la creación del contenedor</p>
-<pre><code>docker run -it --name contenedor_ubuntu ubuntu /bin/echo 'Hola mundo'
-</code></pre><p>Otro ejemplo: la imagen <code>httpd:2.4</code> ejecuta un servidor web por defecto, por lo tanto podemos crear el contenedor de la siguiente forma:</p>
-<pre><code>docker run -d --name contenedor_apache -p 8080:80 httpd:2.4
-</code></pre><h1 id="ejercicios">Ejercicios</h1>
-<ol>
-<li><strong>Descarga las siguientes imágenes: <code>ubuntu:18.04</code>, <code>httpd</code>, <code>tomcat:9.0.39-jdk11</code>, <code>jenkins/jenkins:lts</code>, <code>php:7.4-apache</code></strong></li>
-</ol>
-<ul>
-<li><code>ubuntu:18.04</code>:</li>
-</ul>
-<pre><code>docker pull ubuntu:18.04
-</code></pre><ul>
-<li><code>httpd</code>:</li>
-</ul>
-<pre><code>docker pull httpd
-</code></pre><ul>
-<li><code>tomcat:9.0.39-jdk11</code>:</li>
-</ul>
-<pre><code>docker pull tomcat:9.0.39-jdk11
-</code></pre><ul>
-<li><code>jenkins/jenkins:lts</code></li>
-</ul>
-<pre><code>docker pull jenkins/jenkins
-</code></pre><ul>
-<li><code>php:7.4-apache</code>:</li>
-</ul>
-<pre><code>docker pull php:7.4-apache
-</code></pre><ol start="2">
-<li><strong>Muestra las imágenes que tienes descargadas</strong></li>
-</ol>
-<pre><code>docker images
-</code></pre><ol start="3">
-<li><strong>Crea un contenedor demonio con la imagen <code>php:7.4-apache</code></strong></li>
-</ol>
-<pre><code>docker run --name php_apache -p 8080:80 -d php:7.4-apache
-371dba835efa5e4739efbf9d2bdc59f66c79d636dbc20f80e9388b83724adb7e
-
-docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
-371dba835efa        php:7.4-apache      &quot;docker-php-entrypoi…&quot;   8 seconds ago       Up 7 seconds        0.0.0.0:8080-&gt;80/tcp   php_apache
-</code></pre><ol start="4">
-<li><strong>Comprueba el tamaño del contenedor en el disco duro</strong></li>
-</ol>
-<pre><code>docker ps -s
-CONTAINER ID     IMAGE             COMMAND                  CREATED              STATUS              PORTS                  NAMES          SIZE
-371dba835efa     php:7.4-apache    &quot;docker-php-entrypoi…&quot;   About a minute ago   Up About a minute   0.0.0.0:8080-&gt;80/tcp   php_apache     2B (virtual 414MB)
-</code></pre><p>El tamaño del contenedor es de <code>2B</code></p>
-<ol start="5">
-<li><strong>Con la opción <code>docker cp</code> podemos copiar ficheros desde o hacia un contenedor. Copia el fichero <code>info.php</code> al directorio <code>/var/www/html</code> del contenedor</strong></li>
-</ol>
-<pre><code>echo '&lt;?php phpinfo(); ?&gt;' &gt; info.php
-
-docker cp info.php php_apache:/var/www/html
-</code></pre><p>Ahora el contenedor ocupa <code>22B</code></p>
-<ol start="6">
-<li><strong>Vuelve a comprobar el espacio del contenedor</strong></li>
-</ol>
-<pre><code>docker ps -s
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES          SIZE
-371dba835efa        php:7.4-apache      &quot;docker-php-entrypoi…&quot;   5 minutes ago       Up 5 minutes        0.0.0.0:8080-&gt;80/tcp   php_apache     22B (virtual 414MB)
-</code></pre><ol start="7">
-<li><strong>Accede al fichero <code>info.php</code> desde un navegador</strong></li>
-</ol>
-<p><img src="/Docker/Documentacion/6.png" alt="Captura 6"></p>
 ]]></content>
         </item>
         

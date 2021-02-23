@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 22 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/dockerhub/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/dockerhub/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Uso de las Imagenes Docker</title>
+      <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</guid>
+      <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
+El nombre de una imágen suele estar formado por tres partes:
+usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
+    </item>
+    
     <item>
       <title>Introduccion a Docker</title>
       <link>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</link>
@@ -18,17 +29,6 @@
 Docker está formado por varios componentes:
   Docker Engine: Es un demonio de cualquier distribución Linux, el cual tiene una API para gestionar las imágenes y contenedores. Sirve para crear imágenes, subirlas y bajarlas de un registro docker, ejecutar y gestionar contenedores.
   Docker Client: Este es el CLI (Command Line Interface) que nos permite controlar Docker Engine.</description>
-    </item>
-    
-    <item>
-      <title>Uso de las Imagenes Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
-      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</guid>
-      <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
-El nombre de una imágen suele estar formado por tres partes:
-usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
     </item>
     
   </channel>

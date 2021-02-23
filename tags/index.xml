@@ -7,13 +7,85 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 22 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Apache</title>
       <link>https://juanan219.github.io/tags/apache/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/apache/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Apuntes</title>
+      <link>https://juanan219.github.io/tags/apuntes/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/apuntes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://juanan219.github.io/tags/docker/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DockerHub</title>
+      <link>https://juanan219.github.io/tags/dockerhub/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/dockerhub/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Documentacion</title>
+      <link>https://juanan219.github.io/tags/documentacion/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/documentacion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ejercicios</title>
+      <link>https://juanan219.github.io/tags/ejercicios/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/ejercicios/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Imagenes</title>
+      <link>https://juanan219.github.io/tags/imagenes/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/imagenes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PHP</title>
+      <link>https://juanan219.github.io/tags/php/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web</title>
+      <link>https://juanan219.github.io/tags/web/</link>
+      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/web/</guid>
       <description></description>
     </item>
     
@@ -23,78 +95,6 @@
       <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/aplicaciones/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Apuntes</title>
-      <link>https://juanan219.github.io/tags/apuntes/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/apuntes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Clave</title>
-      <link>https://juanan219.github.io/tags/clave/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/clave/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Docker</title>
-      <link>https://juanan219.github.io/tags/docker/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>DockerHub</title>
-      <link>https://juanan219.github.io/tags/dockerhub/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/dockerhub/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Documentacion</title>
-      <link>https://juanan219.github.io/tags/documentacion/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/documentacion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ejercicio</title>
-      <link>https://juanan219.github.io/tags/ejercicio/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/ejercicio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Introduccion</title>
-      <link>https://juanan219.github.io/tags/introduccion/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/introduccion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Nextcloud</title>
-      <link>https://juanan219.github.io/tags/nextcloud/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/nextcloud/</guid>
       <description></description>
     </item>
     
