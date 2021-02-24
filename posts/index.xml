@@ -6,8 +6,328 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Creación de Imagenes Docker</title>
+            <link>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</link>
+            <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</guid>
+            <description>Hasta ahora hemos usado imágenes de Docker que han hecho otras personas, pero para crear un contenedor que sirva nuestra aplicación, deberemos crear una imagen personalidada. A esto es a lo que llamamos dockerizar una aplicación.
+Creación de una imagen a partir de un contenedor La primera forma de crear nuestras propias imágenes personalizadas es crearlas a partir de un contenedor que ya está en ejecución. Para ello tenemos varias posibilidades:</description>
+            <content type="html"><![CDATA[<p>Hasta ahora hemos usado imágenes de Docker que han hecho otras personas, pero para crear un contenedor que sirva nuestra aplicación, deberemos crear una imagen personalidada. A esto es a lo que llamamos <em>dockerizar</em> una aplicación.</p>
+<p><img src="/Docker/Documentacion/19.png" alt="Captura 19"></p>
+<h2 id="creación-de-una-imagen-a-partir-de-un-contenedor">Creación de una imagen a partir de un contenedor</h2>
+<p>La primera forma de crear nuestras propias imágenes personalizadas es <strong>crearlas a partir de un contenedor</strong> que ya está en ejecución. Para ello tenemos varias posibilidades:</p>
+<ol>
+<li>
+<p>Usar la secuencia de órdenes <code>docker commit</code> / <code>docker save</code> / <code>docker load</code>. En este caso, la distribución se producirá a partir de un fichero.</p>
+</li>
+<li>
+<p>Utilizar la pareja de órdenes <code>docker commit</code> / <code>docker push</code>. En este caso, la distribución se producirá a partir de <strong>DockerHub</strong></p>
+</li>
+<li>
+<p>Utilizar la pareja de órdenes <code>docker export</code> / <code>docker import</code>. En este caso, la distribución se producirá a partir de un fichero.</p>
+</li>
+</ol>
+<p>Nosotros veremos las dos primeras formas de crear una imagen a partir de un contenedor, ya que la tercera forma se limita a copiar el sistema de archivos sin tener en cuenta la información de las imágenes de las que deriva el contenedor y, además, si tenemos algún volumen montado, esta opción lo obviará.</p>
+<h3 id="distribución-a-partir-de-un-fichero">Distribución a partir de un fichero</h3>
+<ol>
+<li>Arranca un contenedor a partir de una imagen base</li>
+</ol>
+<pre><code>docker run -it --name docker_debian debian bash
+</code></pre><ol start="2">
+<li>Realiza modificaciones en el contenedor</li>
+</ol>
+<pre><code>root@b3bcf59aefc2:/# apt-get update &amp;&amp; apt-get install -y apache2
+</code></pre><ol start="3">
+<li>Crear una nueva imagen partiendo de ese contenedor usando <code>docker commit</code>. Con esta instrucción se creará una nueva imagen con las capas de la imagen base mas la capa propia del contenedor. Al creala no voy a poner etiqueta, por lo que será latest.</li>
+</ol>
+<pre><code>docker commit docker_debian juanan219/debian_prueba
+sha256:fc7791340642d790bf921715c445c20b5ddfc6863d7e47ba98d7a1c73d462d1c
+
+docker images
+REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
+juanan219/debian_prueba       latest              fc7791340642        14 seconds ago      243MB
+[...]
+</code></pre><ol start="4">
+<li>Guardar esa imagen en un archivo <code>.tar</code> usando el comando <code>docker save</code>:</li>
+</ol>
+<pre><code>docker save juanan219/debian_prueba &gt; debian_prueba.tar
+
+ls
+debian_prueba.tar
+</code></pre><ol start="5">
+<li>
+<p>Distribuir el archivo <code>.tar</code></p>
+</li>
+<li>
+<p>Si me llega un fichero <code>.tar</code> puedo añadir la imagen a mi repositorio local</p>
+</li>
+</ol>
+<pre><code>docker rmi juanan219/debian_prueba
+Untagged: juanan219/debian_prueba:latest
+Deleted: sha256:fc7791340642d790bf921715c445c20b5ddfc6863d7e47ba98d7a1c73d462d1c
+Deleted: sha256:ffc144c3004d5f83465eb03998204ca52530598d6388c65367484e33523991fd
+
+docker load -i debian_prueba.tar 
+b124061f7913: Loading layer [==================================================&gt;]  132.4MB/132.4MB
+Loaded image: juanan219/debian_prueba:latest
+</code></pre><h3 id="distribución-usando-dockerhub">Distribución usando DockerHub</h3>
+<ol>
+<li>Arranca un contenedor a partir de una imagen base</li>
+</ol>
+<pre><code>docker run -it --name debian_prueba debian bash
+</code></pre><ol start="2">
+<li>Realiza modificaciones en el contenedor</li>
+</ol>
+<pre><code>root@b3bcf59aefc2:/# apt-get update &amp;&amp; apt-get install -y apache2
+</code></pre><ol start="3">
+<li>Crear una nueva imagen partiendo de ese contenedor usando <code>docker commit</code>. Con esta instrucción se creará una nueva imagen con las capas de la imagen base mas la capa propia del contenedor. Al creala no voy a poner etiqueta, por lo que será latest.</li>
+</ol>
+<pre><code>docker commit debian_prueba juanan219/debian_prueba
+sha256:fc7791340642d790bf921715c445c20b5ddfc6863d7e47ba98d7a1c73d462d1c
+
+docker images
+REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
+juanan219/debian_prueba       latest              fc7791340642        28 seconds ago      243MB
+[...]
+</code></pre><ol start="4">
+<li>Autentificarme en Docker Hub usando el comando <code>docker login</code>.</li>
+</ol>
+<pre><code>docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: juanan219
+Password: 
+Login Succeeded
+</code></pre><ol start="5">
+<li>Distribuir ese fichero subiendo la nueva imagen a DockerHub mediante <code>docker push</code>.</li>
+</ol>
+<pre><code>docker push juanan219/debian_prueba
+The push refers to repository [docker.io/juanan219/debian_prueba]
+fd7d86e14e9c: Pushed 
+7f03bfe4d6dc: Mounted from jenkins/jenkins 
+latest: digest: sha256:29ca12fb2ecadeff4625d4cbea5a3aba92782f8b0702329e8b90134f3bde832d size: 741
+</code></pre><p>Después de realizar esto, cualquier puede descargarse nuestra imagen tanto utilizándola como usando el comando <code>docker pull</code>.</p>
+<h2 id="creación-de-imágenes-con-fichero-dockerfile">Creación de imágenes con fichero dockerfile</h2>
+<p>Crear imágenes a partir de contenedores ya creados tiene dos inconvenientes.</p>
+<ul>
+<li>
+<p><strong>No se puede reproducir la imagen</strong>, es decir, que si la perdemos tenemos que recordar toda la secuencia de órdenes que habíamos realizado desde que arrancamos el contenedor hasta que teníamos una versión definitiva e hicimos el <code>docker commit</code></p>
+</li>
+<li>
+<p><strong>No podemos cambiar la imagen de base</strong>, es decir, que si ha habido alguna actualización, problemas de seguridad o algo por el estilo con la imagen base, tenemos que descargar la nueva versión, volver a crear un nuevo contenedor basado en ella y volver a ejecutar de nuevo toda la secuencia de órdenes.</p>
+</li>
+</ul>
+<p>Por estos dos problemas, el método preferido para crear imágenes es el uso del llamado <code>dockerfile</code> y el comando <code>docker build</code>. Estos son los pasos fundamentales:</p>
+<ol>
+<li>
+<p>Crear el fichero <code>dockerfile</code>.</p>
+</li>
+<li>
+<p>Construir la imagen usando la definición guardada en el fichero <code>dockerfile</code> y el comando <code>docker build</code>.</p>
+</li>
+<li>
+<p>Autentificarme en DockerHub usando el comando <code>docker login</code>.</p>
+</li>
+<li>
+<p>Distribuir ese fichero subiendo la nueva imagen a DockerHub mediante el comando <code>docker push</code>.</p>
+</li>
+</ol>
+<p>Con este método podemos tener ciertas ventajas:</p>
+<ul>
+<li>
+<p><strong>Reproducir la imagen fácilmente</strong> ya que en el fichero <code>dockerfile</code> tenemos todas las instrucciones necesarias para la construcción de la imagen. Si además tenemos el <code>dockerfile</code> en un repositorio con control de versiones como <code>git</code>, podemos además asociar los cambios en el <code>dockerfile</code> a los cambios de versiones de las imágenes creadas.</p>
+</li>
+<li>
+<p>Si queremos cambiar la imagen de base, esto es muy sencillo con el fichero <code>dockerfile</code>, ya que simplemente deberemos modificar la primera línea del fichero, como explicaremos posteriormente.</p>
+</li>
+</ul>
+<h3 id="el-fichero-dockerfile">El fichero Dockerfile</h3>
+<p>El fichero <code>dockerfile</code> es un conjunto de instrucciones que se irán ejecutando secuencialmente para construir una nueva imagen Docker. Cada una de las instrucciones que ejecutemos, creará una nueva capa en la imagen que estamos creando.</p>
+<p>Hay varias instrucciones que podemos usar en la construcción de un <code>dockerfile</code>, pero la estructura fundamental de este fichero es:</p>
+<ul>
+<li>
+<p><strong><code>FROM</code>:</strong> Aquí indicamos la imagen base</p>
+</li>
+<li>
+<p><strong><code>MANTEINER, LABEL</code>:</strong> Metadatos</p>
+</li>
+<li>
+<p><strong><code>RUN, COPY, ADD, WORKDIR</code>:</strong> Instrucciones de construcción</p>
+</li>
+<li>
+<p><strong><code>USER, EXPOSE, ENV</code>:</strong> Configuración (Variables de entorno, usuarios, puertos)</p>
+</li>
+<li>
+<p><strong><code>CMD, ENTRYPOINT</code>:</strong> Instrucciones de arranque</p>
+</li>
+</ul>
+<p>Vamos a ver las principales instrucciones que podemos usar:</p>
+<ul>
+<li><strong><code>FROM</code>:</strong> Sirve para especificar la imagen sobre la que voy a construir la mía.</li>
+</ul>
+<pre><code>FROM: php:7.4-apache
+</code></pre><ul>
+<li><strong><code>LABEL</code>:</strong> Sirve para añadir metadatos a la imagen clave.</li>
+</ul>
+<pre><code>LABEL company=iesgn
+</code></pre><ul>
+<li><strong><code>COPY</code>:</strong> Sirve para copiar fichero desde mi equipo hacia la imagen. Esos ficheros deben de estar en la misma carpeta o repositorio. La sintáxis de <code>COPY</code> es:</li>
+</ul>
+<pre><code>COPY [--chown=&lt;usuario&gt;:&lt;grupo&gt;] src dest
+</code></pre><pre><code>* Ejemplo de `COPY`:
+</code></pre>
+<pre><code>COPY --chown=www-data:www-data wordpress/wp /var/www/html
+</code></pre><ul>
+<li>
+<p><strong><code>ADD</code>:</strong> Es similar a <code>COPY</code> pero tiene funcionalidades adicionales, como especificar URLs y tratar archivos comprimidos.</p>
+</li>
+<li>
+<p><strong><code>RUN</code>:</strong> Ejecuta una orden creando una nueva capa. La sintáxis de <code>RUN</code> es:</p>
+</li>
+</ul>
+<pre><code>RUN orden
+
+RUN [&quot;orden&quot;,&quot;parámetro 1&quot;, &quot;parámetro 2&quot;]
+</code></pre><pre><code>* Ejemplo de `RUN`:
+</code></pre>
+<pre><code>RUN apt-get update &amp;&amp; apt-get install -y git
+</code></pre><blockquote>
+<p>En este caso, es muy importante ejecutar el comando de instalación de <code>git</code> con la opción <code>-y</code>, ya que en el proceso de creación de la imagen con el <code>dockerfile</code> no puede haber interacción con el usuario.</p>
+</blockquote>
+<ul>
+<li><strong><code>WORKDIR</code>:</strong> Establece el directorio de trabajo dentro de la imagen que estoy creando, para posteriormente usar las órdenes <code>RUN</code>, <code>COPY</code>, <code>ADD</code>, <code>CMD</code> o <code>ENTRYPOINT</code>.</li>
+</ul>
+<pre><code>WORKDIR /usr/local/apache/htdocs
+</code></pre><ul>
+<li><strong><code>EXPOSE</code>:</strong> Nos da información sobre qué puertos tendrá abiertos el contenedor cuando se cree uno en base a la imagen que estamos creando. Es meramente informativo.</li>
+</ul>
+<pre><code>EXPOSE 80
+</code></pre><ul>
+<li><strong><code>USER</code>:</strong> Para especificar meidante nombre o <code>UID</code>/<code>GID</code> el usuario de trabajo para todas las órdenes <code>RUN</code>, <code>CMD</code> y <code>ENTRYPOINT</code> posteriores.</li>
+</ul>
+<pre><code>USER jenkins
+
+USER 10001:10001
+</code></pre><ul>
+<li><strong><code>ARG</code>:</strong> Define variables para las cuales los usuarios pueden especificar valores a la hora de hacer el proceso de <code>build</code> mediante la opción <code>--build-arg</code>. Su sintáxis es:</li>
+</ul>
+<pre><code>ARG nombre_variable
+
+ARG nombre_variable=valor_por_defecto
+</code></pre><pre><code>* Ejemplo de `ARG`:
+</code></pre>
+<pre><code>ARG usuario=www-data
+</code></pre><blockquote>
+<p>No se puede usar ni en <code>ENTRYPOINT</code> ni en <code>CMD</code></p>
+</blockquote>
+<ul>
+<li><strong><code>ENV</code>:</strong> Para establecer variables de entorno dentro del contenedor. Puede ser usado posteriormente en las opciones <code>RUN</code> añadiendo <code>$</code> delante del nombre de la variable de entorno.</li>
+</ul>
+<pre><code>ENV WEB_DOCUMENT_ROOT=/var/www/html
+</code></pre><blockquote>
+<p>No se puede usar ni en <code>ENTRYPOINT</code> ni en <code>CMD</code></p>
+</blockquote>
+<ul>
+<li><strong><code>ENTRYPOINT</code>:</strong> sirve para establecer el ejecutable que se lanza siempre que se crea un contenedor con <code>docker run</code>, salvo que se especifique algo con la opción <code>--entrypoint</code>. La sintáxis de <code>ENTRYPOINT</code> es:</li>
+</ul>
+<pre><code>ENTRYPOINT &lt;comando&gt;
+
+ENTRYPOINT [&quot;ejecutable&quot;, &quot;parámetro 1&quot;, &quot;parámetro 2&quot;]
+</code></pre><pre><code>* Ejemplo de `ENTRYPOINT`:
+</code></pre>
+<pre><code>ENTRYPOINT [&quot;/usr/sbin/apache2ctl&quot;, &quot;-D&quot;, &quot;FOREGROUND&quot;]
+</code></pre><ul>
+<li><strong><code>CMD</code>:</strong> Sirve para establecer un ejecutable por defecto (salvo que se sobreescriba desde la orden <code>docker run</code>) o para especificar parámetros para un <code>ENTRYPOINT</code>. Si tengo varios, sólo se ejecuta el último. La sintáxis de <code>CMD</code> es:</li>
+</ul>
+<pre><code>CMD parámetro1 parámetro2
+
+CMD [&quot;parámetro 1&quot;,&quot;parámetro 2&quot;]
+
+CMD [&quot;comando&quot;,&quot;parámetro 1&quot;]
+</code></pre><pre><code>* Ejemplo de `CMD`:
+</code></pre>
+<pre><code>CMD [&quot;-c&quot;,&quot;/etc/nginx.conf&quot;]
+
+ENTRYPOINT [&quot;nginx&quot;]
+</code></pre><ul>
+<li>
+<p><strong>Ejemplo:</strong></p>
+<ul>
+<li>Si tenemos un fichero <code>dockerfile</code> que tiene las siguientes instrucciones</li>
+</ul>
+</li>
+</ul>
+<pre><code>ENTRYPOINT [&quot;http&quot;, &quot;-v&quot;]
+
+CMD [&quot;-p&quot;, &quot;80&quot;]
+</code></pre><pre><code>* Podemos crear un contenedor a partir de la imagen generada:
+
+    * `docker run centos:centos7`: Se creará un contenedor con el servidor web escuchando en el puerto `80`.
+
+    * `docker run centos:centos7 -p 8080`: Se creará un contenedor con el servidor web escuchando en el puerto `8080`
+</code></pre>
+<h3 id="construyendo-imágenes-con-docker-build">Construyendo imágenes con docker build</h3>
+<p>El comando <code>docker build</code> construye las imágenes leyendo las instrucciones del <code>dockerfile</code> y la información de un entorno, que para nosotros va a ser un directorio (aunque también podemos gestionar la información de un repositorio <code>git</code>).</p>
+<p>A la hora de crear una imagen, tenemos que tener en cuenta que cada vez que se ejecuta una instrucción se genera una imagen intermedia. Algunas imágenes intermedias se guardan en caché, otras se borran. Por lo tanto, si ejecutamos en una línea el comando <code>cd scripts/</code> y en otra línea ejecutamos <code>./install.sh</code>, no va a funcionar, ya que se ha lanzado otra imágen intermedia. Teniendo esto en cuenta, la manera correcta de ejecutar esto sería:</p>
+<pre><code>cd scripts/;./install.sh
+</code></pre><p>Al generar las imágenes con <code>dockerfile</code>, como hemos dicho anteriormente, las imágenes se guardan temporalmente en caché, esto quiere decir que si en el proceso de creación de la imagen ha fallado algún paso, al corregirlo y volver a intentarlo, los pasos que han salido bien no se vuelven a repetir, ya que esas imágenes intermedias están almacenadas en la caché.</p>
+<h3 id="ejemplo-de-dockerfile">Ejemplo de Dockerfile</h3>
+<p>Vamos a crear un directorio (el cual va a ser nuestro entorno de creación de la imagen) donde vamos a crear un <code>dockerfile</code> y un fichero <code>index.html</code>.</p>
+<pre><code>mkdir pruebas_docker
+cd pruebas_docker/
+
+echo &quot;&lt;h1&gt;Esto es una prueba de Dockerfile&lt;/h1&gt;&quot; &gt; index.html
+
+nano Dockerfile
+
+FROM debian 
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+RUN apt update  &amp;&amp; apt install -y  apache2 
+COPY index.html /var/www/html/index.html
+ENTRYPOINT [&quot;/usr/sbin/apache2ctl&quot;, &quot;-D&quot;, &quot;FOREGROUND&quot;]
+
+ls
+Dockerfile  index.html
+</code></pre><p>Cuando tenemos creado y escritas las instrucciones en nuestro fichero <code>Dockerfile</code> y nuestro <code>index.html</code> creado vamos a generar la imagen con <code>docker build</code> indicando el nombre de la nueva imagen con la opción <code>-t</code> e indicando el directorio de contexto.</p>
+<pre><code>docker build -t juanan219/prueba_dockerfile .
+</code></pre><p>Cuando haya terminado el proceso de generación de nuestra primera imagen, podemos verla en nuestro repositorio local</p>
+<pre><code>docker images
+REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
+juanan219/prueba_dockerfile   latest              67196e6920a2        53 seconds ago      243MB
+[...]
+</code></pre><p>Después de realizar esto, ya podemos usar la imágen como otra cualquier, a parte de poder distribuirla.</p>
+<blockquote>
+<p>Si usamos la opción <code>--no-cache</code> en el comando <code>docker-build</code> haríamos la construcción de la imagen sin usar las capas cacheadas.</p>
+</blockquote>
+<h3 id="buenas-prácticas-al-crear-un-dockerfile">Buenas prácticas al crear un Dockerfile</h3>
+<ul>
+<li>
+<p><strong>Los contenedores deben ser efímeros:</strong> esto quiere decir que los contenedores que se creen con nuestra imagen deben tener una mímina configuración.</p>
+</li>
+<li>
+<p><strong>Uso de ficheros <code>.dockerignore</code>:</strong> Como hemos dicho anteriormente, todos los ficheros del contexto se envían al <code>docker engine</code>, por ello es recomendable usar un directorio/repositorio vacío en el cual vamos creando los fichero que vamos a ir necesitando. Además, para aumentar el rendimiento y evitar enviar ficheros innecesarios al daemon podemos usar un fichero <code>.dockerignore</code> para excluir ficheros y directorios.</p>
+</li>
+<li>
+<p><strong>No instalar paquetes innecesarios:</strong> Para reducir la complejidad, dependencias, tiempo de creación y tamaño de la imagen resultante, se debe evitar instalar pequetes extras o innecesarios. Si necesitamos algún paquete durante la creación de la imagen, lomejor es desinstalarlo durante el proceso.</p>
+</li>
+<li>
+<p><strong>Minimizar el número de capas:</strong> Debemos encontrar el balance entre la legibilidad del <code>Dockerfile</code> y minimizar el número de capas que utiliza.</p>
+</li>
+<li>
+<p><strong>Indicar las instrucciones a ejecutar múltiples tareas:</strong> Hay que organizar los argumentos de las instrucciones que contengan múltiples línes para facilitar futuros cambios. Esto evitará la duplicación de paquetes y hará que el archivo sea más fácil de leer. Por ejemplo:</p>
+</li>
+</ul>
+<pre><code>RUN apt-get update &amp;&amp; apt-get install -y \
+git \
+wget \
+apache2 \
+php5
+</code></pre>]]></content>
+        </item>
         
         <item>
             <title>Almacenamiento en Docker</title>

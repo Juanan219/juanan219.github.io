@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creación de Imagenes Docker</title>
+      <link>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</link>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</guid>
+      <description>Hasta ahora hemos usado imágenes de Docker que han hecho otras personas, pero para crear un contenedor que sirva nuestra aplicación, deberemos crear una imagen personalidada. A esto es a lo que llamamos dockerizar una aplicación.
+Creación de una imagen a partir de un contenedor La primera forma de crear nuestras propias imágenes personalizadas es crearlas a partir de un contenedor que ya está en ejecución. Para ello tenemos varias posibilidades:</description>
+    </item>
+    
     <item>
       <title>Practica iSCSI</title>
       <link>https://juanan219.github.io/posts/2021/02/practica-iscsi/</link>

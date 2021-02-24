@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Imagenes on JuananBlog</title>
-    <link>https://juanan219.github.io/tags/imagenes/</link>
-    <description>Recent content in Imagenes on JuananBlog</description>
+    <title>GitHub on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/github/</link>
+    <description>Recent content in GitHub on JuananBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/imagenes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Creación de Imagenes Docker</title>
       <link>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</link>
@@ -16,17 +16,6 @@
       <guid>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</guid>
       <description>Hasta ahora hemos usado imágenes de Docker que han hecho otras personas, pero para crear un contenedor que sirva nuestra aplicación, deberemos crear una imagen personalidada. A esto es a lo que llamamos dockerizar una aplicación.
 Creación de una imagen a partir de un contenedor La primera forma de crear nuestras propias imágenes personalizadas es crearlas a partir de un contenedor que ya está en ejecución. Para ello tenemos varias posibilidades:</description>
-    </item>
-    
-    <item>
-      <title>Uso de las Imagenes Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
-      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</guid>
-      <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
-El nombre de una imágen suele estar formado por tres partes:
-usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
     </item>
     
   </channel>
