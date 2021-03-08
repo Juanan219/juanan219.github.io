@@ -2967,6 +2967,373 @@ sudo systemctl restart postfix
         </item>
         
         <item>
+            <title>Implantación de aplicaciones web PHP en Docker</title>
+            <link>https://juanan219.github.io/posts/2021/02/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</link>
+            <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/02/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</guid>
+            <description>Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script.</description>
+            <content type="html"><![CDATA[<h2 id="tarea-1">Tarea 1</h2>
+<ul>
+<li>Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).</li>
+</ul>
+<p>Para levantar la aplicación web <a href="https://github.com/evilnapsis/bookmedik">bookmedik</a> necesitaremos un contenedor con la imagen de <code>mariadb</code> en el cual vamos a crear un usuario llamado <code>book_user</code> con una contraseña <code>book_passwd</code>, una base de datos llamada <code>bookmedik</code> y le vamos a volcar el contenido del fichero <code>schema.sql</code> del repositorio de GitHub de <code>bookmedik</code>, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script. Al contenedor de <code>mariadb</code> vamos a crearle un volumen para que pueda guardar la base de datos.</p>
+<pre><code>docker network create red1--subnet
+docker run --name book_sql -v mysql:/var/lib/mysql --network bookmedik -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=book_user -e MYSQL_PASSWORD=book_passwd -e MYSQL_DATABASE=bookmedik -d mariadb
+
+docker cp GitHub/bookmedik/schema.sql book_sql:/tmp
+
+docker exec book_sql bash -c 'mysql -u$MYSQL_USER -p$MYSQL_PASSWORD &lt; /tmp/schema.sql'
+</code></pre><p>Ahora vamos a crear un <code>Dockerfile</code> para crear una imagen que nos sirva la aplicación <code>Bookmedik</code>, para ello tendremos que crear un script que cambie las variables de entorno por las nuestras y cree la imagen.</p>
+<ul>
+<li>Este es el script:</li>
+</ul>
+<pre><code>mkdir bookmedik
+cd bookmedik
+
+nano variables.sh
+
+#!/bin/bash
+sed -i &quot;s/$this-&gt;user=\&quot;root\&quot;;/$this-&gt;user=\&quot;$MYSQL_USER\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+sed -i &quot;s/$this-&gt;pass=\&quot;\&quot;;/$this-&gt;pass=\&quot;$MYSQL_PASSWORD\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+sed -i &quot;s/$this-&gt;host=\&quot;localhost\&quot;;/$this-&gt;host=\&quot;$DATABASE_SERVER\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+sed -i &quot;s/$this-&gt;ddbb=\&quot;bookmedik\&quot;;/$this-&gt;ddbb=\&quot;$MYSQL_DATABASE\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+apache2ctl -D FOREGROUND
+
+chmod +x variables.sh
+</code></pre><ul>
+<li>Este es el <code>Dokerfile</code>:</li>
+</ul>
+<pre><code>FROM debian
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+
+RUN apt-get update &amp;&amp; apt-get install -y apache2 php php-mysql git &amp;&amp; apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+RUN rm -r /var/www/html/* &amp;&amp; git clone https://github.com/evilnapsis/bookmedik /var/www/html
+
+ADD variables.sh /usr/local/bin
+
+EXPOSE 80
+
+ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik
+
+CMD [&quot;variables.sh&quot;]
+</code></pre><ul>
+<li>
+<p>Explicación del <code>Dockerfile</code>:</p>
+<ul>
+<li><strong><code>FROM debian</code>:</strong> Le decimos que la imagen base va a ser <code>debian:latest</code></li>
+<li><strong><code>MANTEINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;</code>:</strong> Metadatos para saber quién ha creado la imagen</li>
+<li><strong><code>RUN apt-get update &amp;&amp; apt-get install -y apache2 php php-mysql git &amp;&amp; apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*</code>:</strong> Este primer <code>RUN</code> actualiza la lista de paquetes de la imagen para posteriormente descargar los paquetes <code>apache2</code>, <code>php</code>, <code>php-mysql</code> y <code>git</code> y limpia los residuos que dejan las instalaciones.</li>
+<li><strong><code>RUN rm -r /var/www/html/* &amp;&amp; git clone https://github.com/evilnapsis/bookmedik /var/www/html</code>:</strong> Con este segundo <code>RUN</code> eliminamos todo el contenido del directorio <code>/var/www/html</code> (que es donde van a ir los archivos de <code>Bookmedik</code>) para más tarde clonar el <a href="https://github.com/evilnapsis/bookmedik">repositorio de Bookmedik</a></li>
+<li><strong><code>ADD variables.sh /usr/local/bin</code>:</strong> Añadimos el script que hemos creado anteriormente a nuestra imagen en una ubicación que se encuentre en el <code>$PATH</code>, ya que después, al ejecutarla, no tendremos que poner ninguna ruta.</li>
+<li><strong><code>EXPOSE 80</code>:</strong> Apartado informativo para especificar que esta imagen está escuchando en el puerto <code>80</code> de forma predeterminada.</li>
+<li><strong><code>ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik</code>:</strong> Variables de entorno predeterminadas para conectar con la base de datos.</li>
+<li><strong><code>CMD [&quot;variables.sh&quot;]</code>:</strong> Le indicamos que tiene que ejecutar el script para cambiar las variables prdeterminadas de <code>Bookmedik</code></li>
+</ul>
+</li>
+</ul>
+<p>Cuando lo tengamos todo listo, solo queda crear la imagen con el comando <code>docker build</code></p>
+<pre><code>docker build -t juanan219/book_debian .
+
+docker images
+REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
+juanan219/book_debian         latest              a7a19bca4040        17 minutes ago      297MB
+[...]
+</code></pre><p>Ahora que tenemos nuestro contenedor con la imagen de <code>mariadb</code> arrancado y nuestra imagen de <code>Bookmedik</code> creada, vamos a crear un contenedor con dicha imagen. Este contenedor va a tener un volumen que guarde los logs de <code>apache2</code> y va a estar en la misma red llamada <code>bookmedik</code> que nuestro contenedor <code>book_sql</code></p>
+<pre><code>docker run --name book_debian -v apache_logs:/var/log/apache2 --network bookmedik -p 80:80 -d juanan219/book_debian
+</code></pre><p>Como podemos ver, después de configurarlo todo, ya tenemos nuestro Bookmedik funcionando</p>
+<p><img src="/Docker/Practica/1.png" alt="Captura 1"></p>
+<p>Ahora vamos a realizar la misma operación de creación de los contenedores, pero mediante un script de <code>docker-compose</code>. Este es el procemiento que he seguido:</p>
+<pre><code>nano docker-compose.yml
+
+version: '3.1'
+
+services:
+  mariadb2:
+    image: mariadb
+    container_name: book_sql
+    restart: always
+    environment:
+      [MYSQL_ROOT_PASSWORD=root,MYSQL_USER=book_user,MYSQL_PASSWORD=book_passwd,MYSQL_DATABASE=bookmedik]
+    volumes:
+      - ./mysql:/var/lib/mysql
+  bookmedik:
+    image: juanan219/book_debian
+    container_name: book_debian
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./logs:/var/log/apache2
+
+docker-compose run -d
+
+cat schema.sql | docker exec -i book_sql /usr/bin/mysql -u book_user --password=book_passwd bookmedik
+</code></pre><p>Ahora si nos metemos en la dirección de <code>loopback</code> (<code>127.0.0.1</code>) de nuestra máquina a través de un navegador nos aparecerá la aplicación de <code>Bookmedik</code></p>
+<p><img src="/Docker/Practica/1.png" alt="Captura 1"></p>
+<p>Este es el <a href="https://github.com/Juanan219/">repositorio de GitHub</a> donde está el directorio <code>build</code> y los fichero de <code>docker-compose</code>.</p>
+<h2 id="tarea-2">Tarea 2</h2>
+<p>Ahora vamos a lanzar la aplicación de Bookmedik con una imagen docker de <code>PHP</code>, más concretamente, lo lanzaré con la imagen <code>php:7.4-apache</code>. Vamos a partir del ejercicio anterior, pero haciendo las modificaciones oportunas, las cuales ire enumerando mediante las hago:</p>
+<ol>
+<li>No usaremos el script <code>variables.sh</code>, ya que en la imagen docker de <code>php:7.4-apache</code> no podemos ejecutar ningún comando con <code>CMD</code>, por lo que eliminaremos el script del directorio <code>build_bookmedik</code> y modificaremos el fichero <code>Dockerfile</code></li>
+</ol>
+<pre><code>rm variables.sh
+
+nano Dockerfile 
+
+FROM php:7.4-apache
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+
+RUN apt-get update &amp;&amp; apt-get install -y git &amp;&amp; apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+RUN git clone https://github.com/evilnapsis/bookmedik /var/www/html
+
+EXPOSE 80
+
+ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik
+</code></pre><ol start="2">
+<li>Vamos a realizar otra modificación en el fichero <code>Dockerfile</code> para poder instalar el paquete <code>mysqli</code>, el cual nos va a hacer falta para usar la base de datos <code>mariadb</code> que esta aplicación necesita. Con esta imagen, las extensiones php se instalan de una forma un tanto especial, por lo que añadiremos la siguiente línea al dockerfile</li>
+</ol>
+<pre><code>nano Dockerfile
+[...]
+RUN docker-php-ext-install mysqli &amp;&amp; docker-php-ext-enable mysqli
+[...]
+</code></pre><ol start="3">
+<li>Como ya no usamos el script para cambiar las variables, deberemos copiar el fichero <code>Database.php</code> del <a href="https://github.com/evilnapsis/bookmedik">repositorio de <code>bookmedik</code></a> y lo modificaremos para que php pueda reconocer las variables de entorno que nosotros definimos en el <code>Dockerfile</code></li>
+</ol>
+<pre><code>cp bookmedik/core/controller/Database.php Bookmedik-Tarea2/build_bookmedik/
+nano Bookmedik-Tarea2/build_bookmedik/Database.php
+[...]
+$this-&gt;user=getenv(&quot;MYSQL_USER&quot;);$this-&gt;pass=getenv(&quot;MYSQL_PASSWORD&quot;);$this-&gt;host=getenv(&quot;DATABASE_SERVER&quot;);$this-&gt;ddbb=getenv(&quot;MYSQL_DATABASE&quot;);
+[...]
+</code></pre><ol start="4">
+<li>Después de modificar el fichero <code>Database.php</code> vamos a modificar de nuevo el fichero <code>Dockerfile</code> para poder añadir un parámetro para poder agregar a nuestra imagen el fichero <code>Database.php</code> modificado y se sustituya por el original</li>
+</ol>
+<pre><code>nano Dockerfile
+[...]
+ADD Database.php /var/www/html/core/controller
+[...]
+</code></pre><p>El fichero <code>Dockerfile</code> deberá quedar de esta forma</p>
+<pre><code>FROM php:7.4-apache
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+
+RUN apt-get update &amp;&amp; apt-get install -y git &amp;&amp; apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+RUN git clone https://github.com/evilnapsis/bookmedik /var/www/html
+RUN docker-php-ext-install mysqli &amp;&amp; docker-php-ext-enable mysqli
+
+ADD Database.php /var/www/html/core/controller 
+
+EXPOSE 80
+
+ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik
+</code></pre><p>El fichero <code>Database.php</code> deberá quedar de esta forma</p>
+<pre><code>&lt;?php
+class Database {
+        public static $db;
+        public static $con;
+        function Database(){
+                $this-&gt;user=getenv(&quot;MYSQL_USER&quot;);$this-&gt;pass=getenv(&quot;MYSQL_PASSWORD&quot;);$this-&gt;host=getenv(&quot;DATABASE_SERVER&quot;);$this-&gt;ddbb=getenv(&quot;MYSQL_DATABASE&quot;);
+        }
+
+        function connect(){
+                $con = new mysqli($this-&gt;host,$this-&gt;user,$this-&gt;pass,$this-&gt;ddbb);
+                $con-&gt;query(&quot;set sql_mode=''&quot;);
+                return $con;
+        }
+
+        public static function getCon(){
+                if(self::$con==null &amp;&amp; self::$db==null){
+                        self::$db = new Database();
+                        self::$con = self::$db-&gt;connect();
+                }
+                return self::$con;
+        }
+
+}
+?&gt;
+</code></pre><p>Ahora procederemos a crear la imagen</p>
+<pre><code>docker build -t juanan219/bookmedik .
+
+docker images
+REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
+juanan219/bookmedik   latest              f9bd125bde93        12 seconds ago      457MB
+[...]
+</code></pre><p>Por último modificaremos el fichero <code>docker-compose.yml</code> para que lance tanto el contenedor de la imagen <code>mariadb</code> como el de la imagen que acabamos de crear</p>
+<pre><code>version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: book_sql
+    restart: always
+    environment:
+      [MYSQL_ROOT_PASSWORD=root,MYSQL_USER=book_user,MYSQL_PASSWORD=book_passwd,MYSQL_DATABASE=bookmedik]
+    volumes:
+      - ./mysql:/var/lib/mysql
+  bookmedik:
+    image: juanan219/bookmedik
+    container_name: book_php   
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./logs:/var/log/apache2
+</code></pre><p>Lanzamos el <code>docker-compose</code> y comprobamos si funciona nuestra aplicación</p>
+<pre><code>docker-compose up -d
+Creating network &quot;bookmedik-tarea2_default&quot; with the default driver
+Creating book_php ... done
+Creating book_sql ... done
+</code></pre><p>Como podemos ver, si accedemos desde nuestra máquina anfitriona a la dirección de <code>loopback</code> (<code>127.0.0.1</code>) e introducimos el usuario y la contraseña <code>admin/admin</code> podemos acceder a nuestro <code>bookmedik</code> sobre una imagen docker <code>php:7.4-apache</code></p>
+<p><img src="/Docker/Practica/2.png" alt="Captura 2"></p>
+<blockquote>
+<p><a href="https://github.com/Juanan219/Bookmedik-Tarea2">Repositorio de GitHub</a></p>
+</blockquote>
+<h3 id="tarea-3">Tarea 3</h3>
+<p>Ahora vamos a usar tres contenedores diferentes para separar servicios:</p>
+<ul>
+<li>
+<p>El primero va a tener una imagen <code>nginx</code>, el cual va a servir el contenido estático.</p>
+</li>
+<li>
+<p>El segundo va a tener una imagen <code>php:7.4-fpm</code>, el cual se va a encargar de gestionar todo el contenido php</p>
+</li>
+<li>
+<p>El tercero va a tener una imagen <code>mariadb</code>, el cual se va a encargar de almacenar la base de datos de nuestro <code>bookmedik</code></p>
+</li>
+</ul>
+<ol>
+<li>Vamos a crear nuestra imagen de <code>php:7.4-fpm</code> con el módulo de <code>mysqli</code> activado, ya que sino no podemos acceder a la base de datos. Para crear esta imagen he creado un directorio que contiene el siguiente fichero <code>Dockerfile</code>:</li>
+</ol>
+<pre><code>mkdir build_php
+nano build_php/Dockerfile
+
+FROM php:7.4-fpm
+
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+
+RUN docker-php-ext-install mysqli &amp;&amp; docker-php-ext-enable mysqli
+
+ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik
+</code></pre><ol start="2">
+<li>Creamos la imagen</li>
+</ol>
+<pre><code>docker build -t juanan219/php_mysqli
+
+docker images
+REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
+juanan219/php_mysqli   latest              2725316da685        18 minutes ago      405MB
+</code></pre><ol start="3">
+<li>Creamos un fichero llamado <code>default.conf</code> que va a servir para que <code>nginx</code> sirva nuestra aplicación</li>
+</ol>
+<pre><code>nano default.conf
+
+server {
+    index index.html;
+    server_name bookmedik.local;
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+    root /bookmedik;
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass book_php:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}
+</code></pre><ol start="4">
+<li>Copiamos un directorio de <code>bookmedik</code> con el archivo <code>bookmedik/core/controller/Database.php</code> editado (como vimos en la práctica anterior) y generamos el siguiente docker-compose.yml</li>
+</ol>
+<pre><code>nano docker-compose.yml
+
+version: '3.1'
+
+services:
+  nginx:
+    image: nginx
+    container_name: book_nginx
+    volumes:
+      - ./logs:/var/log/nginx
+      - ./bookmedik:/bookmedik
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - DATABASE_SERVER=book_sql
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=book_user
+      - MYSQL_PASSWORD=book_passwd
+      - MYSQL_DATABASE=bookmedik
+
+  php-fpm:
+    image: juanan219/php_mysqli
+    container_name: book_php
+    volumes:
+      - ./bookmedik:/bookmedik
+    restart: always
+
+  mysql:
+    image: mariadb
+    container_name: book_sql
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./bookmedik/schema.sql:/opt/schema.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=book_user
+      - MYSQL_PASSWORD=book_passwd
+      - MYSQL_DATABASE=bookmedik
+    restart: always
+</code></pre><ol start="5">
+<li>Iniciamos el script y comprobamos que podemos entrar</li>
+</ol>
+<pre><code>docker-compose up -d
+</code></pre><p><img src="/Docker/Practica/3.png" alt="Captura 3"></p>
+<h4 id="tarea-5">Tarea 5</h4>
+<p>Por último vamos a instalar un CMS de PHP con una imagen en DockerHub creando los contenedores necesarios para instalarla. En mi caso he escogido <code>joomla</code>. He hecho un script de <code>docker-compose</code> para ejecutar los dos contenedores que necesita joomla, uno de ellos es una imagen <code>mariadb</code> y la otra es una imagen <code>joomla</code></p>
+<pre><code>nano docker-compose.yml
+
+version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: joomla_sql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=joomla_user
+      - MYSQL_PASSWORD=joomla_passwd
+      - MYSQL_DATABASE=joomla_db
+  joomla:
+    image: joomla
+    container_name: joomla
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      - JOOMLA_DB_HOST=joomla_sql
+      - JOOMLA_DB_USER=joomla_user
+      - JOOMLA_DB_PASSWORD=joomla_passwd
+      - JOOMLA_DB_NAME=joomla_db
+</code></pre><p>Ahora simplemente hacemos un <code>docker-compose up -d</code> y se crean los dos contenedores</p>
+<pre><code>docker-compose up -d
+Creating network &quot;cms-php-tarea5_default&quot; with the default driver
+Creating joomla     ... done
+Creating joomla_sql ... done
+</code></pre><p>Comprobamos que podemos entrar</p>
+<p><img src="/Docker/Practica/4.png" alt="Captura 4"></p>
+<p>Una vez que hayamos terminado la configuración del sitio nos podemos meter en la página de administración (iniciando sesión con el usuario que hemos configurado)</p>
+<p><img src="/Docker/Practica/5.png" alt="Captura 5"></p>
+<p>Esta es la página de ejemplo de Joomla</p>
+<p><img src="/Docker/Practica/6.png" alt="Captura 6"></p>
+]]></content>
+        </item>
+        
+        <item>
             <title>Generar Sitios Web estáticos con HUGO y GitHub Pages</title>
             <link>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</link>
             <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>

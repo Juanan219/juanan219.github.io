@@ -19,5 +19,14 @@ sudo apt-get install tgt Ahora vamos a definir dos targets, uno para un cliente 
 sudo nano etc/tgt/targets.conf [...] &amp;lt;target iqn.2021-02.es.juanan:target1&amp;gt; backing-store /dev/sdb &amp;lt;/target&amp;gt; &amp;lt;target iqn.</description>
     </item>
     
+    <item>
+      <title>Implantación de aplicaciones web PHP en Docker</title>
+      <link>https://juanan219.github.io/posts/2021/02/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</link>
+      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/02/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</guid>
+      <description>Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script.</description>
+    </item>
+    
   </channel>
 </rss>
