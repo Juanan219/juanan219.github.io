@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:Juan Antonio Reifs]">
+<meta name="description" content="Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script." />
+<meta name="keywords" content=", Practica, Docker, PHP, CMS, Bookmedik" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://juanan219.github.io/posts/2021/03/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/" />
+
+
+    <title>
+        
+            Implantación de aplicaciones web PHP en Docker :: JuananBlog  — JuananBlog
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://juanan219.github.io/main.154a87e0ff720e102948892a8eb80881aa81a4faf37376f3093be219f6296c3d.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://juanan219.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://juanan219.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://juanan219.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://juanan219.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://juanan219.github.io/safari-pinned-tab.svg" color="#1b1c1d">
+    <link rel="shortcut icon" href="https://juanan219.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#1b1c1d">
+    <meta name="theme-color" content="#1b1c1d">
+
+
+
+<meta itemprop="name" content="Implantación de aplicaciones web PHP en Docker">
+<meta itemprop="description" content="Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script.">
+<meta itemprop="datePublished" content="2021-03-07T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-03-07T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1662">
+<meta itemprop="image" content="https://juanan219.github.io"/>
+
+
+
+<meta itemprop="keywords" content="Practica,Docker,PHP,CMS,Bookmedik," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://juanan219.github.io"/>
+
+<meta name="twitter:title" content="Implantación de aplicaciones web PHP en Docker"/>
+<meta name="twitter:description" content="Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script."/>
+
+
+
+
+    <meta property="og:title" content="Implantación de aplicaciones web PHP en Docker" />
+<meta property="og:description" content="Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://juanan219.github.io/posts/2021/03/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/" />
+<meta property="og:image" content="https://juanan219.github.io"/>
+<meta property="article:published_time" content="2021-03-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-03-07T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-03-07 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://juanan219.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://juanan219.github.io/about/">About</a></li><li><a href="https://juanan219.github.io/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        8 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://juanan219.github.io/posts/2021/03/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/">Implantación de aplicaciones web PHP en Docker</a>
+      </h1>
+
+      
+
+      
+
+      <div class="post-content">
+        <h2 id="tarea-1">Tarea 1</h2>
+<ul>
+<li>Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).</li>
+</ul>
+<p>Para levantar la aplicación web <a href="https://github.com/evilnapsis/bookmedik">bookmedik</a> necesitaremos un contenedor con la imagen de <code>mariadb</code> en el cual vamos a crear un usuario llamado <code>book_user</code> con una contraseña <code>book_passwd</code>, una base de datos llamada <code>bookmedik</code> y le vamos a volcar el contenido del fichero <code>schema.sql</code> del repositorio de GitHub de <code>bookmedik</code>, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script. Al contenedor de <code>mariadb</code> vamos a crearle un volumen para que pueda guardar la base de datos.</p>
+<pre><code>docker network create red1--subnet
+docker run --name book_sql -v mysql:/var/lib/mysql --network bookmedik -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=book_user -e MYSQL_PASSWORD=book_passwd -e MYSQL_DATABASE=bookmedik -d mariadb
+
+docker cp GitHub/bookmedik/schema.sql book_sql:/tmp
+
+docker exec book_sql bash -c 'mysql -u$MYSQL_USER -p$MYSQL_PASSWORD &lt; /tmp/schema.sql'
+</code></pre><p>Ahora vamos a crear un <code>Dockerfile</code> para crear una imagen que nos sirva la aplicación <code>Bookmedik</code>, para ello tendremos que crear un script que cambie las variables de entorno por las nuestras y cree la imagen.</p>
+<ul>
+<li>Este es el script:</li>
+</ul>
+<pre><code>mkdir bookmedik
+cd bookmedik
+
+nano variables.sh
+
+#!/bin/bash
+sed -i &quot;s/$this-&gt;user=\&quot;root\&quot;;/$this-&gt;user=\&quot;$MYSQL_USER\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+sed -i &quot;s/$this-&gt;pass=\&quot;\&quot;;/$this-&gt;pass=\&quot;$MYSQL_PASSWORD\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+sed -i &quot;s/$this-&gt;host=\&quot;localhost\&quot;;/$this-&gt;host=\&quot;$DATABASE_SERVER\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+sed -i &quot;s/$this-&gt;ddbb=\&quot;bookmedik\&quot;;/$this-&gt;ddbb=\&quot;$MYSQL_DATABASE\&quot;;/g&quot; /var/www/html/core/controller/Database.php
+apache2ctl -D FOREGROUND
+
+chmod +x variables.sh
+</code></pre><ul>
+<li>Este es el <code>Dokerfile</code>:</li>
+</ul>
+<pre><code>FROM debian
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+
+RUN apt-get update &amp;&amp; apt-get install -y apache2 php php-mysql git &amp;&amp; apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+RUN rm -r /var/www/html/* &amp;&amp; git clone https://github.com/evilnapsis/bookmedik /var/www/html
+
+ADD variables.sh /usr/local/bin
+
+EXPOSE 80
+
+ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik
+
+CMD [&quot;variables.sh&quot;]
+</code></pre><ul>
+<li>
+<p>Explicación del <code>Dockerfile</code>:</p>
+<ul>
+<li><strong><code>FROM debian</code>:</strong> Le decimos que la imagen base va a ser <code>debian:latest</code></li>
+<li><strong><code>MANTEINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;</code>:</strong> Metadatos para saber quién ha creado la imagen</li>
+<li><strong><code>RUN apt-get update &amp;&amp; apt-get install -y apache2 php php-mysql git &amp;&amp; apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*</code>:</strong> Este primer <code>RUN</code> actualiza la lista de paquetes de la imagen para posteriormente descargar los paquetes <code>apache2</code>, <code>php</code>, <code>php-mysql</code> y <code>git</code> y limpia los residuos que dejan las instalaciones.</li>
+<li><strong><code>RUN rm -r /var/www/html/* &amp;&amp; git clone https://github.com/evilnapsis/bookmedik /var/www/html</code>:</strong> Con este segundo <code>RUN</code> eliminamos todo el contenido del directorio <code>/var/www/html</code> (que es donde van a ir los archivos de <code>Bookmedik</code>) para más tarde clonar el <a href="https://github.com/evilnapsis/bookmedik">repositorio de Bookmedik</a></li>
+<li><strong><code>ADD variables.sh /usr/local/bin</code>:</strong> Añadimos el script que hemos creado anteriormente a nuestra imagen en una ubicación que se encuentre en el <code>$PATH</code>, ya que después, al ejecutarla, no tendremos que poner ninguna ruta.</li>
+<li><strong><code>EXPOSE 80</code>:</strong> Apartado informativo para especificar que esta imagen está escuchando en el puerto <code>80</code> de forma predeterminada.</li>
+<li><strong><code>ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik</code>:</strong> Variables de entorno predeterminadas para conectar con la base de datos.</li>
+<li><strong><code>CMD [&quot;variables.sh&quot;]</code>:</strong> Le indicamos que tiene que ejecutar el script para cambiar las variables prdeterminadas de <code>Bookmedik</code></li>
+</ul>
+</li>
+</ul>
+<p>Cuando lo tengamos todo listo, solo queda crear la imagen con el comando <code>docker build</code></p>
+<pre><code>docker build -t juanan219/book_debian .
+
+docker images
+REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
+juanan219/book_debian         latest              a7a19bca4040        17 minutes ago      297MB
+[...]
+</code></pre><p>Ahora que tenemos nuestro contenedor con la imagen de <code>mariadb</code> arrancado y nuestra imagen de <code>Bookmedik</code> creada, vamos a crear un contenedor con dicha imagen. Este contenedor va a tener un volumen que guarde los logs de <code>apache2</code> y va a estar en la misma red llamada <code>bookmedik</code> que nuestro contenedor <code>book_sql</code></p>
+<pre><code>docker run --name book_debian -v apache_logs:/var/log/apache2 --network bookmedik -p 80:80 -d juanan219/book_debian
+</code></pre><p>Como podemos ver, después de configurarlo todo, ya tenemos nuestro Bookmedik funcionando</p>
+<p><img src="https://juanan219.github.io/Docker/Practica/1.png" alt="Captura 1"></p>
+<p>Ahora vamos a realizar la misma operación de creación de los contenedores, pero mediante un script de <code>docker-compose</code>. Este es el procemiento que he seguido:</p>
+<pre><code>nano docker-compose.yml
+
+version: '3.1'
+
+services:
+  mariadb2:
+    image: mariadb
+    container_name: book_sql
+    restart: always
+    environment:
+      [MYSQL_ROOT_PASSWORD=root,MYSQL_USER=book_user,MYSQL_PASSWORD=book_passwd,MYSQL_DATABASE=bookmedik]
+    volumes:
+      - ./mysql:/var/lib/mysql
+  bookmedik:
+    image: juanan219/book_debian
+    container_name: book_debian
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./logs:/var/log/apache2
+
+docker-compose run -d
+
+cat schema.sql | docker exec -i book_sql /usr/bin/mysql -u book_user --password=book_passwd bookmedik
+</code></pre><p>Ahora si nos metemos en la dirección de <code>loopback</code> (<code>127.0.0.1</code>) de nuestra máquina a través de un navegador nos aparecerá la aplicación de <code>Bookmedik</code></p>
+<p><img src="https://juanan219.github.io/Docker/Practica/1.png" alt="Captura 1"></p>
+<blockquote>
+<p><a href="https://github.com/Juanan219/">Repositorio de GitHub</a></p>
+</blockquote>
+<h2 id="tarea-2">Tarea 2</h2>
+<p>Ahora vamos a lanzar la aplicación de Bookmedik con una imagen docker de <code>PHP</code>, más concretamente, lo lanzaré con la imagen <code>php:7.4-apache</code>. Vamos a partir del ejercicio anterior, pero haciendo las modificaciones oportunas, las cuales ire enumerando mediante las hago:</p>
+<ol>
+<li>No usaremos el script <code>variables.sh</code>, ya que en la imagen docker de <code>php:7.4-apache</code> no podemos ejecutar ningún comando con <code>CMD</code>, por lo que eliminaremos el script del directorio <code>build_bookmedik</code> y modificaremos el fichero <code>Dockerfile</code></li>
+</ol>
+<pre><code>rm variables.sh
+
+nano Dockerfile 
+
+FROM php:7.4-apache
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+
+RUN apt-get update &amp;&amp; apt-get install -y git &amp;&amp; apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+RUN git clone https://github.com/evilnapsis/bookmedik /var/www/html
+
+EXPOSE 80
+
+ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik
+</code></pre><ol start="2">
+<li>Vamos a realizar otra modificación en el fichero <code>Dockerfile</code> para poder instalar el paquete <code>mysqli</code>, el cual nos va a hacer falta para usar la base de datos <code>mariadb</code> que esta aplicación necesita. Con esta imagen, las extensiones php se instalan de una forma un tanto especial, por lo que añadiremos la siguiente línea al dockerfile</li>
+</ol>
+<pre><code>nano Dockerfile
+[...]
+RUN docker-php-ext-install mysqli &amp;&amp; docker-php-ext-enable mysqli
+[...]
+</code></pre><ol start="3">
+<li>Como ya no usamos el script para cambiar las variables, deberemos copiar el fichero <code>Database.php</code> del <a href="https://github.com/evilnapsis/bookmedik">repositorio de <code>bookmedik</code></a> y lo modificaremos para que php pueda reconocer las variables de entorno que nosotros definimos en el <code>Dockerfile</code></li>
+</ol>
+<pre><code>cp bookmedik/core/controller/Database.php Bookmedik-Tarea2/build_bookmedik/
+nano Bookmedik-Tarea2/build_bookmedik/Database.php
+[...]
+$this-&gt;user=getenv(&quot;MYSQL_USER&quot;);$this-&gt;pass=getenv(&quot;MYSQL_PASSWORD&quot;);$this-&gt;host=getenv(&quot;DATABASE_SERVER&quot;);$this-&gt;ddbb=getenv(&quot;MYSQL_DATABASE&quot;);
+[...]
+</code></pre><ol start="4">
+<li>Después de modificar el fichero <code>Database.php</code> vamos a modificar de nuevo el fichero <code>Dockerfile</code> para poder añadir un parámetro para poder agregar a nuestra imagen el fichero <code>Database.php</code> modificado y se sustituya por el original</li>
+</ol>
+<pre><code>nano Dockerfile
+[...]
+ADD Database.php /var/www/html/core/controller
+[...]
+</code></pre><p>El fichero <code>Dockerfile</code> deberá quedar de esta forma</p>
+<pre><code>FROM php:7.4-apache
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+
+RUN apt-get update &amp;&amp; apt-get install -y git &amp;&amp; apt-get clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+RUN git clone https://github.com/evilnapsis/bookmedik /var/www/html
+RUN docker-php-ext-install mysqli &amp;&amp; docker-php-ext-enable mysqli
+
+ADD Database.php /var/www/html/core/controller 
+
+EXPOSE 80
+
+ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik
+</code></pre><p>El fichero <code>Database.php</code> deberá quedar de esta forma</p>
+<pre><code>&lt;?php
+class Database {
+        public static $db;
+        public static $con;
+        function Database(){
+                $this-&gt;user=getenv(&quot;MYSQL_USER&quot;);$this-&gt;pass=getenv(&quot;MYSQL_PASSWORD&quot;);$this-&gt;host=getenv(&quot;DATABASE_SERVER&quot;);$this-&gt;ddbb=getenv(&quot;MYSQL_DATABASE&quot;);
+        }
+
+        function connect(){
+                $con = new mysqli($this-&gt;host,$this-&gt;user,$this-&gt;pass,$this-&gt;ddbb);
+                $con-&gt;query(&quot;set sql_mode=''&quot;);
+                return $con;
+        }
+
+        public static function getCon(){
+                if(self::$con==null &amp;&amp; self::$db==null){
+                        self::$db = new Database();
+                        self::$con = self::$db-&gt;connect();
+                }
+                return self::$con;
+        }
+
+}
+?&gt;
+</code></pre><p>Ahora procederemos a crear la imagen</p>
+<pre><code>docker build -t juanan219/bookmedik .
+
+docker images
+REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
+juanan219/bookmedik   latest              f9bd125bde93        12 seconds ago      457MB
+[...]
+</code></pre><p>Por último modificaremos el fichero <code>docker-compose.yml</code> para que lance tanto el contenedor de la imagen <code>mariadb</code> como el de la imagen que acabamos de crear</p>
+<pre><code>version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: book_sql
+    restart: always
+    environment:
+      [MYSQL_ROOT_PASSWORD=root,MYSQL_USER=book_user,MYSQL_PASSWORD=book_passwd,MYSQL_DATABASE=bookmedik]
+    volumes:
+      - ./mysql:/var/lib/mysql
+  bookmedik:
+    image: juanan219/bookmedik
+    container_name: book_php   
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./logs:/var/log/apache2
+</code></pre><p>Lanzamos el <code>docker-compose</code> y comprobamos si funciona nuestra aplicación</p>
+<pre><code>docker-compose up -d
+Creating network &quot;bookmedik-tarea2_default&quot; with the default driver
+Creating book_php ... done
+Creating book_sql ... done
+</code></pre><p>Como podemos ver, si accedemos desde nuestra máquina anfitriona a la dirección de <code>loopback</code> (<code>127.0.0.1</code>) e introducimos el usuario y la contraseña <code>admin/admin</code> podemos acceder a nuestro <code>bookmedik</code> sobre una imagen docker <code>php:7.4-apache</code></p>
+<p><img src="https://juanan219.github.io/Docker/Practica/2.png" alt="Captura 2"></p>
+<blockquote>
+<p><a href="https://github.com/Juanan219/Bookmedik-Tarea2">Repositorio de GitHub</a></p>
+</blockquote>
+<h3 id="tarea-3">Tarea 3</h3>
+<p>Ahora vamos a usar tres contenedores diferentes para separar servicios:</p>
+<ul>
+<li>
+<p>El primero va a tener una imagen <code>nginx</code>, el cual va a servir el contenido estático.</p>
+</li>
+<li>
+<p>El segundo va a tener una imagen <code>php:7.4-fpm</code>, el cual se va a encargar de gestionar todo el contenido php</p>
+</li>
+<li>
+<p>El tercero va a tener una imagen <code>mariadb</code>, el cual se va a encargar de almacenar la base de datos de nuestro <code>bookmedik</code></p>
+</li>
+</ul>
+<ol>
+<li>Vamos a crear nuestra imagen de <code>php:7.4-fpm</code> con el módulo de <code>mysqli</code> activado, ya que sino no podemos acceder a la base de datos. Para crear esta imagen he creado un directorio que contiene el siguiente fichero <code>Dockerfile</code>:</li>
+</ol>
+<pre><code>mkdir build_php
+nano build_php/Dockerfile
+
+FROM php:7.4-fpm
+
+MAINTAINER Juan Antonio Reifs Ramirez &quot;initiategnat9@gmail.com&quot;
+
+RUN docker-php-ext-install mysqli &amp;&amp; docker-php-ext-enable mysqli
+
+ENV DATABASE_SERVER=book_sql MYSQL_ROOT_PASSWORD=root MYSQL_USER=book_user MYSQL_PASSWORD=book_passwd MYSQL_DATABASE=bookmedik
+</code></pre><ol start="2">
+<li>Creamos la imagen</li>
+</ol>
+<pre><code>docker build -t juanan219/php_mysqli
+
+docker images
+REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
+juanan219/php_mysqli   latest              2725316da685        18 minutes ago      405MB
+</code></pre><ol start="3">
+<li>Creamos un fichero llamado <code>default.conf</code> que va a servir para que <code>nginx</code> sirva nuestra aplicación</li>
+</ol>
+<pre><code>nano default.conf
+
+server {
+    index index.html;
+    server_name bookmedik.local;
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+    root /bookmedik;
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass book_php:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}
+</code></pre><ol start="4">
+<li>Copiamos un directorio de <code>bookmedik</code> con el archivo <code>bookmedik/core/controller/Database.php</code> editado (como vimos en la práctica anterior) y generamos el siguiente docker-compose.yml</li>
+</ol>
+<pre><code>nano docker-compose.yml
+
+version: '3.1'
+
+services:
+  nginx:
+    image: nginx
+    container_name: book_nginx
+    volumes:
+      - ./logs:/var/log/nginx
+      - ./bookmedik:/bookmedik
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - DATABASE_SERVER=book_sql
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=book_user
+      - MYSQL_PASSWORD=book_passwd
+      - MYSQL_DATABASE=bookmedik
+
+  php-fpm:
+    image: juanan219/php_mysqli
+    container_name: book_php
+    volumes:
+      - ./bookmedik:/bookmedik
+    restart: always
+
+  mysql:
+    image: mariadb
+    container_name: book_sql
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./bookmedik/schema.sql:/opt/schema.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=book_user
+      - MYSQL_PASSWORD=book_passwd
+      - MYSQL_DATABASE=bookmedik
+    restart: always
+</code></pre><ol start="5">
+<li>Iniciamos el script y comprobamos que podemos entrar</li>
+</ol>
+<pre><code>docker-compose up -d
+</code></pre><p><img src="https://juanan219.github.io/Docker/Practica/3.png" alt="Captura 3"></p>
+<blockquote>
+<p><a href="https://github.com/Juanan219/Bookmedik-Tarea3">Repositorio de GitHub</a></p>
+</blockquote>
+<h4 id="tarea-5">Tarea 5</h4>
+<p>Por último vamos a instalar un CMS de PHP con una imagen en DockerHub creando los contenedores necesarios para instalarla. En mi caso he escogido <code>joomla</code>. He hecho un script de <code>docker-compose</code> para ejecutar los dos contenedores que necesita joomla, uno de ellos es una imagen <code>mariadb</code> y la otra es una imagen <code>joomla</code></p>
+<pre><code>nano docker-compose.yml
+
+version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: joomla_sql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=joomla_user
+      - MYSQL_PASSWORD=joomla_passwd
+      - MYSQL_DATABASE=joomla_db
+  joomla:
+    image: joomla
+    container_name: joomla
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      - JOOMLA_DB_HOST=joomla_sql
+      - JOOMLA_DB_USER=joomla_user
+      - JOOMLA_DB_PASSWORD=joomla_passwd
+      - JOOMLA_DB_NAME=joomla_db
+</code></pre><p>Ahora simplemente hacemos un <code>docker-compose up -d</code> y se crean los dos contenedores</p>
+<pre><code>docker-compose up -d
+Creating network &quot;cms-php-tarea5_default&quot; with the default driver
+Creating joomla     ... done
+Creating joomla_sql ... done
+</code></pre><p>Comprobamos que podemos entrar</p>
+<p><img src="https://juanan219.github.io/Docker/Practica/4.png" alt="Captura 4"></p>
+<p>Una vez que hayamos terminado la configuración del sitio nos podemos meter en la página de administración (iniciando sesión con el usuario que hemos configurado)</p>
+<p><img src="https://juanan219.github.io/Docker/Practica/5.png" alt="Captura 5"></p>
+<p>Esta es la página de ejemplo de Joomla</p>
+<p><img src="https://juanan219.github.io/Docker/Practica/6.png" alt="Captura 6"></p>
+<blockquote>
+<p><a href="https://github.com/Juanan219/CMS-PHP-Tarea5">Repositorio de GitHub</a></p>
+</blockquote>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://juanan219.github.io/tags/practica/">Practica</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/docker/">Docker</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/php/">PHP</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/cms/">CMS</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/bookmedik/">Bookmedik</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1662 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          7073-07-00 33:10
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker&amp;caption=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker&amp;canonicalUrl=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker&amp;body=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f&amp;media=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f;description=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f&amp;title=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker&amp;summary=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker&amp;source=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f&amp;resubmit=true&amp;title=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f;title=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker%20https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f&amp;t=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Implantaci%c3%b3n%20de%20aplicaciones%20web%20PHP%20en%20Docker&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f03%2fimplantaci%25C3%25B3n-de-aplicaciones-web-php-en-docker%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+
+          
+            <span class="button next">
+              <a href="https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/">
+                <span class="button__text">Creación de Imagenes Docker</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2021</span>
+            <span><a href="https://juanan219.github.io">Juan antonio Reifs</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span><span><a href="https://juanan219.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+          </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://juanan219.github.io/bundle.min.af435e44374f1e99a669ea8cd5bb9a2fceed80588941a451bfddb66b86a67c9f40b0f417e9543a763f809aa7e9300d7b1d69bf99615810ba02ac70396d50fad5.js" integrity="sha512-r0NeRDdPHpmmaeqM1buaL87tgFiJQaRRv922a4amfJ9AsPQX6VQ6dj&#43;AmqfpMA17HWm/mWFYELoCrHA5bVD61Q=="></script>
+
+
+
+    </body>
+</html>

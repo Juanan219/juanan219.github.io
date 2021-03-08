@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/cms/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/cms/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Implantación de aplicaciones web PHP en Docker</title>
+      <link>https://juanan219.github.io/posts/2021/03/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</link>
+      <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/03/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</guid>
+      <description>Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script.</description>
+    </item>
+    
     <item>
       <title>Redes en Docker</title>
       <link>https://juanan219.github.io/posts/2021/02/redes-en-docker/</link>
@@ -17,15 +26,6 @@
       <description>Introducción a las redes en Docker Cada vez que creamos un contenedor en Docker, éste se conecta a una red virtual y docker hace una configuración del sistema (usando interfaces puente e iptables para que la máquina tenga una ip interna, tenga acceso al exterior, podamos mapear puertos (DNAT), etc&amp;hellip;)
 Podemos ver el comando ip si ejecutamos un contenedor con este comando.
 docker run -it --rm --name docker_debian debian bash -c &#39;ip a&#39; 1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</description>
-    </item>
-    
-    <item>
-      <title>Implantación de aplicaciones web PHP en Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</link>
-      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</guid>
-      <description>Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script.</description>
     </item>
     
   </channel>
