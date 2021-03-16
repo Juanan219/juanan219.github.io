@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 07 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Practica VPN</title>
+      <link>https://juanan219.github.io/posts/2021/03/practica-vpn/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/03/practica-vpn/</guid>
+      <description>Tarea1: VPN de acceso remoto con OpenVNP y certificados x509 En esta tarea vamos a montar una VPN con OpenVPN con certificados x509 generados usando la herramienta easy-rsa, para ello vamos a hacer el uso de 3 máquinas:
+ Mi máquina personal (Cliente) Servidor (Servidor VPN) Máquina de la red interna (Máquina a la que nos vamos a conectar)  Instalación de las herramientas Para realizar esta tarea vamos a necesitar instalar OpenVPN tanto en mi máquina como en el servidor</description>
+    </item>
+    
     <item>
       <title>Implantación de aplicaciones web PHP en Docker</title>
       <link>https://juanan219.github.io/posts/2021/03/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</link>
@@ -102,17 +112,6 @@ Configuración Tenemos dos máquinas debian, una que va a actuar como Router lla
       <description>Proxy/Caché   Proxy: Proporcionaconexión a internet cuando no tenemos enrutadores / NAT. Por lo tanto gestiona la comunicación HTTP y la podemos filtrar.
   Caché: Guarda ficheros de internet para que las futuras búsquedas de esos ficheros en la red no sea necesario volver a descargarlos de internet, sino descargarlosn directamente desde el proxy.
   Herramientas   DansGuardian: es un software de filtro de contenido, diseñado para controlar el acceso a sitios web.</description>
-    </item>
-    
-    <item>
-      <title>Rendimiento de servidor Web con caché Varnish</title>
-      <link>https://juanan219.github.io/posts/2021/02/rendimiento-de-servidor-web-con-cach%C3%A9-varnish/</link>
-      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/rendimiento-de-servidor-web-con-cach%C3%A9-varnish/</guid>
-      <description>Según las pruebas de rendimiento que se han realizado con el comando ab a varias configuraciones de servidores webs sirviendo un Wordpress, la mejor configuración para este tipo de escenarios es PHP-FPM (Socket Unix) + NGINX.
-El comando usado para las pruebas es el siguiente:
-ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.phpAumento de rendimiento en la ejecución de scripts PHP  Tarea 1:  Vamos a configurar una máquina con la configuración ganadora: PHP-FPM (Socket Unix) + NGINX.</description>
     </item>
     
   </channel>
