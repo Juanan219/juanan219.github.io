@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/03/apuntes-de-libvirt/</loc>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/03/practica-vpn/</loc>
     <lastmod>2021-03-16T00:00:00+00:00</lastmod>
   </url>
@@ -83,18 +88,23 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/easyrsa/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/apuntes/</loc>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/documentacion/</loc>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/series/hugo-101/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -108,28 +118,28 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/openssl/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/kvm/</loc>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/openvpn/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/libvirt/</loc>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/posts/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/practica/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/qemu/</loc>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/series/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -144,7 +154,7 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/</loc>
-    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -155,6 +165,36 @@
                 hreflang="en"
                 href="https://juanan219.github.io/tags/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/virsh/</loc>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/virtinst/</loc>
+    <lastmod>2021-03-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/easyrsa/</loc>
+    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/openssl/</loc>
+    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/openvpn/</loc>
+    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/practica/</loc>
+    <lastmod>2021-03-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -183,11 +223,6 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/apuntes/</loc>
-    <lastmod>2021-02-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://juanan219.github.io/tags/dockebuild/</loc>
     <lastmod>2021-02-24T00:00:00+00:00</lastmod>
   </url>
@@ -199,11 +234,6 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/dockerhub/</loc>
-    <lastmod>2021-02-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/documentacion/</loc>
     <lastmod>2021-02-24T00:00:00+00:00</lastmod>
   </url>
   
