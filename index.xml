@@ -7,7 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 18 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Metricas logs y monitorizacion</title>
+      <link>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</link>
+      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</guid>
+      <description>Descripción del escenario En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:
+ Red 1 (10.0.1.0/24):  En esta red tenemos a:
+  Dulcinea (Debian): Hace la función de router y cortafuegos.
+  Sancho (Ubuntu): Es un servidor que solo tiene instalados gestores de bases de datos.</description>
+    </item>
+    
     <item>
       <title>Apuntes de Libvirt</title>
       <link>https://juanan219.github.io/posts/2021/03/apuntes-de-libvirt/</link>
@@ -104,16 +116,6 @@ docker run -it --rm --name docker_debian debian bash -c &#39;ip a&#39; 1: lo: &a
 Docker está formado por varios componentes:
   Docker Engine: Es un demonio de cualquier distribución Linux, el cual tiene una API para gestionar las imágenes y contenedores. Sirve para crear imágenes, subirlas y bajarlas de un registro docker, ejecutar y gestionar contenedores.
   Docker Client: Este es el CLI (Command Line Interface) que nos permite controlar Docker Engine.</description>
-    </item>
-    
-    <item>
-      <title>Configuración de VPN con clave secreta</title>
-      <link>https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/configuraci%C3%B3n-de-vpn-con-clave-secreta/</guid>
-      <description>Configuración de openVPN de acceso remoto con clave estática compartida Vamos a levantar un escenario en OpenStack con una receta de heat. En este ejercico, vamos a configurar una VPN basada en SSL/TLS usando OpenVPN.
-Configuración Tenemos dos máquinas debian, una que va a actuar como Router llamada vpn_server y la otra como cliente, llamada lan. Para comenzar a realizar el ejercicio, vamos a activar el bit de forward para que nuestra máquina lan pueda acceder a internet a través de vpn_server, para ello cambiamos el valor 0 por el valor 1 del fichero /proc/sys/net/ipv4/ip_forward y creamos una regla NAT en iptables</description>
     </item>
     
   </channel>

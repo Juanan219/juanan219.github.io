@@ -6,8 +6,296 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Thu, 18 Mar 2021 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Metricas logs y monitorizacion</title>
+            <link>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</link>
+            <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</guid>
+            <description>Descripción del escenario En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:
+ Red 1 (10.0.1.0/24):  En esta red tenemos a:
+  Dulcinea (Debian): Hace la función de router y cortafuegos.
+  Sancho (Ubuntu): Es un servidor que solo tiene instalados gestores de bases de datos.</description>
+            <content type="html"><![CDATA[<h2 id="descripción-del-escenario">Descripción del escenario</h2>
+<p>En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:</p>
+<ul>
+<li><strong>Red 1 (10.0.1.0/24):</strong></li>
+</ul>
+<p>En esta red tenemos a:</p>
+<ul>
+<li>
+<p><strong>Dulcinea (Debian):</strong> Hace la función de router y cortafuegos.</p>
+</li>
+<li>
+<p><strong>Sancho (Ubuntu):</strong> Es un servidor que solo tiene instalados gestores de bases de datos.</p>
+</li>
+<li>
+<p><strong>Freston (Debian):</strong> Es el Servidor DNS (bind9)</p>
+</li>
+<li>
+<p><strong>Red 2 (10.0.2.0/24):</strong></p>
+</li>
+</ul>
+<p>En esta red tenemos a:</p>
+<ul>
+<li>
+<p><strong>Dulcinea (Debian):</strong> La anteriormente comentada, une las dos redes.</p>
+</li>
+<li>
+<p><strong>Quijote (CentOS):</strong> Servidor web con apache.</p>
+</li>
+</ul>
+<h2 id="descripción-del-servicio-de-monitorización">Descripción del servicio de monitorización</h2>
+<p>El sistema de monitorización y recolección de métricas que vamos a montar va a componerse de 3 partes:</p>
+<ul>
+<li>
+<p><strong>InfluxDB:</strong> Es el gestor de bases de datos que vamos a usar para guardar toda la información de las métricas</p>
+</li>
+<li>
+<p><strong>Telegraf:</strong> Es la herramienta de recolección de métricas, las cuales va a guardar en el gestor de bases de datos anteriormente mencionado.</p>
+</li>
+<li>
+<p><strong>Grafana:</strong> Es el gestor de Dashboards, el cual nos va a permitir hacer consultas a la base de datos de InfluxDB y nos va a mostrar los resultados en una gráfica.</p>
+</li>
+</ul>
+<h2 id="instalación-de-influxdb-en-sancho">Instalación de InfluxDB en Sancho</h2>
+<p>Primero vamos a instalar InfluxDB en Sancho, ya que es la máquina que se encarga de los servicios de las bases de datos. Para instalar esta herramienta bastaría con descargarnos los paquetes de los repositorios oficiales de Ubuntu o Debian (está en cualquiera de los dos repositorios)</p>
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install -y influxdb influxdb-client
+</code></pre><p>Poemos comprobar que se han instalado tanto el gestor de bases de datos como el cliente</p>
+<pre><code>influx
+Connected to http://localhost:8086 version 1.6.4
+InfluxDB shell version: 1.6.4
+&gt; show databases;
+name: databases
+name
+----
+_internal
+</code></pre><p>Para terminar la configuración de nuestra base de datos, vamos a crear un usuario administrador, para ello nos conectamos a la CLI de influxdb y realizamos lo siguiente</p>
+<pre><code>influx
+
+&gt; create user admin with password 'admin' with all privileges
+
+&gt; show users
+user  admin
+----  -----
+admin true
+</code></pre><p>Como podemos ver se ha creado un usuario llamado <code>admin</code> con la contraseña <code>admin</code> y elcual tiene permisos de administrador.</p>
+<h2 id="instalación-y-configuración-de-telegraf-en-sancho">Instalación y configuración de Telegraf en Sancho</h2>
+<p>Ahora que tenemos nuestro gestor de bases de datos InfluxDB instalado en sancho, vamos a instalar telegraf (la herramienta de recolección de métricas), como esta no está en los repositorios, nos dirigiremos a la <a href="https://portal.influxdata.com/downloads/">página oficial de descarga</a> del paquete de instalación y copiamos el comando de descarga del paquete y lo instalamos en Sancho:</p>
+<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
+sudo dpkg -i telegraf_1.18.1-1_amd64.deb
+rm telegraf_1.18.1-1_amd64.deb
+</code></pre><p>Cuando lo tengamos instalado, vamos a pasar a la configuración, para ello vamos a modificar el fichero <code>/etc/telegraf/telegraf.conf</code>. Este fichero es demasiado extenso, ya que telegraf es una herramienta muy configurable, pero en esta ocasión vamos a dejarle las opciones predeterminadas, ya que esto se trata de un documento educativo y se extendería demasiado la explicación de todas las opciones de configuración y plugins que tiene esta herramienta.</p>
+<p>Los cambios que voy a realizar en el fichero son los siguientes:</p>
+<pre><code>[...]
+[[outputs.influxdb]]
+[...]
+    urls = [&quot;http://127.0.0.1:8086&quot;]
+[...]
+    database = &quot;telegraf&quot;
+[...]
+    skip_database_creation = true
+[...]
+    timeout = &quot;5s&quot;
+[...]
+    username = &quot;admin&quot;
+    password = &quot;admin&quot;
+[...]
+</code></pre><ul>
+<li>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li>
+<p><code>urls = [&quot;http://127.0.0.1:8086&quot;]</code>: Descomentamos esta línea dentro del apartado de <code>[[outputs.influxdb]]</code>. Esta línea sirve para indicar a qué dirección se tienen que enviar las métricas, en este caso, las métricas se recogen en la misma máquina que tiene instalado InfluxDB, por lo que dejaremos la dirección de <code>loopback</code> o <code>localhost</code>.</p>
+</li>
+<li>
+<p><code>database = &quot;telegraf&quot;</code>: Descomentamos esta línea, la cual indica el nombre de la base de datos en la que se guardarán las métricas recogidas</p>
+</li>
+<li>
+<p><code>skip_database_creation = true</code>: Saltamos la creación de una base de datos inicial, ya que al instalar telegraf se crea una base de datos llamada <code>telegraf</code> en InfluxDB.</p>
+</li>
+<li>
+<p><code>timeout = &quot;5s&quot;</code>: el tiempo de espera para los mensajes de HTTP</p>
+</li>
+<li>
+<p><code>username y password</code>; el nombre de usuario y la contraseña del usuario propietario de la base de datos que vayamos a usar o que hemos indicado anteriormente en la línea de <code>database</code>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Cuando hayamos realizado la configuración guardamos y reiniciamos el servicio de telegraf y una vez que este se haya reiniciado, podemos entrar en la CLI de InfluxDB y podemos ver que se han creado tablas con algunos registros de la máquina <code>sancho</code>.</p>
+<pre><code>influx
+Connected to http://localhost:8086 version 1.6.4
+InfluxDB shell version: 1.6.4
+
+&gt; use telegraf
+Using database telegraf
+
+&gt; show measurements
+name: measurements
+name
+----
+cpu
+disk
+diskio
+kernel
+mem
+processes
+swap
+system
+
+&gt; select * from cpu
+name: cpu
+time                cpu       host   usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
+----                ---       ----   ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
+1619452540000000000 cpu-total sancho 0           0                94.64105157383807 4.246713852520839   0         0          0                   0.10111223458372003 0.6066734075023201  0.4044489383348801
+1619452540000000000 cpu0      sancho 0           0                94.64105157383807 4.246713852520839   0         0          0                   0.10111223458372003 0.6066734075023201  0.4044489383348801
+[...]
+</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-dulcinea">Instalación y configuración de telegraf en Dulcinea</h2>
+<p>Ahora que hemos terminado de instalar y configurar todo en Sancho, vamos a pasar a instalar y configurar telegraf en dulcinea, para ello vamos a seguir los mismos pasos que anteriormente:</p>
+<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
+
+sudo dpkg -i telegraf_1.18.1-1_amd64.deb
+
+rm telegraf_1.18.1-1_amd64.deb
+
+sudo nano /etc/telegraf/telegraf.conf
+[...]
+[[outputs.influxdb]]
+[...]
+    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
+[...]
+    database = &quot;telegraf&quot;
+[...]
+    skip_database_creation = true
+[...]
+    timeout = &quot;5s&quot;
+[...]
+    username = &quot;admin&quot;
+    password = &quot;admin&quot;
+[...]
+
+sudo systemctl restart telegraf.service
+</code></pre><p>Verificamos que se está realizando la recolección de métricas</p>
+<pre><code>influx
+Connected to http://localhost:8086 version 1.6.4
+InfluxDB shell version: 1.6.4
+&gt; use telegraf
+Using database telegraf
+&gt; select * from cpu
+name: cpu
+time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
+----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
+[...]
+1619454490000000000 cpu-total dulcinea 0           0                99.89979960143319 0                   0         0          0                   0                   0.10020040080637438 0
+1619454490000000000 cpu0      dulcinea 0           0                99.89979960143319 0                   0         0          0                   0                   0.10020040080637438 0
+[...]
+</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-freston">Instalación y configuración de telegraf en freston</h2>
+<p>Ahora haremos lo mismo pero en freston</p>
+<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
+
+sudo dpkg -i telegraf_1.18.1-1_amd64.deb
+
+rm telegraf_1.18.1-1_amd64.deb
+
+sudo nano /etc/telegraf/telegraf.conf
+[...]
+[[outputs.influxdb]]
+[...]
+    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
+[...]
+    database = &quot;telegraf&quot;
+[...]
+    skip_database_creation = true
+[...]
+    timeout = &quot;5s&quot;
+[...]
+    username = &quot;admin&quot;
+    password = &quot;admin&quot;
+[...]
+
+sudo systemctl restart telegraf.service
+</code></pre><p>Comprobamos que se están enviando métricas de freston</p>
+<pre><code>&gt; select * from cpu
+name: cpu
+time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
+----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
+[...]
+1619454410000000000 cpu-total freston  0           0                98.09045225722387 1.3065326633389247  0         0          0                   0                   0.30150753768937927 0.30150753767109795
+1619454410000000000 cpu0      freston  0           0                98.09045225722387 1.3065326633389247  0         0          0                   0                   0.30150753768937927 0.30150753767109795
+[...]
+</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-quijote">Instalación y configuración de telegraf en quijote</h2>
+<p>Por último, instalamos telegraf en quijote</p>
+<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf-1.18.1-1.x86_64.rpm
+
+sudo dnf localinstall telegraf-1.18.1-1.x86_64.rpm
+
+rm telegraf-1.18.1-1.x86_64.rpm
+
+sudo nano /etc/telegraf/telegraf.conf
+[...]
+[[outputs.influxdb]]
+[...]
+    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
+[...]
+    database = &quot;telegraf&quot;
+[...]
+    skip_database_creation = true
+[...]
+    timeout = &quot;5s&quot;
+[...]
+    username = &quot;admin&quot;
+    password = &quot;admin&quot;
+[...]
+
+sudo systemctl restart telegraf.service
+</code></pre><p>Comprobamos que se están enviando métricas de quijote</p>
+<pre><code>&gt; select * from cpu
+name: cpu
+time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
+----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
+[...]
+1619454980000000000 cpu0      quijote  0           0                98.59578736541238 0.30090270813311    0.10030090270381484 0          0.10030090271293715 0                   0.4012036108426263  0.5015045135464411
+1619454990000000000 cpu-total quijote  0           0                97.59036144352997 1.1044176706869986  0.2008032128565398  0          0.10040160641913842 0.10040160642598703 0.502008032132218   0.4016064257130796
+[...]
+</code></pre><h2 id="instalación-de-grafana-en-quijote">Instalación de grafana en quijote</h2>
+<p>Lo último que nos queda por instalar y configurar es grafana en quijote, el cual es el servidor web. Para instalar grafana basta con instalarlo desde los repositorios de CentOs</p>
+<pre><code>sudo dnf install grafana
+</code></pre><p>Como nuestra máquina tiene instalado un servidor web apache, vamos a realizar un proxy inverso para que podamos acceder a nuestro servicio de grafana desde el exterior, para ello vamos a crear un virtualhost que actúe como proxy inverso</p>
+<pre><code>sudo nano /etc/httpd/sites-available/grafana.conf
+
+&lt;Virtualhost *:80&gt;
+        ServerName grafana.juanantonio-reifs.gonzalonazareno.org
+        ProxyPreserveHost On
+        ProxyPass / http://localhost:3000/
+        ProxyPassReverse / http://localhost:3000/
+        ErrorLog /var/log/grafana/error_log
+        TransferLog /var/log/grafana/error_log
+&lt;/virtualhost&gt;
+</code></pre><p>Hacemos un enlace simbólico hacia <code>sites-enabled</code> y reiniciamos el servicio</p>
+<pre><code>cd /etc/httpd/sites-enabled
+
+sudo ln -s ../sites-available/grafana.conf .
+
+sudo systemctl restart httpd
+</code></pre><p>Ahora podremos entrar en la página de login y cambiamos la contraseña de admin, en mi caso el usuario va a ser <code>admin</code> y la contraseña va a ser <code>admin1</code></p>
+<p><img src="/metricas/1.png" alt="Captura 1"></p>
+<p><img src="/metricas/2.png" alt="Captura 2"></p>
+<p>Cuando hayamos entrado vamos a enlazar la base de datos, para ello nos dirigiremos a <code>Configuración</code> &gt; <code>Data sources</code> &gt; <code>Add Data Source</code></p>
+<p><img src="/metricas/3.png" alt="Captura 3"></p>
+<p>Seleccionamos la base de datos que hayamos instalado, en nuestro caso es <code>InfluxDB</code></p>
+<p><img src="/metricas/4.png" alt="Captura 4"></p>
+<p>Ahora pasamos a configurar la base de datos, para ello pondremos el nombre del servidor que está sirviendo nuestra base de datos <code>InfluxDB</code> junto con su puerto, en mi caso sería <code>http://sancho.juanantonio-reifs.gonzalonazareno.org:8086</code> y abajo del todo pondremos el nombre de la base de datos que se ha creado, en mi caso es <code>telegraf</code> y ponemos el usuario y la contraseña de acceso a la base de datos</p>
+<p><img src="/metricas/5.png" alt="Captura 5"></p>
+<p><img src="/metricas/6.png" alt="Captura 6"></p>
+<p>Cuando esté todo configurado podemos crear un dashboard haciendo una consulta a la base de datos, de tal manera que quedaría así</p>
+<p><img src="/metricas/7.png" alt="Captura 7"></p>
+<p><img src="/metricas/8.png" alt="Captura 8"></p>
+]]></content>
+        </item>
         
         <item>
             <title>Apuntes de Libvirt</title>
@@ -4422,295 +4710,6 @@ git commit -am &quot;Archivos estáticos HUGO&quot;
 git push
 </code></pre><p>Por último, si nos dirigimos a la configuración de nuestro nuevo repositorio de GitHub, si bajamos, podremos ver un apartado llamado GitHub Pages, en el cual, si todo ha salido bien, nos dirá que nuestra página está subida a <a href="https://juanan219.github.io/">la url que le hemos configurado</a></p>
 <p><img src="/web_estatica/1.PNG" alt="Captura 1"></p>
-]]></content>
-        </item>
-        
-        <item>
-            <title></title>
-            <link>https://juanan219.github.io/posts/1/01/</link>
-            <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-            
-            <guid>https://juanan219.github.io/posts/1/01/</guid>
-            <description>Metricas, logs y monitorización Descripción del escenario En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:
- Red 1 (10.0.1.0/24):  En esta red tenemos a:
-  Dulcinea (Debian): Hace la función de router y cortafuegos.
-  Sancho (Ubuntu): Es un servidor que solo tiene instalados gestores de bases de datos.</description>
-            <content type="html"><![CDATA[<h1 id="metricas-logs-y-monitorización">Metricas, logs y monitorización</h1>
-<h2 id="descripción-del-escenario">Descripción del escenario</h2>
-<p>En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:</p>
-<ul>
-<li><strong>Red 1 (10.0.1.0/24):</strong></li>
-</ul>
-<p>En esta red tenemos a:</p>
-<ul>
-<li>
-<p><strong>Dulcinea (Debian):</strong> Hace la función de router y cortafuegos.</p>
-</li>
-<li>
-<p><strong>Sancho (Ubuntu):</strong> Es un servidor que solo tiene instalados gestores de bases de datos.</p>
-</li>
-<li>
-<p><strong>Freston (Debian):</strong> Es el Servidor DNS (bind9)</p>
-</li>
-<li>
-<p><strong>Red 2 (10.0.2.0/24):</strong></p>
-</li>
-</ul>
-<p>En esta red tenemos a:</p>
-<ul>
-<li>
-<p><strong>Dulcinea (Debian):</strong> La anteriormente comentada, une las dos redes.</p>
-</li>
-<li>
-<p><strong>Quijote (CentOS):</strong> Servidor web con apache.</p>
-</li>
-</ul>
-<h2 id="descripción-del-servicio-de-monitorización">Descripción del servicio de monitorización</h2>
-<p>El sistema de monitorización y recolección de métricas que vamos a montar va a componerse de 3 partes:</p>
-<ul>
-<li>
-<p><strong>InfluxDB:</strong> Es el gestor de bases de datos que vamos a usar para guardar toda la información de las métricas</p>
-</li>
-<li>
-<p><strong>Telegraf:</strong> Es la herramienta de recolección de métricas, las cuales va a guardar en el gestor de bases de datos anteriormente mencionado.</p>
-</li>
-<li>
-<p><strong>Grafana:</strong> Es el gestor de Dashboards, el cual nos va a permitir hacer consultas a la base de datos de InfluxDB y nos va a mostrar los resultados en una gráfica.</p>
-</li>
-</ul>
-<h2 id="instalación-de-influxdb-en-sancho">Instalación de InfluxDB en Sancho</h2>
-<p>Primero vamos a instalar InfluxDB en Sancho, ya que es la máquina que se encarga de los servicios de las bases de datos. Para instalar esta herramienta bastaría con descargarnos los paquetes de los repositorios oficiales de Ubuntu o Debian (está en cualquiera de los dos repositorios)</p>
-<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install -y influxdb influxdb-client
-</code></pre><p>Poemos comprobar que se han instalado tanto el gestor de bases de datos como el cliente</p>
-<pre><code>influx
-Connected to http://localhost:8086 version 1.6.4
-InfluxDB shell version: 1.6.4
-&gt; show databases;
-name: databases
-name
-----
-_internal
-</code></pre><p>Para terminar la configuración de nuestra base de datos, vamos a crear un usuario administrador, para ello nos conectamos a la CLI de influxdb y realizamos lo siguiente</p>
-<pre><code>influx
-
-&gt; create user admin with password 'admin' with all privileges
-
-&gt; show users
-user  admin
-----  -----
-admin true
-</code></pre><p>Como podemos ver se ha creado un usuario llamado <code>admin</code> con la contraseña <code>admin</code> y elcual tiene permisos de administrador.</p>
-<h2 id="instalación-y-configuración-de-telegraf-en-sancho">Instalación y configuración de Telegraf en Sancho</h2>
-<p>Ahora que tenemos nuestro gestor de bases de datos InfluxDB instalado en sancho, vamos a instalar telegraf (la herramienta de recolección de métricas), como esta no está en los repositorios, nos dirigiremos a la <a href="https://portal.influxdata.com/downloads/">página oficial de descarga</a> del paquete de instalación y copiamos el comando de descarga del paquete y lo instalamos en Sancho:</p>
-<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
-sudo dpkg -i telegraf_1.18.1-1_amd64.deb
-rm telegraf_1.18.1-1_amd64.deb
-</code></pre><p>Cuando lo tengamos instalado, vamos a pasar a la configuración, para ello vamos a modificar el fichero <code>/etc/telegraf/telegraf.conf</code>. Este fichero es demasiado extenso, ya que telegraf es una herramienta muy configurable, pero en esta ocasión vamos a dejarle las opciones predeterminadas, ya que esto se trata de un documento educativo y se extendería demasiado la explicación de todas las opciones de configuración y plugins que tiene esta herramienta.</p>
-<p>Los cambios que voy a realizar en el fichero son los siguientes:</p>
-<pre><code>[...]
-[[outputs.influxdb]]
-[...]
-    urls = [&quot;http://127.0.0.1:8086&quot;]
-[...]
-    database = &quot;telegraf&quot;
-[...]
-    skip_database_creation = true
-[...]
-    timeout = &quot;5s&quot;
-[...]
-    username = &quot;admin&quot;
-    password = &quot;admin&quot;
-[...]
-</code></pre><ul>
-<li>
-<p><strong>Explicación:</strong></p>
-<ul>
-<li>
-<p><code>urls = [&quot;http://127.0.0.1:8086&quot;]</code>: Descomentamos esta línea dentro del apartado de <code>[[outputs.influxdb]]</code>. Esta línea sirve para indicar a qué dirección se tienen que enviar las métricas, en este caso, las métricas se recogen en la misma máquina que tiene instalado InfluxDB, por lo que dejaremos la dirección de <code>loopback</code> o <code>localhost</code>.</p>
-</li>
-<li>
-<p><code>database = &quot;telegraf&quot;</code>: Descomentamos esta línea, la cual indica el nombre de la base de datos en la que se guardarán las métricas recogidas</p>
-</li>
-<li>
-<p><code>skip_database_creation = true</code>: Saltamos la creación de una base de datos inicial, ya que al instalar telegraf se crea una base de datos llamada <code>telegraf</code> en InfluxDB.</p>
-</li>
-<li>
-<p><code>timeout = &quot;5s&quot;</code>: el tiempo de espera para los mensajes de HTTP</p>
-</li>
-<li>
-<p><code>username y password</code>; el nombre de usuario y la contraseña del usuario propietario de la base de datos que vayamos a usar o que hemos indicado anteriormente en la línea de <code>database</code>.</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>Cuando hayamos realizado la configuración guardamos y reiniciamos el servicio de telegraf y una vez que este se haya reiniciado, podemos entrar en la CLI de InfluxDB y podemos ver que se han creado tablas con algunos registros de la máquina <code>sancho</code>.</p>
-<pre><code>influx
-Connected to http://localhost:8086 version 1.6.4
-InfluxDB shell version: 1.6.4
-
-&gt; use telegraf
-Using database telegraf
-
-&gt; show measurements
-name: measurements
-name
-----
-cpu
-disk
-diskio
-kernel
-mem
-processes
-swap
-system
-
-&gt; select * from cpu
-name: cpu
-time                cpu       host   usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
-----                ---       ----   ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
-1619452540000000000 cpu-total sancho 0           0                94.64105157383807 4.246713852520839   0         0          0                   0.10111223458372003 0.6066734075023201  0.4044489383348801
-1619452540000000000 cpu0      sancho 0           0                94.64105157383807 4.246713852520839   0         0          0                   0.10111223458372003 0.6066734075023201  0.4044489383348801
-[...]
-</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-dulcinea">Instalación y configuración de telegraf en Dulcinea</h2>
-<p>Ahora que hemos terminado de instalar y configurar todo en Sancho, vamos a pasar a instalar y configurar telegraf en dulcinea, para ello vamos a seguir los mismos pasos que anteriormente:</p>
-<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
-
-sudo dpkg -i telegraf_1.18.1-1_amd64.deb
-
-rm telegraf_1.18.1-1_amd64.deb
-
-sudo nano /etc/telegraf/telegraf.conf
-[...]
-[[outputs.influxdb]]
-[...]
-    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
-[...]
-    database = &quot;telegraf&quot;
-[...]
-    skip_database_creation = true
-[...]
-    timeout = &quot;5s&quot;
-[...]
-    username = &quot;admin&quot;
-    password = &quot;admin&quot;
-[...]
-
-sudo systemctl restart telegraf.service
-</code></pre><p>Verificamos que se está realizando la recolección de métricas</p>
-<pre><code>influx
-Connected to http://localhost:8086 version 1.6.4
-InfluxDB shell version: 1.6.4
-&gt; use telegraf
-Using database telegraf
-&gt; select * from cpu
-name: cpu
-time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
-----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
-[...]
-1619454490000000000 cpu-total dulcinea 0           0                99.89979960143319 0                   0         0          0                   0                   0.10020040080637438 0
-1619454490000000000 cpu0      dulcinea 0           0                99.89979960143319 0                   0         0          0                   0                   0.10020040080637438 0
-[...]
-</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-freston">Instalación y configuración de telegraf en freston</h2>
-<p>Ahora haremos lo mismo pero en freston</p>
-<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
-
-sudo dpkg -i telegraf_1.18.1-1_amd64.deb
-
-rm telegraf_1.18.1-1_amd64.deb
-
-sudo nano /etc/telegraf/telegraf.conf
-[...]
-[[outputs.influxdb]]
-[...]
-    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
-[...]
-    database = &quot;telegraf&quot;
-[...]
-    skip_database_creation = true
-[...]
-    timeout = &quot;5s&quot;
-[...]
-    username = &quot;admin&quot;
-    password = &quot;admin&quot;
-[...]
-
-sudo systemctl restart telegraf.service
-</code></pre><p>Comprobamos que se están enviando métricas de freston</p>
-<pre><code>&gt; select * from cpu
-name: cpu
-time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
-----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
-[...]
-1619454410000000000 cpu-total freston  0           0                98.09045225722387 1.3065326633389247  0         0          0                   0                   0.30150753768937927 0.30150753767109795
-1619454410000000000 cpu0      freston  0           0                98.09045225722387 1.3065326633389247  0         0          0                   0                   0.30150753768937927 0.30150753767109795
-[...]
-</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-quijote">Instalación y configuración de telegraf en quijote</h2>
-<p>Por último, instalamos telegraf en quijote</p>
-<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf-1.18.1-1.x86_64.rpm
-
-sudo dnf localinstall telegraf-1.18.1-1.x86_64.rpm
-
-rm telegraf-1.18.1-1.x86_64.rpm
-
-sudo nano /etc/telegraf/telegraf.conf
-[...]
-[[outputs.influxdb]]
-[...]
-    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
-[...]
-    database = &quot;telegraf&quot;
-[...]
-    skip_database_creation = true
-[...]
-    timeout = &quot;5s&quot;
-[...]
-    username = &quot;admin&quot;
-    password = &quot;admin&quot;
-[...]
-
-sudo systemctl restart telegraf.service
-</code></pre><p>Comprobamos que se están enviando métricas de quijote</p>
-<pre><code>&gt; select * from cpu
-name: cpu
-time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
-----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
-[...]
-1619454980000000000 cpu0      quijote  0           0                98.59578736541238 0.30090270813311    0.10030090270381484 0          0.10030090271293715 0                   0.4012036108426263  0.5015045135464411
-1619454990000000000 cpu-total quijote  0           0                97.59036144352997 1.1044176706869986  0.2008032128565398  0          0.10040160641913842 0.10040160642598703 0.502008032132218   0.4016064257130796
-[...]
-</code></pre><h2 id="instalación-de-grafana-en-quijote">Instalación de grafana en quijote</h2>
-<p>Lo último que nos queda por instalar y configurar es grafana en quijote, el cual es el servidor web. Para instalar grafana basta con instalarlo desde los repositorios de CentOs</p>
-<pre><code>sudo dnf install grafana
-</code></pre><p>Como nuestra máquina tiene instalado un servidor web apache, vamos a realizar un proxy inverso para que podamos acceder a nuestro servicio de grafana desde el exterior, para ello vamos a crear un virtualhost que actúe como proxy inverso</p>
-<pre><code>sudo nano /etc/httpd/sites-available/grafana.conf
-
-&lt;Virtualhost *:80&gt;
-        ServerName grafana.juanantonio-reifs.gonzalonazareno.org
-        ProxyPreserveHost On
-        ProxyPass / http://localhost:3000/
-        ProxyPassReverse / http://localhost:3000/
-        ErrorLog /var/log/grafana/error_log
-        TransferLog /var/log/grafana/error_log
-&lt;/virtualhost&gt;
-</code></pre><p>Hacemos un enlace simbólico hacia <code>sites-enabled</code> y reiniciamos el servicio</p>
-<pre><code>cd /etc/httpd/sites-enabled
-
-sudo ln -s ../sites-available/grafana.conf .
-
-sudo systemctl restart httpd
-</code></pre><p>Ahora podremos entrar en la página de login y cambiamos la contraseña de admin, en mi caso el usuario va a ser <code>admin</code> y la contraseña va a ser <code>admin1</code></p>
-<p><img src="/metricas/1.png" alt="Captura 1"></p>
-<p><img src="/metricas/2.png" alt="Captura 2"></p>
-<p>Cuando hayamos entrado vamos a enlazar la base de datos, para ello nos dirigiremos a <code>Configuración</code> &gt; <code>Data sources</code> &gt; <code>Add Data Source</code></p>
-<p><img src="/metricas/3.png" alt="Captura 3"></p>
-<p>Seleccionamos la base de datos que hayamos instalado, en nuestro caso es <code>InfluxDB</code></p>
-<p><img src="/metricas/4.png" alt="Captura 4"></p>
-<p>Ahora pasamos a configurar la base de datos, para ello pondremos el nombre del servidor que está sirviendo nuestra base de datos <code>InfluxDB</code> junto con su puerto, en mi caso sería <code>http://sancho.juanantonio-reifs.gonzalonazareno.org:8086</code> y abajo del todo pondremos el nombre de la base de datos que se ha creado, en mi caso es <code>telegraf</code> y ponemos el usuario y la contraseña de acceso a la base de datos</p>
-<p><img src="/metricas/5.png" alt="Captura 5"></p>
-<p><img src="/metricas/6.png" alt="Captura 6"></p>
-<p>Cuando esté todo configurado podemos crear un dashboard haciendo una consulta a la base de datos, de tal manera que quedaría así</p>
-<p><img src="/metricas/7.png" alt="Captura 7"></p>
-<p><img src="/metricas/8.png" alt="Captura 8"></p>
 ]]></content>
         </item>
         
