@@ -7,61 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Grafana</title>
-      <link>https://juanan219.github.io/tags/grafana/</link>
-      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/grafana/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>InfluxDB</title>
-      <link>https://juanan219.github.io/tags/influxdb/</link>
-      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/influxdb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Metricas</title>
-      <link>https://juanan219.github.io/tags/metricas/</link>
-      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/metricas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Monitorizacion</title>
-      <link>https://juanan219.github.io/tags/monitorizacion/</link>
-      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/monitorizacion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Practica</title>
-      <link>https://juanan219.github.io/tags/practica/</link>
-      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/practica/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Telegraf</title>
-      <link>https://juanan219.github.io/tags/telegraf/</link>
-      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/telegraf/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Thu, 18 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Apuntes</title>
       <link>https://juanan219.github.io/tags/apuntes/</link>
@@ -95,6 +41,60 @@
       <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/libvirt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>qemu</title>
+      <link>https://juanan219.github.io/tags/qemu/</link>
+      <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/qemu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>virsh</title>
+      <link>https://juanan219.github.io/tags/virsh/</link>
+      <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/virsh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>virtinst</title>
+      <link>https://juanan219.github.io/tags/virtinst/</link>
+      <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/virtinst/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>EasyRSA</title>
+      <link>https://juanan219.github.io/tags/easyrsa/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/easyrsa/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OpenSSL</title>
+      <link>https://juanan219.github.io/tags/openssl/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/openssl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OpenVPN</title>
+      <link>https://juanan219.github.io/tags/openvpn/</link>
+      <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/openvpn/</guid>
       <description></description>
     </item>
     
