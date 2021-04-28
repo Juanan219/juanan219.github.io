@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Grafana on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/grafana/</link>
+    <description>Recent content in Grafana on JuananBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/grafana/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Metricas logs y monitorizacion</title>
+      <link>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</link>
+      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</guid>
+      <description>Descripción del escenario En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:
+ Red 1 (10.0.1.0/24):  En esta red tenemos a:
+  Dulcinea (Debian): Hace la función de router y cortafuegos.
+  Sancho (Ubuntu): Es un servidor que solo tiene instalados gestores de bases de datos.</description>
+    </item>
+    
+  </channel>
+</rss>

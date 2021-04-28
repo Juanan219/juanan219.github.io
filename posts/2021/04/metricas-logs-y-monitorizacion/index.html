@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:Juan Antonio Reifs]">
+<meta name="description" content="Descripción del escenario En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:
+ Red 1 (10.0.1.0/24):  En esta red tenemos a:
+  Dulcinea (Debian): Hace la función de router y cortafuegos.
+  Sancho (Ubuntu): Es un servidor que solo tiene instalados gestores de bases de datos." />
+<meta name="keywords" content=", Metricas, Monitorizacion, Telegraf, InfluxDB, Grafana, Practica" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/" />
+
+
+    <title>
+        
+            Metricas logs y monitorizacion :: JuananBlog  — JuananBlog
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://juanan219.github.io/main.154a87e0ff720e102948892a8eb80881aa81a4faf37376f3093be219f6296c3d.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://juanan219.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://juanan219.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://juanan219.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://juanan219.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://juanan219.github.io/safari-pinned-tab.svg" color="#1b1c1d">
+    <link rel="shortcut icon" href="https://juanan219.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#1b1c1d">
+    <meta name="theme-color" content="#1b1c1d">
+
+
+
+<meta itemprop="name" content="Metricas logs y monitorizacion">
+<meta itemprop="description" content="Descripción del escenario En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:
+ Red 1 (10.0.1.0/24):  En esta red tenemos a:
+  Dulcinea (Debian): Hace la función de router y cortafuegos.
+  Sancho (Ubuntu): Es un servidor que solo tiene instalados gestores de bases de datos.">
+<meta itemprop="datePublished" content="2021-04-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-04-28T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1496">
+<meta itemprop="image" content="https://juanan219.github.io"/>
+
+
+
+<meta itemprop="keywords" content="Metricas,Monitorizacion,Telegraf,InfluxDB,Grafana,Practica," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://juanan219.github.io"/>
+
+<meta name="twitter:title" content="Metricas logs y monitorizacion"/>
+<meta name="twitter:description" content="Descripción del escenario En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:
+ Red 1 (10.0.1.0/24):  En esta red tenemos a:
+  Dulcinea (Debian): Hace la función de router y cortafuegos.
+  Sancho (Ubuntu): Es un servidor que solo tiene instalados gestores de bases de datos."/>
+
+
+
+
+    <meta property="og:title" content="Metricas logs y monitorizacion" />
+<meta property="og:description" content="Descripción del escenario En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:
+ Red 1 (10.0.1.0/24):  En esta red tenemos a:
+  Dulcinea (Debian): Hace la función de router y cortafuegos.
+  Sancho (Ubuntu): Es un servidor que solo tiene instalados gestores de bases de datos." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/" />
+<meta property="og:image" content="https://juanan219.github.io"/>
+<meta property="article:published_time" content="2021-04-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-04-28T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-04-28 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://juanan219.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://juanan219.github.io/about/">About</a></li><li><a href="https://juanan219.github.io/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        8 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/">Metricas logs y monitorizacion</a>
+      </h1>
+
+      
+
+      
+
+      <div class="post-content">
+        <h2 id="descripción-del-escenario">Descripción del escenario</h2>
+<p>En esta entrada vamos a montar el servicio de recolección de métricas para poder monitorizar nuestros servidores en una infraestructura de red. En esta infraestructura tenemos 4 servidores y 2 redes:</p>
+<ul>
+<li><strong>Red 1 (10.0.1.0/24):</strong></li>
+</ul>
+<p>En esta red tenemos a:</p>
+<ul>
+<li>
+<p><strong>Dulcinea (Debian):</strong> Hace la función de router y cortafuegos.</p>
+</li>
+<li>
+<p><strong>Sancho (Ubuntu):</strong> Es un servidor que solo tiene instalados gestores de bases de datos.</p>
+</li>
+<li>
+<p><strong>Freston (Debian):</strong> Es el Servidor DNS (bind9)</p>
+</li>
+<li>
+<p><strong>Red 2 (10.0.2.0/24):</strong></p>
+</li>
+</ul>
+<p>En esta red tenemos a:</p>
+<ul>
+<li>
+<p><strong>Dulcinea (Debian):</strong> La anteriormente comentada, une las dos redes.</p>
+</li>
+<li>
+<p><strong>Quijote (CentOS):</strong> Servidor web con apache.</p>
+</li>
+</ul>
+<h2 id="descripción-del-servicio-de-monitorización">Descripción del servicio de monitorización</h2>
+<p>El sistema de monitorización y recolección de métricas que vamos a montar va a componerse de 3 partes:</p>
+<ul>
+<li>
+<p><strong>InfluxDB:</strong> Es el gestor de bases de datos que vamos a usar para guardar toda la información de las métricas</p>
+</li>
+<li>
+<p><strong>Telegraf:</strong> Es la herramienta de recolección de métricas, las cuales va a guardar en el gestor de bases de datos anteriormente mencionado.</p>
+</li>
+<li>
+<p><strong>Grafana:</strong> Es el gestor de Dashboards, el cual nos va a permitir hacer consultas a la base de datos de InfluxDB y nos va a mostrar los resultados en una gráfica.</p>
+</li>
+</ul>
+<h2 id="instalación-de-influxdb-en-sancho">Instalación de InfluxDB en Sancho</h2>
+<p>Primero vamos a instalar InfluxDB en Sancho, ya que es la máquina que se encarga de los servicios de las bases de datos. Para instalar esta herramienta bastaría con descargarnos los paquetes de los repositorios oficiales de Ubuntu o Debian (está en cualquiera de los dos repositorios)</p>
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install -y influxdb influxdb-client
+</code></pre><p>Poemos comprobar que se han instalado tanto el gestor de bases de datos como el cliente</p>
+<pre><code>influx
+Connected to http://localhost:8086 version 1.6.4
+InfluxDB shell version: 1.6.4
+&gt; show databases;
+name: databases
+name
+----
+_internal
+</code></pre><p>Para terminar la configuración de nuestra base de datos, vamos a crear un usuario administrador, para ello nos conectamos a la CLI de influxdb y realizamos lo siguiente</p>
+<pre><code>influx
+
+&gt; create user admin with password 'admin' with all privileges
+
+&gt; show users
+user  admin
+----  -----
+admin true
+</code></pre><p>Como podemos ver se ha creado un usuario llamado <code>admin</code> con la contraseña <code>admin</code> y elcual tiene permisos de administrador.</p>
+<h2 id="instalación-y-configuración-de-telegraf-en-sancho">Instalación y configuración de Telegraf en Sancho</h2>
+<p>Ahora que tenemos nuestro gestor de bases de datos InfluxDB instalado en sancho, vamos a instalar telegraf (la herramienta de recolección de métricas), como esta no está en los repositorios, nos dirigiremos a la <a href="https://portal.influxdata.com/downloads/">página oficial de descarga</a> del paquete de instalación y copiamos el comando de descarga del paquete y lo instalamos en Sancho:</p>
+<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
+sudo dpkg -i telegraf_1.18.1-1_amd64.deb
+rm telegraf_1.18.1-1_amd64.deb
+</code></pre><p>Cuando lo tengamos instalado, vamos a pasar a la configuración, para ello vamos a modificar el fichero <code>/etc/telegraf/telegraf.conf</code>. Este fichero es demasiado extenso, ya que telegraf es una herramienta muy configurable, pero en esta ocasión vamos a dejarle las opciones predeterminadas, ya que esto se trata de un documento educativo y se extendería demasiado la explicación de todas las opciones de configuración y plugins que tiene esta herramienta.</p>
+<p>Los cambios que voy a realizar en el fichero son los siguientes:</p>
+<pre><code>[...]
+[[outputs.influxdb]]
+[...]
+    urls = [&quot;http://127.0.0.1:8086&quot;]
+[...]
+    database = &quot;telegraf&quot;
+[...]
+    skip_database_creation = true
+[...]
+    timeout = &quot;5s&quot;
+[...]
+    username = &quot;admin&quot;
+    password = &quot;admin&quot;
+[...]
+</code></pre><ul>
+<li>
+<p><strong>Explicación:</strong></p>
+<ul>
+<li>
+<p><code>urls = [&quot;http://127.0.0.1:8086&quot;]</code>: Descomentamos esta línea dentro del apartado de <code>[[outputs.influxdb]]</code>. Esta línea sirve para indicar a qué dirección se tienen que enviar las métricas, en este caso, las métricas se recogen en la misma máquina que tiene instalado InfluxDB, por lo que dejaremos la dirección de <code>loopback</code> o <code>localhost</code>.</p>
+</li>
+<li>
+<p><code>database = &quot;telegraf&quot;</code>: Descomentamos esta línea, la cual indica el nombre de la base de datos en la que se guardarán las métricas recogidas</p>
+</li>
+<li>
+<p><code>skip_database_creation = true</code>: Saltamos la creación de una base de datos inicial, ya que al instalar telegraf se crea una base de datos llamada <code>telegraf</code> en InfluxDB.</p>
+</li>
+<li>
+<p><code>timeout = &quot;5s&quot;</code>: el tiempo de espera para los mensajes de HTTP</p>
+</li>
+<li>
+<p><code>username y password</code>; el nombre de usuario y la contraseña del usuario propietario de la base de datos que vayamos a usar o que hemos indicado anteriormente en la línea de <code>database</code>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Cuando hayamos realizado la configuración guardamos y reiniciamos el servicio de telegraf y una vez que este se haya reiniciado, podemos entrar en la CLI de InfluxDB y podemos ver que se han creado tablas con algunos registros de la máquina <code>sancho</code>.</p>
+<pre><code>influx
+Connected to http://localhost:8086 version 1.6.4
+InfluxDB shell version: 1.6.4
+
+&gt; use telegraf
+Using database telegraf
+
+&gt; show measurements
+name: measurements
+name
+----
+cpu
+disk
+diskio
+kernel
+mem
+processes
+swap
+system
+
+&gt; select * from cpu
+name: cpu
+time                cpu       host   usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
+----                ---       ----   ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
+1619452540000000000 cpu-total sancho 0           0                94.64105157383807 4.246713852520839   0         0          0                   0.10111223458372003 0.6066734075023201  0.4044489383348801
+1619452540000000000 cpu0      sancho 0           0                94.64105157383807 4.246713852520839   0         0          0                   0.10111223458372003 0.6066734075023201  0.4044489383348801
+[...]
+</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-dulcinea">Instalación y configuración de telegraf en Dulcinea</h2>
+<p>Ahora que hemos terminado de instalar y configurar todo en Sancho, vamos a pasar a instalar y configurar telegraf en dulcinea, para ello vamos a seguir los mismos pasos que anteriormente:</p>
+<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
+
+sudo dpkg -i telegraf_1.18.1-1_amd64.deb
+
+rm telegraf_1.18.1-1_amd64.deb
+
+sudo nano /etc/telegraf/telegraf.conf
+[...]
+[[outputs.influxdb]]
+[...]
+    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
+[...]
+    database = &quot;telegraf&quot;
+[...]
+    skip_database_creation = true
+[...]
+    timeout = &quot;5s&quot;
+[...]
+    username = &quot;admin&quot;
+    password = &quot;admin&quot;
+[...]
+
+sudo systemctl restart telegraf.service
+</code></pre><p>Verificamos que se está realizando la recolección de métricas</p>
+<pre><code>influx
+Connected to http://localhost:8086 version 1.6.4
+InfluxDB shell version: 1.6.4
+&gt; use telegraf
+Using database telegraf
+&gt; select * from cpu
+name: cpu
+time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
+----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
+[...]
+1619454490000000000 cpu-total dulcinea 0           0                99.89979960143319 0                   0         0          0                   0                   0.10020040080637438 0
+1619454490000000000 cpu0      dulcinea 0           0                99.89979960143319 0                   0         0          0                   0                   0.10020040080637438 0
+[...]
+</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-freston">Instalación y configuración de telegraf en freston</h2>
+<p>Ahora haremos lo mismo pero en freston</p>
+<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf_1.18.1-1_amd64.deb
+
+sudo dpkg -i telegraf_1.18.1-1_amd64.deb
+
+rm telegraf_1.18.1-1_amd64.deb
+
+sudo nano /etc/telegraf/telegraf.conf
+[...]
+[[outputs.influxdb]]
+[...]
+    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
+[...]
+    database = &quot;telegraf&quot;
+[...]
+    skip_database_creation = true
+[...]
+    timeout = &quot;5s&quot;
+[...]
+    username = &quot;admin&quot;
+    password = &quot;admin&quot;
+[...]
+
+sudo systemctl restart telegraf.service
+</code></pre><p>Comprobamos que se están enviando métricas de freston</p>
+<pre><code>&gt; select * from cpu
+name: cpu
+time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
+----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
+[...]
+1619454410000000000 cpu-total freston  0           0                98.09045225722387 1.3065326633389247  0         0          0                   0                   0.30150753768937927 0.30150753767109795
+1619454410000000000 cpu0      freston  0           0                98.09045225722387 1.3065326633389247  0         0          0                   0                   0.30150753768937927 0.30150753767109795
+[...]
+</code></pre><h2 id="instalación-y-configuración-de-telegraf-en-quijote">Instalación y configuración de telegraf en quijote</h2>
+<p>Por último, instalamos telegraf en quijote</p>
+<pre><code>wget https://dl.influxdata.com/telegraf/releases/telegraf-1.18.1-1.x86_64.rpm
+
+sudo dnf localinstall telegraf-1.18.1-1.x86_64.rpm
+
+rm telegraf-1.18.1-1.x86_64.rpm
+
+sudo nano /etc/telegraf/telegraf.conf
+[...]
+[[outputs.influxdb]]
+[...]
+    urls = [&quot;http://sancho.juanantonio-reifs.gonzalonazareno.org:8086&quot;]
+[...]
+    database = &quot;telegraf&quot;
+[...]
+    skip_database_creation = true
+[...]
+    timeout = &quot;5s&quot;
+[...]
+    username = &quot;admin&quot;
+    password = &quot;admin&quot;
+[...]
+
+sudo systemctl restart telegraf.service
+</code></pre><p>Comprobamos que se están enviando métricas de quijote</p>
+<pre><code>&gt; select * from cpu
+name: cpu
+time                cpu       host     usage_guest usage_guest_nice usage_idle        usage_iowait        usage_irq usage_nice usage_softirq       usage_steal         usage_system        usage_user
+----                ---       ----     ----------- ---------------- ----------        ------------        --------- ---------- -------------       -----------         ------------        ----------
+[...]
+1619454980000000000 cpu0      quijote  0           0                98.59578736541238 0.30090270813311    0.10030090270381484 0          0.10030090271293715 0                   0.4012036108426263  0.5015045135464411
+1619454990000000000 cpu-total quijote  0           0                97.59036144352997 1.1044176706869986  0.2008032128565398  0          0.10040160641913842 0.10040160642598703 0.502008032132218   0.4016064257130796
+[...]
+</code></pre><h2 id="instalación-de-grafana-en-quijote">Instalación de grafana en quijote</h2>
+<p>Lo último que nos queda por instalar y configurar es grafana en quijote, el cual es el servidor web. Para instalar grafana basta con instalarlo desde los repositorios de CentOs</p>
+<pre><code>sudo dnf install grafana
+</code></pre><p>Como nuestra máquina tiene instalado un servidor web apache, vamos a realizar un proxy inverso para que podamos acceder a nuestro servicio de grafana desde el exterior, para ello vamos a crear un virtualhost que actúe como proxy inverso</p>
+<pre><code>sudo nano /etc/httpd/sites-available/grafana.conf
+
+&lt;Virtualhost *:80&gt;
+        ServerName grafana.juanantonio-reifs.gonzalonazareno.org
+        ProxyPreserveHost On
+        ProxyPass / http://localhost:3000/
+        ProxyPassReverse / http://localhost:3000/
+        ErrorLog /var/log/grafana/error_log
+        TransferLog /var/log/grafana/error_log
+&lt;/virtualhost&gt;
+</code></pre><p>Hacemos un enlace simbólico hacia <code>sites-enabled</code> y reiniciamos el servicio</p>
+<pre><code>cd /etc/httpd/sites-enabled
+
+sudo ln -s ../sites-available/grafana.conf .
+
+sudo systemctl restart httpd
+</code></pre><p>Ahora podremos entrar en la página de login y cambiamos la contraseña de admin, en mi caso el usuario va a ser <code>admin</code> y la contraseña va a ser <code>admin1</code></p>
+<p><img src="https://juanan219.github.io/metricas/1.png" alt="Captura 1"></p>
+<p><img src="https://juanan219.github.io/metricas/2.png" alt="Captura 2"></p>
+<p>Cuando hayamos entrado vamos a enlazar la base de datos, para ello nos dirigiremos a <code>Configuración</code> &gt; <code>Data sources</code> &gt; <code>Add Data Source</code></p>
+<p><img src="https://juanan219.github.io/metricas/3.png" alt="Captura 3"></p>
+<p>Seleccionamos la base de datos que hayamos instalado, en nuestro caso es <code>InfluxDB</code></p>
+<p><img src="https://juanan219.github.io/metricas/4.png" alt="Captura 4"></p>
+<p>Ahora pasamos a configurar la base de datos, para ello pondremos el nombre del servidor que está sirviendo nuestra base de datos <code>InfluxDB</code> junto con su puerto, en mi caso sería <code>http://sancho.juanantonio-reifs.gonzalonazareno.org:8086</code> y abajo del todo pondremos el nombre de la base de datos que se ha creado, en mi caso es <code>telegraf</code> y ponemos el usuario y la contraseña de acceso a la base de datos</p>
+<p><img src="https://juanan219.github.io/metricas/5.png" alt="Captura 5"></p>
+<p><img src="https://juanan219.github.io/metricas/6.png" alt="Captura 6"></p>
+<p>Cuando esté todo configurado podemos crear un dashboard haciendo una consulta a la base de datos, de tal manera que quedaría así</p>
+<p><img src="https://juanan219.github.io/metricas/7.png" alt="Captura 7"></p>
+<p><img src="https://juanan219.github.io/metricas/8.png" alt="Captura 8"></p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://juanan219.github.io/tags/metricas/">Metricas</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/monitorizacion/">Monitorizacion</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/telegraf/">Telegraf</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/influxdb/">InfluxDB</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/grafana/">Grafana</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/practica/">Practica</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1496 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          28284-28-00 44:20
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=Metricas%20logs%20y%20monitorizacion&amp;caption=Metricas%20logs%20y%20monitorizacion&amp;canonicalUrl=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=Metricas%20logs%20y%20monitorizacion&amp;body=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f&amp;media=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f;description=Metricas%20logs%20y%20monitorizacion" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f&amp;title=Metricas%20logs%20y%20monitorizacion&amp;summary=Metricas%20logs%20y%20monitorizacion&amp;source=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f&amp;resubmit=true&amp;title=Metricas%20logs%20y%20monitorizacion" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f;title=Metricas%20logs%20y%20monitorizacion" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=Metricas%20logs%20y%20monitorizacion%20https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f&amp;t=Metricas%20logs%20y%20monitorizacion" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Metricas%20logs%20y%20monitorizacion&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f04%2fmetricas-logs-y-monitorizacion%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+
+          
+            <span class="button next">
+              <a href="https://juanan219.github.io/posts/2021/03/apuntes-de-libvirt/">
+                <span class="button__text">Apuntes de Libvirt</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2021</span>
+            <span><a href="https://juanan219.github.io">Juan antonio Reifs</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span><span><a href="https://juanan219.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+          </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://juanan219.github.io/bundle.min.af435e44374f1e99a669ea8cd5bb9a2fceed80588941a451bfddb66b86a67c9f40b0f417e9543a763f809aa7e9300d7b1d69bf99615810ba02ac70396d50fad5.js" integrity="sha512-r0NeRDdPHpmmaeqM1buaL87tgFiJQaRRv922a4amfJ9AsPQX6VQ6dj&#43;AmqfpMA17HWm/mWFYELoCrHA5bVD61Q=="></script>
+
+
+
+    </body>
+</html>
