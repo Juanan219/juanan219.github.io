@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Despliegue de un cluster de Kubernetes</title>
+      <link>https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/</guid>
+      <description>Tengo 3 máquinas virtuales (master, nodo1 y nodo2), la máquina master es el controlador y los dos nodos son los workers.
+Este escenario lo he montado en vagrant usando virtualbox, aquí está el Vagrantfile
+Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :master do |master| master.vm.box = &amp;quot;debian/buster64&amp;quot; master.vm.hostname = &amp;quot;master&amp;quot; master.vm.network :public_network, :bridge=&amp;gt;&amp;quot;eno1&amp;quot; end config.vm.define :nodo1 do |nodo1| nodo1.vm.box = &amp;quot;debian/buster64&amp;quot; nodo1.vm.hostname = &amp;quot;nodo1&amp;quot; nodo1.vm.network :public_network, :bridge=&amp;gt;&amp;quot;eno1&amp;quot; end config.vm.define :nodo2 do |nodo2| nodo2.vm.box = &amp;quot;debian/buster64&amp;quot; nodo2.</description>
+    </item>
+    
     <item>
       <title>Metricas logs y monitorizacion</title>
       <link>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</link>
@@ -104,18 +115,6 @@ usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imag
       <description>Introducción a las redes en Docker Cada vez que creamos un contenedor en Docker, éste se conecta a una red virtual y docker hace una configuración del sistema (usando interfaces puente e iptables para que la máquina tenga una ip interna, tenga acceso al exterior, podamos mapear puertos (DNAT), etc&amp;hellip;)
 Podemos ver el comando ip si ejecutamos un contenedor con este comando.
 docker run -it --rm --name docker_debian debian bash -c &#39;ip a&#39; 1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</description>
-    </item>
-    
-    <item>
-      <title>Introduccion a Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/introduccion-a-docker/</guid>
-      <description>Introducción a Docker El objetivo de Docker es el despliegue de aplicaciones en capsuladas en contenedores, en lugar de desplegar las aplicaciones en máquinas virtuales.
-Docker está formado por varios componentes:
-  Docker Engine: Es un demonio de cualquier distribución Linux, el cual tiene una API para gestionar las imágenes y contenedores. Sirve para crear imágenes, subirlas y bajarlas de un registro docker, ejecutar y gestionar contenedores.
-  Docker Client: Este es el CLI (Command Line Interface) que nos permite controlar Docker Engine.</description>
     </item>
     
   </channel>

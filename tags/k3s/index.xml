@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>k3s on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/k3s/</link>
+    <description>Recent content in k3s on JuananBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Tue, 18 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/k3s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Despliegue de un cluster de Kubernetes</title>
+      <link>https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/</guid>
+      <description>Tengo 3 máquinas virtuales (master, nodo1 y nodo2), la máquina master es el controlador y los dos nodos son los workers.
+Este escenario lo he montado en vagrant usando virtualbox, aquí está el Vagrantfile
+Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :master do |master| master.vm.box = &amp;quot;debian/buster64&amp;quot; master.vm.hostname = &amp;quot;master&amp;quot; master.vm.network :public_network, :bridge=&amp;gt;&amp;quot;eno1&amp;quot; end config.vm.define :nodo1 do |nodo1| nodo1.vm.box = &amp;quot;debian/buster64&amp;quot; nodo1.vm.hostname = &amp;quot;nodo1&amp;quot; nodo1.vm.network :public_network, :bridge=&amp;gt;&amp;quot;eno1&amp;quot; end config.vm.define :nodo2 do |nodo2| nodo2.vm.box = &amp;quot;debian/buster64&amp;quot; nodo2.</description>
+    </item>
+    
+  </channel>
+</rss>

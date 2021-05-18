@@ -7,7 +7,52 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>containerd</title>
+      <link>https://juanan219.github.io/tags/containerd/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/containerd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k3s</title>
+      <link>https://juanan219.github.io/tags/k3s/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/k3s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k8s</title>
+      <link>https://juanan219.github.io/tags/k8s/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/k8s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://juanan219.github.io/tags/kubernetes/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>letschat</title>
+      <link>https://juanan219.github.io/tags/letschat/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/letschat/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Grafana</title>
       <link>https://juanan219.github.io/tags/grafana/</link>
@@ -50,51 +95,6 @@
       <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/practica/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Telegraf</title>
-      <link>https://juanan219.github.io/tags/telegraf/</link>
-      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/telegraf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Apuntes</title>
-      <link>https://juanan219.github.io/tags/apuntes/</link>
-      <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/apuntes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Documentacion</title>
-      <link>https://juanan219.github.io/tags/documentacion/</link>
-      <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/documentacion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kvm</title>
-      <link>https://juanan219.github.io/tags/kvm/</link>
-      <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/kvm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Libvirt</title>
-      <link>https://juanan219.github.io/tags/libvirt/</link>
-      <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/libvirt/</guid>
       <description></description>
     </item>
     

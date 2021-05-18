@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/</loc>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</loc>
     <lastmod>2021-04-28T00:00:00+00:00</lastmod>
   </url>
@@ -93,23 +98,18 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/grafana/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/containerd/</loc>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/series/hugo-101/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/influxdb/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -123,28 +123,33 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/metricas/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/k3s/</loc>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/monitorizacion/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+    <loc>https://juanan219.github.io/tags/k8s/</loc>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/kubernetes/</loc>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/letschat/</loc>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/posts/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/practica/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/series/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -159,7 +164,7 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -170,6 +175,31 @@
                 hreflang="en"
                 href="https://juanan219.github.io/tags/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/grafana/</loc>
+    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/influxdb/</loc>
+    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/metricas/</loc>
+    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/monitorizacion/</loc>
+    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/practica/</loc>
+    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>

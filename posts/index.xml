@@ -6,8 +6,204 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Tue, 18 May 2021 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Despliegue de un cluster de Kubernetes</title>
+            <link>https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/</link>
+            <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/</guid>
+            <description>Tengo 3 máquinas virtuales (master, nodo1 y nodo2), la máquina master es el controlador y los dos nodos son los workers.
+Este escenario lo he montado en vagrant usando virtualbox, aquí está el Vagrantfile
+Vagrant.configure(&amp;quot;2&amp;quot;) do |config| config.vm.define :master do |master| master.vm.box = &amp;quot;debian/buster64&amp;quot; master.vm.hostname = &amp;quot;master&amp;quot; master.vm.network :public_network, :bridge=&amp;gt;&amp;quot;eno1&amp;quot; end config.vm.define :nodo1 do |nodo1| nodo1.vm.box = &amp;quot;debian/buster64&amp;quot; nodo1.vm.hostname = &amp;quot;nodo1&amp;quot; nodo1.vm.network :public_network, :bridge=&amp;gt;&amp;quot;eno1&amp;quot; end config.vm.define :nodo2 do |nodo2| nodo2.vm.box = &amp;quot;debian/buster64&amp;quot; nodo2.</description>
+            <content type="html"><![CDATA[<p>Tengo 3 máquinas virtuales (<code>master</code>, <code>nodo1</code> y <code>nodo2</code>), la máquina <code>master</code> es el controlador y los dos nodos son los workers.</p>
+<p>Este escenario lo he montado en vagrant usando virtualbox, aquí está el <code>Vagrantfile</code></p>
+<pre><code>Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.define :master do |master|
+    master.vm.box = &quot;debian/buster64&quot;
+    master.vm.hostname = &quot;master&quot;
+    master.vm.network :public_network, :bridge=&gt;&quot;eno1&quot;
+  end
+  config.vm.define :nodo1 do |nodo1|
+    nodo1.vm.box = &quot;debian/buster64&quot;
+    nodo1.vm.hostname = &quot;nodo1&quot;
+    nodo1.vm.network :public_network, :bridge=&gt;&quot;eno1&quot;
+  end
+    config.vm.define :nodo2 do |nodo2|
+    nodo2.vm.box = &quot;debian/buster64&quot;
+    nodo2.vm.hostname = &quot;nodo2&quot;
+    nodo2.vm.network :public_network, :bridge=&gt;&quot;eno1&quot;
+  end
+end
+</code></pre><h2 id="configuración-de-master">Configuración de master</h2>
+<ul>
+<li>Como usamos vagrant con virtualbox, vamos a deshabilitar la interfaz de red que nos crea por defecto vagrant, para ello vamos a configurar la ruta por defecto para salir a internet</li>
+</ul>
+<pre><code>vagrant@master:~$ sudo ip r del default
+vagrant@master:~$ sudo ip r add default via 192.168.1.1
+</code></pre><ul>
+<li>Ahora introducimos nuestra clave pública al fichero <code>~/.ssh/authorized_keys</code> para poder acceder a la máquina por una conexión ssh normal</li>
+</ul>
+<pre><code>echo id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+</code></pre><ul>
+<li>Nos conectamos mediante ssh y apagamos la interfaz de red <code>eth0</code>, iniciamos sesión como root, nos dirigimos a la ruta <code>/usr/local/bin</code> para descargar desde <a href="https://github.com/rancher/k3s/releases/latest">su github</a> el binario que nos va a permitir ejecutar <code>k3s</code></li>
+</ul>
+<pre><code>juanan@juananpc:~/vagrant$ ssh vagrant@master
+vagrant@master:~$ sudo ifdown eth0
+vagrant@master:~$ sudo su -
+root@master:~# cd /usr/local/bin/
+root@master:/usr/local/bin# wget https://github.com/k3s-io/k3s/releases/download/v1.21.0%2Bk3s1/k3s
+</code></pre><ul>
+<li>Cuando lo hayamos descargado, vamos a darle permisos de ejecución y lo ejecutaremos en segundo plano para que se inicie el controlador. Como tenemos varias interfaces de red deberemos de indicarle en el comando qué interfaz de red (o ip en este caso) es la que queremos que use</li>
+</ul>
+<pre><code>root@master:/usr/local/bin# chmod +x k3s
+root@master:/usr/local/bin# k3s server --node-ip=192.168.1.49 &amp;
+</code></pre><ul>
+<li>Cuando hayan pasado unos segundos/minutos (dependiendo de la velocidad de nuestra máquina), ya tendremos nuestro primer nodo activo</li>
+</ul>
+<pre><code>root@master:/usr/local/bin# k3s kubectl get nodes
+NAME     STATUS   ROLES                  AGE     VERSION
+master   Ready    control-plane,master   2m56s   v1.21.0+k3s1
+</code></pre><h2 id="configuración-de-nodo1-y-nodo2">Configuración de nodo1 y nodo2</h2>
+<ul>
+<li>
+<p>Mientras se termina de arrancar el servicio del controlador, podemos ir configurando los otros dos nodos, para ello vamos a realizar los mismos pasos de configuración para conectarnos por ssh y descargamos el binario, tal y como lo hemos hecho en la máquina <code>master</code>.</p>
+<ul>
+<li><strong>Configuración en el nodo1:</strong></li>
+</ul>
+</li>
+</ul>
+<pre><code>vagrant@nodo1:~$ echo id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+vagrant@nodo1:~$ sudo su -
+root@nodo1:~# ip r del default
+root@nodo1:~# ip r add default via 192.168.1.1
+root@nodo1:~# cd /usr/local/bin/
+root@nodo1:/usr/local/bin# wget https://github.com/k3s-io/k3s/releases/download/v1.21.0%2Bk3s1/k3s
+root@nodo1:/usr/local/bin# chmod +x k3s
+</code></pre><pre><code>* **Configuración en el nodo2:**
+</code></pre>
+<pre><code>vagrant@nodo2:~$ echo id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+vagrant@nodo2:~$ sudo su -
+root@nodo2:~# ip r del default
+root@nodo2:~# ip r add default via 192.168.1.1
+root@nodo2:~# cd /usr/local/bin/
+root@nodo2:/usr/local/bin# wget https://github.com/k3s-io/k3s/releases/download/v1.21.0%2Bk3s1/k3s
+root@nodo2:/usr/local/bin# chmod +x k3s
+</code></pre><ul>
+<li>Cuando tengamos todo configurado, ya podemos comenzar a conectar nuestros dos nuevos nodos al controlador, para ello necesitaremos la ip de nuestro controlador <code>master</code> junto con su <code>token</code> de autenticación, el cual se encuentra en la ruta <code>/var/lib/rancher/k3s/server/token</code></li>
+</ul>
+<pre><code>vagrant@master:~$ ip a
+[...]
+inet 192.168.1.49/24 brd 192.168.1.255 scope global dynamic eth1
+[...]
+
+vagrant@master:~$ sudo cat /var/lib/rancher/k3s/server/token
+K10561cd3779d46c8357182526a0390235b2334c29e5c7dacec9a7390e14039e58c::server:60bbdc995793316982b79ead9929a93c
+</code></pre><ul>
+<li>
+<p>Ahora que tenemos estos datos podemos conectar los dos nodos a nuestro controlador</p>
+<ul>
+<li><strong>Conecxión del nodo1:</strong></li>
+</ul>
+</li>
+</ul>
+<pre><code>root@nodo1:/usr/local/bin# k3s agent --server https://192.168.1.49:6443 --token K10561cd3779d46c8357182526a0390235b2334c29e5c7dacec9a7390e14039e58c::server:60bbdc995793316982b79ead9929a93c
+</code></pre><pre><code>* **Conexión del nodo2:**
+</code></pre>
+<pre><code>root@nodo2:/usr/local/bin# k3s agent --server https://192.168.1.49:6443 --token K10561cd3779d46c8357182526a0390235b2334c29e5c7dacec9a7390e14039e58c::server:60bbdc995793316982b79ead9929a93c
+</code></pre><ul>
+<li>Comprobamos que se han conectado los dos nuevos nodos al controlador</li>
+</ul>
+<pre><code>root@master:/usr/local/bin# k3s kubectl get nodes
+NAME     STATUS   ROLES                  AGE     VERSION
+master   Ready    control-plane,master   20m     v1.21.0+k3s1
+nodo1    Ready    &lt;none&gt;                 3m23s   v1.21.0+k3s1
+nodo2    Ready    &lt;none&gt;                 2m36s   v1.21.0+k3s1
+</code></pre><h2 id="configuración-de-kubectl-en-mi-máquina-personal">Configuración de kubectl en mi máquina personal</h2>
+<p>Ahora que tenemos nuestro clúster configurado con 3 nodos (1 controlador y 2 workers), vamos a descargar e instalar <code>kubectl</code> para poder controlar el clúster desde mi máquina personal, para ello seguiremos los pasos de la <a href="https://kubernetes.io/es/docs/tasks/tools/install-kubectl/">página oficial de kubernetes</a></p>
+<pre><code>juanan@juananpc:~/vagrant$ sudo apt-get update &amp;&amp; sudo apt-get install -y apt-transport-https gnupg2 curl
+juanan@juananpc:~/vagrant$ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+juanan@juananpc:~/vagrant$ echo &quot;deb https://apt.kubernetes.io/ kubernetes-xenial main&quot; | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+juanan@juananpc:~/vagrant$ sudo apt-get update
+juanan@juananpc:~/vagrant$ sudo apt-get install -y kubectl
+</code></pre><p>Podemos comprobar que está instalado correctamente si podemos visualizar la versión de <code>kubectl</code></p>
+<pre><code>juanan@juananpc:~/vagrant$ sudo kubectl version
+Client Version: version.Info{Major:&quot;1&quot;, Minor:&quot;20&quot;, GitVersion:&quot;v1.20.2&quot;, GitCommit:&quot;faecb196815e248d3ecfb03c680a4507229c2a56&quot;, GitTreeState:&quot;clean&quot;, BuildDate:&quot;2021-01-13T13:28:09Z&quot;, GoVersion:&quot;go1.15.5&quot;, Compiler:&quot;gc&quot;, Platform:&quot;linux/amd64&quot;}
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+</code></pre><p>Nos ha aparecido un error en el anterior comando, ya que no tenemos configurado todavía a qué servidor nos queremos conectar, para ello vamos a crear un directorio en nuestra carpeta personal llamada <code>.kube</code>, en la cual vamos a ir añadiendo el contenido tanto de configuración como el que vayamos a ir usando para nuestras aplicaciones. Para configurar <code>kubectl</code> vamos a copiar el fichero de configuración <code>/etc/rancher/k3s/k3s.yaml</code> y lo llamaremos <code>config</code> para más tarde introducirlo en una variable de entorno que usa <code>kubectl</code> para la configuración.</p>
+<pre><code>juanan@juananpc:~$ mkdir .kube
+juanan@juananpc:~$ cd .kube
+juanan@juananpc:~/.kube$ scp root@master:/etc/rancher/k3s/k3s.yaml ./config
+</code></pre><p>Ahora que tenemos nuestro fichero vamos a editar la línea que hace referencia a la conexión y cambiamos el valor de <code>localhost</code> por la ip del nodo controlador y lo introducimos en la variable de entorno que hemos comentado anteriormente.</p>
+<pre><code>nano config
+[...]
+    server: https://192.168.1.49:6443
+[...]
+
+juanan@juananpc:~/.kube$ export KUBECONFIG=~/.kube/config
+</code></pre><p>Ahora hacemos la prueba para ver si podemos visualizar los nodos de k8s</p>
+<pre><code>juanan@juananpc:~/.kube$ kubectl get nodes
+NAME     STATUS   ROLES                  AGE   VERSION
+master   Ready    control-plane,master   35m   v1.21.0+k3s1
+nodo1    Ready    &lt;none&gt;                 18m   v1.21.0+k3s1
+nodo2    Ready    &lt;none&gt;                 17m   v1.21.0+k3s1
+</code></pre><p>Como podemos ver, podemos controlar k8s desde mi máquina personal.</p>
+<h2 id="despliegue-del-ejemplo-8">Despliegue del ejemplo 8</h2>
+<p>Ahora vamos a realizar el montaje de la aplicación Let&rsquo;sChat en nuestro clúster que acabamos de montar, para ello vamos a clonar el siguiente <a href="https://github.com/iesgn/kubernetes-storm">repositorio de GitHub</a> y nos dirigimos al directorio del ejemplo8</p>
+<pre><code>juanan@juananpc:~/.kube$ git clone https://github.com/iesgn/kubernetes-storm.git
+juanan@juananpc:~/.kube$ cd kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8/
+</code></pre><p>Cuando estemos en este directorio, vamos a lanzar el comando <code>kubectl apply -f .</code> y se comenzarán a crear los <code>ReplicaSet</code></p>
+<pre><code>juanan@juananpc:~/.kube/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8$ kubectl apply -f .
+Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ingress.networking.k8s.io/ingress-letschat created
+deployment.apps/letschat created
+service/letschat created
+deployment.apps/mongo created
+service/mongo created
+</code></pre><p>Por último, solo quedaría introducir las ip dentro de nuestro fichero de configuración <code>/etc/hosts</code> para poder acceder a la aplicación que acabamos de lanzar</p>
+<pre><code>juanan@juananpc:~/.kube/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8$ kubectl get all,ingress
+[...]
+NAME                                         CLASS    HOSTS              ADDRESS                                  PORTS   AGE
+ingress.networking.k8s.io/ingress-letschat   &lt;none&gt;   www.letschat.com   192.168.1.27,192.168.1.49,192.168.1.65   80      76s
+
+juanan@juananpc:~/.kube/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8$ sudo nano /etc/hosts
+192.168.1.27 www.letschat.com
+192.168.1.49 www.letschat.com
+192.168.1.65 www.letschat.com
+</code></pre><p>Entramos en la url para comprobar que funciona la página y realizamos un registro e inicio de sesión</p>
+<p><img src="/kubernetes/1.png" alt="Captura 1"></p>
+<p><img src="/kubernetes/2.png" alt="Captura 2"></p>
+<p><img src="/kubernetes/3.png" alt="Captura 3"></p>
+<p><img src="/kubernetes/4.png" alt="Captura 4"></p>
+<h2 id="escalar-la-aplicación">Escalar la aplicación</h2>
+<p>Si queremos escalar nuestra aplicación, solo deberemos saber el nombre de los deploy que hemos hecho, para ello ejecutamos el comando <code>kubectl get deploy</code></p>
+<pre><code>juanan@juananpc:~/ASIR2/4.- K8S/vagrant$ kubectl get deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+letschat   1/1     1            1           53m
+mongo      1/1     1            1           53m
+</code></pre><p>Vamos a comprobar cuántos pods de esos deploys tenemos</p>
+<pre><code>juanan@juananpc:~/ASIR2/4.- K8S/vagrant$ kubectl get pod -o wide
+NAME                        READY   STATUS    RESTARTS   AGE   IP          NODE    NOMINATED NODE   READINESS GATES
+letschat-7c66bd64f5-9dlbw   1/1     Running   0          52m   10.42.1.3   nodo1   &lt;none&gt;           &lt;none&gt;
+mongo-5c694c878b-sndcr      1/1     Running   0          52m   10.42.2.3   nodo2   &lt;none&gt;           &lt;none&gt;
+</code></pre><p>Si los escalamos a 3 por ejemplo, obtenemos esto</p>
+<pre><code>juanan@juananpc:~/ASIR2/4.- K8S/vagrant$ kubectl scale --replicas=2 deploy/letschat
+deployment.apps/letschat scaled
+juanan@juananpc:~/ASIR2/4.- K8S/vagrant$ kubectl scale --replicas=2 deploy/mongo
+deployment.apps/mongo scaled
+juanan@juananpc:~/ASIR2/4.- K8S/vagrant$ kubectl get pod -o wide
+NAME                        READY   STATUS    RESTARTS   AGE     IP          NODE    NOMINATED NODE   READINESS GATES
+letschat-7c66bd64f5-9dlbw   1/1     Running   0          57m     10.42.1.3   nodo1   &lt;none&gt;           &lt;none&gt;
+mongo-5c694c878b-sndcr      1/1     Running   0          57m     10.42.2.3   nodo2   &lt;none&gt;           &lt;none&gt;
+letschat-7c66bd64f5-zz46j   1/1     Running   0          3m5s    10.42.1.4   nodo1   &lt;none&gt;           &lt;none&gt;
+mongo-5c694c878b-pjsdv      1/1     Running   0          2m59s   10.42.2.5   nodo2   &lt;none&gt;           &lt;none&gt;
+</code></pre><p>Si apagamos un nodo, podemos ver que la aplicación sigue funcionando</p>
+<pre><code>vagrant@nodo2:~$ sudo poweroff
+</code></pre><p><img src="/kubernetes/5.png" alt="Captura 5"></p>
+]]></content>
+        </item>
         
         <item>
             <title>Metricas logs y monitorizacion</title>
