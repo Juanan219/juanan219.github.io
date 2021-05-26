@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 18 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sistema de copias de seguridad</title>
+      <link>https://juanan219.github.io/posts/2021/05/sistema-de-copias-de-seguridad/</link>
+      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/05/sistema-de-copias-de-seguridad/</guid>
+      <description>Voy a integrar un sistema de copias de seguridad en mi escenario de servidores, para ello voy a instalar y configurar bácula, así que para empezar vamos a explicar qué es bácula y de qué se compone.
+¿Qué es bácula? Bácula es un sistema de copias de seguridad, el cual se compone de 3 servicios diferentes:
+  Bacula director: Es el servicio que lo controla todo, es decir, el que le dice a cada servicio qué es lo que tiene que hacer.</description>
+    </item>
+    
     <item>
       <title>Despliegue de un cluster de Kubernetes</title>
       <link>https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/</link>
@@ -104,17 +115,6 @@ docker run --name docker_nginx -p 8080:80 -d nginx c45464659bca8dc80372f7fcbcf1f
       <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
 El nombre de una imágen suele estar formado por tres partes:
 usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
-    </item>
-    
-    <item>
-      <title>Redes en Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/redes-en-docker/</link>
-      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/redes-en-docker/</guid>
-      <description>Introducción a las redes en Docker Cada vez que creamos un contenedor en Docker, éste se conecta a una red virtual y docker hace una configuración del sistema (usando interfaces puente e iptables para que la máquina tenga una ip interna, tenga acceso al exterior, podamos mapear puertos (DNAT), etc&amp;hellip;)
-Podemos ver el comando ip si ejecutamos un contenedor con este comando.
-docker run -it --rm --name docker_debian debian bash -c &#39;ip a&#39; 1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.</description>
     </item>
     
   </channel>

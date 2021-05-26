@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:Juan Antonio Reifs]">
+<meta name="description" content="Voy a integrar un sistema de copias de seguridad en mi escenario de servidores, para ello voy a instalar y configurar bácula, así que para empezar vamos a explicar qué es bácula y de qué se compone.
+¿Qué es bácula? Bácula es un sistema de copias de seguridad, el cual se compone de 3 servicios diferentes:
+  Bacula director: Es el servicio que lo controla todo, es decir, el que le dice a cada servicio qué es lo que tiene que hacer." />
+<meta name="keywords" content=", Bacula, Copias de seguridad, CentOs, Debian, Ubuntu" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://juanan219.github.io/posts/2021/05/sistema-de-copias-de-seguridad/" />
+
+
+    <title>
+        
+            Sistema de copias de seguridad :: JuananBlog  — JuananBlog
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://juanan219.github.io/main.154a87e0ff720e102948892a8eb80881aa81a4faf37376f3093be219f6296c3d.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://juanan219.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://juanan219.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://juanan219.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://juanan219.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://juanan219.github.io/safari-pinned-tab.svg" color="#1b1c1d">
+    <link rel="shortcut icon" href="https://juanan219.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#1b1c1d">
+    <meta name="theme-color" content="#1b1c1d">
+
+
+
+<meta itemprop="name" content="Sistema de copias de seguridad">
+<meta itemprop="description" content="Voy a integrar un sistema de copias de seguridad en mi escenario de servidores, para ello voy a instalar y configurar bácula, así que para empezar vamos a explicar qué es bácula y de qué se compone.
+¿Qué es bácula? Bácula es un sistema de copias de seguridad, el cual se compone de 3 servicios diferentes:
+  Bacula director: Es el servicio que lo controla todo, es decir, el que le dice a cada servicio qué es lo que tiene que hacer.">
+<meta itemprop="datePublished" content="2021-05-26T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-05-26T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2717">
+<meta itemprop="image" content="https://juanan219.github.io"/>
+
+
+
+<meta itemprop="keywords" content="Bacula,Copias de seguridad,CentOs,Debian,Ubuntu," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://juanan219.github.io"/>
+
+<meta name="twitter:title" content="Sistema de copias de seguridad"/>
+<meta name="twitter:description" content="Voy a integrar un sistema de copias de seguridad en mi escenario de servidores, para ello voy a instalar y configurar bácula, así que para empezar vamos a explicar qué es bácula y de qué se compone.
+¿Qué es bácula? Bácula es un sistema de copias de seguridad, el cual se compone de 3 servicios diferentes:
+  Bacula director: Es el servicio que lo controla todo, es decir, el que le dice a cada servicio qué es lo que tiene que hacer."/>
+
+
+
+
+    <meta property="og:title" content="Sistema de copias de seguridad" />
+<meta property="og:description" content="Voy a integrar un sistema de copias de seguridad en mi escenario de servidores, para ello voy a instalar y configurar bácula, así que para empezar vamos a explicar qué es bácula y de qué se compone.
+¿Qué es bácula? Bácula es un sistema de copias de seguridad, el cual se compone de 3 servicios diferentes:
+  Bacula director: Es el servicio que lo controla todo, es decir, el que le dice a cada servicio qué es lo que tiene que hacer." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://juanan219.github.io/posts/2021/05/sistema-de-copias-de-seguridad/" />
+<meta property="og:image" content="https://juanan219.github.io"/>
+<meta property="article:published_time" content="2021-05-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-05-26T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-05-26 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://juanan219.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://juanan219.github.io/about/">About</a></li><li><a href="https://juanan219.github.io/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        13 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://juanan219.github.io/posts/2021/05/sistema-de-copias-de-seguridad/">Sistema de copias de seguridad</a>
+      </h1>
+
+      
+
+      
+
+      <div class="post-content">
+        <p>Voy a integrar un sistema de copias de seguridad en mi escenario de servidores, para ello voy a instalar y configurar <code>bácula</code>, así que para empezar vamos a explicar qué es bácula y de qué se compone.</p>
+<h2 id="qué-es-bácula">¿Qué es bácula?</h2>
+<p>Bácula es un sistema de copias de seguridad, el cual se compone de 3 servicios diferentes:</p>
+<ul>
+<li>
+<p><strong>Bacula director:</strong> Es el servicio que lo controla todo, es decir, el que le dice a cada servicio qué es lo que tiene que hacer.</p>
+</li>
+<li>
+<p><strong>Bacula storage daemon:</strong> Es el servicio que se encarga de decir dónde está el dispositivo de almacenamiento donde vamos a almacenar los datos.</p>
+</li>
+<li>
+<p><strong>Bacula file daemon:</strong> Es el cliente de bácula, es decir, es el que se encarga de darle acceso al director a los archivos de los que vamos a hacer la copia de seguridad.</p>
+</li>
+</ul>
+<h2 id="configuración">Configuración</h2>
+<p>Vamos a pasar a la configuración del sistema de copias de seguridad. En esta configuración, como he dicho anteriormente, voy a realizar la instalación de todos los servicios en una misma máquina, excepto del demonio <code>bacula-fd</code>, el cual tiene que estar en todas las máquinas de las que queremos hacer copias de seguridad.</p>
+<h3 id="configuración-de-bacula-fd">Configuración de bacula-fd</h3>
+<p>Vamos a comenzar desde abajo, así que primero configuraremos el cliente de bácula, para ello instalaremos en todas las máquinas el paquete <code>bacula-client</code></p>
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install bacula-client
+</code></pre><p>Cuando lo instalemos vamos a configurar nuestro cliente modificando el fichero <code>/etc/bacula/bacula-fd.conf</code></p>
+<pre><code># Conexión al director
+Director {
+  Name = [Nombre del director] #Nombre del director
+  Password = &quot;[Contraseña del director]&quot; #Contraseña para iniciar sesión en el director
+}
+
+Director {
+  Name = [Nombre del mon] #Nombre del director
+  Password = &quot;[Contraseña del director]&quot; #Contraseña para iniciar sesión en el director
+  Monitor = yes
+}
+
+#Configuración del file daemon
+FileDaemon {
+  Name = [Nombre del file daemon que estamos configurando] #Nombre de este file daemon
+  FDport = 9102
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = [IP de este file daemon] #Dirección IP de este file daemon
+}
+
+# Configuración de los mensajes
+Messages {
+  Name = Standard
+  director = freston-dir = all, !skipped, !restored
+}
+</code></pre><p>Para comprobar que está bien estructurado el fichero vamos a ejecutar el siguiente comando</p>
+<pre><code>sudo bacula-fd /etc/bacula/bacula-fd.conf
+</code></pre><p>Así quedaría el <code>bacula-fd</code> de mis máquinas:</p>
+<ul>
+<li><strong>Freston:</strong></li>
+</ul>
+<pre><code># Conexión al director
+Director {
+  Name = freston-dir #Nombre del director
+  Password = &quot;admin&quot; #Contraseña para iniciar sesión en el director
+}
+
+Director {
+  Name = freston-mon #Nombre del director
+  Password = &quot;admin&quot; #Contraseña para iniciar sesión en el director
+  Monitor = yes
+}
+
+#Configuración del file daemon
+FileDaemon {
+  Name = freston-fd #Nombre de este file daemon
+  FDport = 9102
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.6 #Dirección IP de este file daemon
+}
+
+# Configuración de los mensajes
+Messages {
+  Name = Standard
+  director = freston-dir = all, !skipped, !restored
+}
+</code></pre><ul>
+<li><strong>Dulcinea:</strong></li>
+</ul>
+<pre><code># Conexión al director
+Director {
+  Name = freston-dir #Nombre del director
+  Password = &quot;admin&quot; #Contraseña para iniciar sesión en el director
+}
+
+Director {
+  Name = freston-mon #Nombre del director
+  Password = &quot;admin&quot; #Contraseña para iniciar sesión en el director
+  Monitor = yes
+}
+
+#Configuración del file daemon
+FileDaemon {
+  Name = dulcinea-fd #Nombre de este file daemon
+  FDport = 9102
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.7 #Dirección IP de este file daemon
+}
+
+# Configuración de los mensajes
+Messages {
+  Name = Standard
+  director = freston-dir = all, !skipped, !restored
+}
+</code></pre><ul>
+<li><strong>Quijote:</strong></li>
+</ul>
+<pre><code># Conexión al director
+Director {
+  Name = freston-dir #Nombre del director
+  Password = &quot;admin&quot; #Contraseña para iniciar sesión en el director
+}
+
+Director {
+  Name = freston-mon
+  Password = &quot;admin&quot;
+  Monitor = yes
+}
+
+#Configuración del file daemon
+FileDaemon {
+  Name = quijote-fd #Nombre de este file daemon
+  FDport = 9102
+  WorkingDirectory = /var/spool/bacula
+  Pid Directory = /var/run
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib64/bacula
+  FDAddress = 10.0.2.2 #Dirección IP de este file daemon
+}
+
+# Configuración de los mensajes
+Messages {
+  Name = Standard
+  director = bacula-dir = all, !skipped, !restored
+}
+</code></pre><p>Cuando hayamos terminado de configurarlo todo, reinciamos el servicio para que se apliquen los cambios</p>
+<pre><code>sudo systemctl restart bacula-fd
+</code></pre><h3 id="configuración-de-bacula-sd">Configuración de bacula-sd</h3>
+<p>Ahora vamos a pasar a configurar bacula-sd en freston (que es la máquina que va a contener todos los servicios), así que para comenzar vamos a instalarlo con el siguiente comando</p>
+<pre><code>sudo apt-get install bacula-sd
+</code></pre><p>Modificamos el fichero de configuración <code>/etc/bacula/bacula-sd.conf</code></p>
+<pre><code># Definición del almacenamiento
+
+Storage {
+ Name = freston-sd
+ SDPort = 9103
+ WorkingDirectory = &quot;/var/lib/bacula&quot;
+ Pid Directory = &quot;/run/bacula&quot;
+ Maximum Concurrent Jobs = 20
+ SDAddress = 10.0.1.6
+}
+
+# Definición del servidor para las copias
+
+Director {
+ Name = freston-dir
+ Password = &quot;admin&quot;
+}
+
+
+Director {
+ Name = freston-mon
+ Password = &quot;admin&quot;
+ Monitor = yes
+}
+
+# Definición del disco de las copias
+
+Autochanger {
+ Name = FileAutochanger1
+ Device = DispositivoCopia
+ Changer Command = &quot;&quot;
+ Changer Device = /dev/null
+}
+
+Device {
+ Name = DispositivoCopia
+ Media Type = File
+ Archive Device = /bacula
+ LabelMedia = yes;
+ Random Access = Yes;
+ AutomaticMount = yes;
+ RemovableMedia = no;
+ AlwaysOpen = no;
+ Maximum Concurrent Jobs = 5
+}
+
+# Definición de los mensajes
+
+Messages {
+  Name = Standard
+  director = sancho-dir = all
+}
+</code></pre><p>Cuando lo hayamos configurado vamos a comprobar que está bien modificado el fichero con el siguiente comando</p>
+<pre><code>sudo bacula-sd /etc/bacula/bacula-sd.conf
+</code></pre><p>Y reiniciamos el servicio</p>
+<pre><code>sudo systemctl restart bacula-dir
+</code></pre><h3 id="configuración-de-bacula-dir">Configuración de bacula-dir</h3>
+<p>Por último vamos a configurar el demonio principal y el más largo de configurar, es decir <code>bacula-dir</code>. Para instalarlo deberemos hacerlo junto con un servidor de bases de datos, ya que necesita un gestor de bases de datos, para ello instalaremos antes un mariadb</p>
+<pre><code>sudo apt-get install mariadb-server mariadb-client
+</code></pre><p>Ahora instalamos los paquetes restantes de bacula</p>
+<pre><code>sudo apt-get install bacula bacula-common-mysql bacula-director-mysql bacula-server
+</code></pre><p>Ahora editamos el fichero <code>/etc/bacula/bacula-dir.conf</code></p>
+<pre><code># Definimos el director
+
+Director {
+  Name = freston-dir
+  DIRport = 9101
+  QueryFile = &quot;/etc/bacula/scripts/query.sql&quot;
+  WorkingDirectory = &quot;/var/lib/bacula&quot;
+  PidDirectory = &quot;/run/bacula&quot;
+  Maximum Concurrent Jobs = 20
+  Password = &quot;admin&quot; # Contraseña
+  Messages = Daemon
+  DirAddress = 10.0.1.6
+}
+
+# Definimos las tareas
+
+	# Tarea diaria
+
+JobDefs {
+  Name = &quot;tarea_diaria&quot; #Nombre de la tarea
+  Type = Backup #Tipo de tarea
+  Level = Incremental #Tipo de copia
+  Client = freston-fd #Donde se ejecuta la tarea
+  Schedule = &quot;programa_diario&quot; #Programacion de la tarea
+  Pool = Daily #Volumen de almacenamiento
+  Storage = VolBackup #Nombre del almacenamiento
+  Messages = Standard
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = &quot;/var/lib/bacula/%c.bsr&quot;
+}
+
+	# Tarea Semanal
+
+JobDefs {
+  Name = &quot;tarea_semanal&quot; # Nombre de la tarea
+  Type = Backup # Tipo de tarea
+  Client = freston-fd # Donde se ejecuta la tarea
+  Schedule = &quot;programa_semanal&quot; # Programacion de la tarea
+  Pool = Weekly # Volumen de almacenamiento
+  Storage = VolBackup # Nombre del almacenamiento
+  Messages = Standard
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = &quot;/var/lib/bacula/%c.bsr&quot;
+}
+
+	# Tarea Mensual
+
+JobDefs {
+  Name = &quot;tarea_mensual&quot; # Nombre de la tarea
+  Type = Backup # Tipo de tarea
+  Client = freston-fd # Donde se ejecuta la tarea
+  Schedule = &quot;programa_mensual&quot; # Programacion de la tarea
+  Pool = Monthly # Volumen de almacenamiento
+  Storage = VolBackup # Nombre del almacenamiento
+  Messages = Standard
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = &quot;/var/lib/bacula/%c.bsr&quot;
+}
+
+# Definición de los trabajos
+
+	# Copia diaria Freston
+
+Job {
+ Name = &quot;Backup-Diario-Freston&quot;
+ JobDefs = &quot;tarea_diaria&quot;
+ Client = &quot;freston-fd&quot;
+ FileSet= &quot;Copia_Freston&quot;
+}
+
+	# Copia diaria Dulcinea
+
+Job {
+ Name = &quot;Backup-Diario-Dulcinea&quot;
+ JobDefs = &quot;tarea_diaria&quot;
+ Client = &quot;dulcinea-fd&quot;
+ FileSet= &quot;Copia_Dulcinea&quot;
+}
+
+	# Copia diaria Dulcinea
+
+Job {
+ Name = &quot;Backup-Diario-Quijote&quot;
+ JobDefs = &quot;tarea_diaria&quot;
+ Client = &quot;quijote-fd&quot;
+ FileSet= &quot;Copia_Quijote&quot;
+}
+
+	# Copia semanal Freston
+
+Job {
+ Name = &quot;Backup-Semanal-Freston&quot;
+ JobDefs = &quot;tarea_semanal&quot;
+ Client = &quot;freston-fd&quot;
+ FileSet= &quot;Copia_Freston&quot;
+}
+
+	# Copia semanal Dulcinea
+
+Job {
+ Name = &quot;Backup-Semanal-Dulcinea&quot;
+ JobDefs = &quot;tarea_semanal&quot;
+ Client = &quot;dulcinea-fd&quot;
+ FileSet= &quot;Copia_Dulcinea&quot;
+}
+
+	# Copia semanal Dulcinea
+
+Job {
+ Name = &quot;Backup-Semanal-Quijote&quot;
+ JobDefs = &quot;tarea_semanal&quot;
+ Client = &quot;quijote-fd&quot;
+ FileSet= &quot;Copia_Quijote&quot;
+}
+
+	# Copia mensual Freston
+
+Job {
+ Name = &quot;Backup-Mensual-Freston&quot;
+ JobDefs = &quot;tarea_mensual&quot;
+ Client = &quot;freston-fd&quot;
+ FileSet= &quot;Copia_Freston&quot;
+}
+
+	# Copia mensual Dulcinea
+
+Job {
+ Name = &quot;Backup-Mensual-Dulcinea&quot;
+ JobDefs = &quot;tarea_mensual&quot;
+ Client = &quot;dulcinea-fd&quot;
+ FileSet= &quot;Copia_Dulcinea&quot;
+}
+
+	# Copia mensual Dulcinea
+
+Job {
+ Name = &quot;Backup-Mensual-Quijote&quot;
+ JobDefs = &quot;tarea_mensual&quot;
+ Client = &quot;quijote-fd&quot;
+ FileSet= &quot;Copia_Quijote&quot;
+}
+
+	# Restauración Freston
+
+Job {
+ Name = &quot;restauracion_freston&quot;
+ Type = Restore
+ Client=freston-fd
+ FileSet= &quot;Copia_Freston&quot;
+ Storage = VolBackup
+ Pool = Vol-Backup
+ Messages = Standard
+}
+
+	# Restauración Dulcinea
+
+Job {
+ Name = &quot;restauracion_dulcinea&quot;
+ Type = Restore
+ Client=dulcinea-fd
+ FileSet= &quot;Copia_Dulcinea&quot;
+ Storage = VolBackup
+ Pool = Vol-Backup
+ Messages = Standard
+}
+
+	# Restauración Quijote
+
+Job {
+ Name = &quot;restauracion_quijote&quot;
+ Type = Restore
+ Client=quijote-fd
+ FileSet= &quot;Copia_Quijote&quot;
+ Storage = VolBackup
+ Pool = Vol-Backup
+ Messages = Standard
+}
+
+# Lista de directorios para hacer la copia de seguridad
+
+	# Lista de directorios de freston
+
+FileSet {
+ Name = &quot;Copia_Freston&quot;
+ Include {
+    Options {
+        signature = MD5
+        compression = GZIP
+    }
+    File = /home
+    File = /etc
+    File = /var
+    File = /bacula
+ }
+ Exclude {
+    File = /nonexistant/path/to/file/archive/dir
+    File = /proc
+    File = /var/cache
+    File = /var/tmp
+    File = /tmp
+    File = /sys
+    File = /.journal
+    File = /.fsck
+ }
+}
+
+	# Lista de directorios de dulcinea
+
+FileSet {
+ Name = &quot;Copia_Dulcinea&quot;
+ Include {
+    Options {
+        signature = MD5
+        compression = GZIP
+    }
+    File = /home
+    File = /etc
+    File = /var
+ }
+ Exclude {
+    File = /nonexistant/path/to/file/archive/dir
+    File = /proc
+    File = /var/cache
+    File = /var/tmp
+    File = /tmp
+    File = /sys
+    File = /.journal
+    File = /.fsck
+ }
+}
+
+	# Lista de directorios de quijote
+
+FileSet {
+ Name = &quot;Copia_Quijote&quot;
+ Include {
+    Options {
+        signature = MD5
+        compression = GZIP
+    }
+    File = /home
+    File = /etc
+    File = /var
+ }
+ Exclude {
+    File = /nonexistant/path/to/file/archive/dir
+    File = /proc
+    File = /var/cache
+    File = /var/tmp
+    File = /tmp
+    File = /sys
+    File = /.journal
+    File = /.fsck
+ }
+}
+
+# Definición de programas
+
+	# Programa diario
+
+Schedule {
+ Name = &quot;programa_diario&quot;
+ Run = Level=Incremental Pool=Daily daily at 02:00
+}
+
+	# Programa semanal
+
+Schedule {
+ Name = &quot;programa_semanal&quot;
+ Run = Level=Full Pool=Weekly sat at 03:00
+}
+
+	# Programa mensual
+
+Schedule {
+ Name = &quot;programa_mensual&quot;
+ Run = Level=Full Pool=Monthly 1st sun at 04:00
+}
+
+# Definición de clientes
+
+	# Cliente freston
+
+Client {
+ Name = freston-fd
+ Address = 10.0.1.6
+ FDPort = 9102
+ Catalog = mysql-bacula
+ Password = &quot;admin&quot;
+ File Retention = 90 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+	# Cliente dulcinea
+
+Client {
+ Name = dulcinea-fd
+ Address = 10.0.1.7
+ FDPort = 9102
+ Catalog = mysql-bacula
+ Password = &quot;admin&quot;
+ File Retention = 90 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+	# Cliente quijote
+
+Client {
+ Name = quijote-fd
+ Address = 10.0.2.2
+ FDPort = 9102
+ Catalog = mysql-bacula
+ Password = &quot;admin&quot;
+ File Retention = 90 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Definición del almacenamiento
+
+Storage {
+ Name = VolBackup
+ Address = 10.0.1.6
+ SDPort = 9103
+ Password = &quot;admin&quot;
+ Device = FileAutochanger1
+ Media Type = File
+ Maximum Concurrent Jobs = 10
+}
+
+# Definición de los parámetros de la base de datos
+
+Catalog {
+ Name = mysql-bacula
+ dbname = &quot;bacula&quot;; DB Address = &quot;localhost&quot;; dbuser = &quot;bacula&quot;; dbpassword = &quot;admin&quot;
+}
+
+# Definición de los mensajes
+
+Messages {
+  Name = Standard
+
+  mailcommand = &quot;/usr/sbin/bsmtp -h localhost -f \&quot;\(Bacula\) \&lt;%r\&gt;\&quot; -s \&quot;Bacula: %t %e of %c %l\&quot; %r&quot;
+  operatorcommand = &quot;/usr/sbin/bsmtp -h localhost -f \&quot;\(Bacula\) \&lt;%r\&gt;\&quot; -s \&quot;Bacula: Intervention needed for %j\&quot; %r&quot;
+  mail = root = all, !skipped
+  operator = root = mount
+  console = all, !skipped, !saved
+  append = &quot;/var/log/bacula/bacula.log&quot; = all, !skipped
+  catalog = all
+}
+
+
+Messages {
+  Name = Daemon
+  mailcommand = &quot;/usr/sbin/bsmtp -h localhost -f \&quot;\(Bacula\) \&lt;%r\&gt;\&quot; -s \&quot;Bacula daemon message\&quot; %r&quot;
+  mail = root = all, !skipped
+  console = all, !skipped, !saved
+  append = &quot;/var/log/bacula/bacula.log&quot; = all, !skipped
+}
+
+# Definición de los tipos de almacenamiento
+
+	# Pool Daily
+
+Pool {
+ Name = Daily
+ Use Volume Once = yes
+ Pool Type = Backup
+ AutoPrune = yes
+ VolumeRetention = 10d
+ Recycle = yes
+}
+
+	# Pool Weekly
+
+Pool {
+ Name = Weekly
+ Use Volume Once = yes
+ Pool Type = Backup
+ AutoPrune = yes
+ VolumeRetention = 30d
+ Recycle = yes
+}
+
+	# Pool Monthly
+
+Pool {
+ Name = Monthly
+ Use Volume Once = yes
+ Pool Type = Backup
+ AutoPrune = yes
+ VolumeRetention = 365d
+ Recycle = yes
+}
+
+	# Pool Vol-Backup
+
+Pool {
+ Name = Vol-Backup
+ Pool Type = Backup
+ Recycle = yes 
+ AutoPrune = yes
+ Volume Retention = 365 days 
+ Maximum Volume Bytes = 50G
+ Maximum Volumes = 100
+ Label Format = &quot;Remoto&quot;
+}
+</code></pre><p>Antes de reiniciar el servicio comprobamos que está bien descrito el fichero</p>
+<pre><code>sudo bacula-dir -tc /etc/bacula/bacula-dir.conf
+</code></pre><p>Le damos formato a nuestro disco duro y lo añadimos al fichero de configuración <code>/etc/fstab</code> para que se monta automáticamente</p>
+<pre><code># Le creamos una partición si no la tiene con fdisk
+sudo fdisk /dev/vdb
+
+# Le damos formato ext4
+sudo mkfs.ext4 /dev/vdb1
+
+# Creamos el directorio bacula en /
+sudo mkdir /bacula
+
+# Le cambiamos el propietario y le damos los permisos necesarios
+sudo chown -R bacula. /bacula/
+sudo chmod -R 755 /bacula/
+
+# Lo añadimos al fichero /etc/fstab
+sudo nano /etc/fstab
+[...]
+UUID=588ae014-8b2d-4f6b-8e53-e5ac6f622e49       /bacula ext4    errors=remount-ro       0       0
+
+# Aplicamos los cambios
+sudo mount -a
+
+# Comprobamos que se han aplicado los cambios correctamente
+lsblk
+[...]
+vdb    254:16   0  10G  0 disk 
+└─vdb1 254:17   0  10G  0 part /bacula
+</code></pre><p>Ahora reiniciamos el servicio de <code>bacula-dir con el siguiente comando</code></p>
+<pre><code>sudo systemctl restart bacula-dir
+</code></pre><h3 id="configuración-de-bconsole">Configuración de bconsole</h3>
+<p>Ahora, si queremos usar la consola de bacula (<code>bconsole</code>) deberemos editar el fichero de configuración <code>/etc/bacula/bconsole.conf</code></p>
+<pre><code># Configuración de bconsole
+Director {
+  Name = freston-dir
+  DIRport = 9101
+  address = 10.0.1.6
+  Password = &quot;admin&quot;
+}
+</code></pre><p>Entramos a <code>bconsole</code></p>
+<pre><code>sudo bconsole
+Connecting to Director 10.0.1.6:9101
+1000 OK: 103 freston-dir Version: 9.4.2 (04 February 2019)
+Enter a period to cancel a command.
+*
+</code></pre><p>Podemos comprobar que los clientes están conectados mirando los estados de los mismos</p>
+<pre><code>*status
+Status available for:
+     1: Director
+     2: Storage
+     3: Client
+     4: Scheduled
+     5: Network
+     6: All
+Select daemon type for status (1-6): 3
+The defined Client resources are:
+     1: freston-fd
+     2: dulcinea-fd
+     3: quijote-fd
+Select Client (File daemon) resource (1-3): 1
+Connecting to Client freston-fd at 10.0.1.6:9102
+
+freston-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 26-May-21 11:38. Jobs: run=0 running=0.
+ Heap: heap=114,688 smbytes=22,011 max_bytes=22,028 bufs=68 max_bufs=68
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so 
+
+Running Jobs:
+Director connected at: 26-May-21 13:48
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+</code></pre><p>También podemos ver los trabajos que están programados</p>
+<pre><code>*status
+Status available for:
+     1: Director
+     2: Storage
+     3: Client
+     4: Scheduled
+     5: Network
+     6: All
+Select daemon type for status (1-6): 4
+
+Scheduled Jobs:
+Level          Type     Pri  Scheduled          Job Name           Schedule
+=====================================================================================
+Incremental    Backup    10  Wed 26-May 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Wed 26-May 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Wed 26-May 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Thu 27-May 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Thu 27-May 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Thu 27-May 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Fri 28-May 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Fri 28-May 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Fri 28-May 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Sat 29-May 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Sat 29-May 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Sat 29-May 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Sun 30-May 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Sun 30-May 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Sun 30-May 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Mon 31-May 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Mon 31-May 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Mon 31-May 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Tue 01-Jun 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Tue 01-Jun 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Tue 01-Jun 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Wed 02-Jun 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Wed 02-Jun 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Wed 02-Jun 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Thu 03-Jun 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Thu 03-Jun 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Thu 03-Jun 02:00   Backup-Diario-Quijote programa_diario
+Incremental    Backup    10  Fri 04-Jun 02:00   Backup-Diario-Dulcinea programa_diario
+Incremental    Backup    10  Fri 04-Jun 02:00   Backup-Diario-Freston programa_diario
+Incremental    Backup    10  Fri 04-Jun 02:00   Backup-Diario-Quijote programa_diario
+====
+</code></pre><p>Y ya solo faltaría esperar a que estos trabajos se realicen.</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://juanan219.github.io/tags/bacula/">Bacula</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/copias-de-seguridad/">Copias de seguridad</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/centos/">CentOs</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/debian/">Debian</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/ubuntu/">Ubuntu</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        2717 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          26265-26-00 55:20
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=Sistema%20de%20copias%20de%20seguridad&amp;caption=Sistema%20de%20copias%20de%20seguridad&amp;canonicalUrl=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=Sistema%20de%20copias%20de%20seguridad&amp;body=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f&amp;media=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f;description=Sistema%20de%20copias%20de%20seguridad" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f&amp;title=Sistema%20de%20copias%20de%20seguridad&amp;summary=Sistema%20de%20copias%20de%20seguridad&amp;source=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f&amp;resubmit=true&amp;title=Sistema%20de%20copias%20de%20seguridad" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f;title=Sistema%20de%20copias%20de%20seguridad" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=Sistema%20de%20copias%20de%20seguridad%20https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f&amp;t=Sistema%20de%20copias%20de%20seguridad" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Sistema%20de%20copias%20de%20seguridad&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f05%2fsistema-de-copias-de-seguridad%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+
+          
+            <span class="button next">
+              <a href="https://juanan219.github.io/posts/2021/05/despliegue-de-un-cluster-de-kubernetes/">
+                <span class="button__text">Despliegue de un cluster de Kubernetes</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2021</span>
+            <span><a href="https://juanan219.github.io">Juan antonio Reifs</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span><span><a href="https://juanan219.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+          </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://juanan219.github.io/bundle.min.af435e44374f1e99a669ea8cd5bb9a2fceed80588941a451bfddb66b86a67c9f40b0f417e9543a763f809aa7e9300d7b1d69bf99615810ba02ac70396d50fad5.js" integrity="sha512-r0NeRDdPHpmmaeqM1buaL87tgFiJQaRRv922a4amfJ9AsPQX6VQ6dj&#43;AmqfpMA17HWm/mWFYELoCrHA5bVD61Q=="></script>
+
+
+
+    </body>
+</html>
