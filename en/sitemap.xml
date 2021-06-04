@@ -98,6 +98,11 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/02/instalacion-y-configuracion-inicial-de-openldap/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/02/generar-sitios-web-est%C3%A1ticos-con-hugo-y-github-pages/</loc>
     <lastmod>2021-02-04T00:00:00+00:00</lastmod>
   </url>
@@ -594,6 +599,31 @@
   
   <url>
     <loc>https://juanan219.github.io/tags/bienvenida/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/grupos/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/ldap/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/openldap/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/slapd/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/usuarios/</loc>
     <lastmod>2021-02-09T00:00:00+00:00</lastmod>
   </url>
   
