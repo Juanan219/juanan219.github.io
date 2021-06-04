@@ -6,8 +6,225 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Wed, 26 May 2021 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Fri, 04 Jun 2021 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Instalacion y configuracion inicial de OpenLDAP</title>
+            <link>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-inicial-de-openldap/</link>
+            <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-inicial-de-openldap/</guid>
+            <description>Vemos si el FQDN está bien configurado  debian@freston:~$ hostname -f freston.juanantonio-reifs.gonzalonazareno.org Ahora vamos a instalar el paquete slapd que es la versión de LDAP más extendida  sudo apt-get update &amp;amp;&amp;amp; sudo apt-get -y install slapd Configuramos la contraseña de administrador y la confirmamos  ┌─────────────────────────┤ Configuring slapd ├──────────────────────────┐ │ Please enter the password for the admin entry in your LDAP directory. │ │ │ │ Administrator password: │ │ │ │ *****_________________________________________________________________ │ │ │ │ &amp;lt;Ok&amp;gt; │ │ │ └────────────────────────────────────────────────────────────────────────┘ Ahora que ha finalizado la instalación de LDAP se nos habrá abierto un socket TCP/IP con el puerto 389 (que es el puerto que usa por defecto LDAP), el cual estará escuchando peticiones por todas las interfaces de la máquina, es decir, por la ip 0.</description>
+            <content type="html"><![CDATA[<ol>
+<li>Vemos si el FQDN está bien configurado</li>
+</ol>
+<pre><code>debian@freston:~$ hostname -f
+freston.juanantonio-reifs.gonzalonazareno.org
+</code></pre><ol start="2">
+<li>Ahora vamos a instalar el paquete <code>slapd</code> que es la versión de LDAP más extendida</li>
+</ol>
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get -y install slapd
+</code></pre><ol start="3">
+<li>Configuramos la contraseña de administrador y la confirmamos</li>
+</ol>
+<pre><code>┌─────────────────────────┤ Configuring slapd ├──────────────────────────┐
+│ Please enter the password for the admin entry in your LDAP directory.  │ 
+│                                                                        │ 
+│ Administrator password:                                                │ 
+│                                                                        │ 
+│ *****_________________________________________________________________ │ 
+│                                                                        │ 
+│                                 &lt;Ok&gt;                                   │ 
+│                                                                        │ 
+└────────────────────────────────────────────────────────────────────────┘ 
+</code></pre><p>Ahora que ha finalizado la instalación de LDAP se nos habrá abierto un socket TCP/IP con el puerto 389 (que es el puerto que usa por defecto LDAP), el cual estará escuchando peticiones por todas las interfaces de la máquina, es decir, por la ip <code>0.0.0.0</code>. Si queremos comprobar esto último ejecutaremos el comando <code>netstat</code>, el cual, si no lo tenéis instalado en vuestra máquina, se encuentra enel paquete <code>net-tools</code></p>
+<pre><code>debian@freston:~$ sudo netstat -tlnp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN      20141/slapd
+[...]               
+tcp6       0      0 :::389                  :::*                    LISTEN      20141/slapd
+[...]
+</code></pre><p>El siguiente paso va a ser instalar una herramienta que nos va a permitir interactuar con el servidor LDAP, ya que nos permite ejecutar búsquedas, medificaciones, insercciones de objetos, etc&hellip;</p>
+<pre><code>sudo apt-get install ldap-utils
+</code></pre><p>Para realizar búsquedas usaremos el comando <code>ldapsearch</code>.</p>
+<pre><code>debian@freston:~$ ldapsearch -x -b &quot;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot;
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# juanantonio-reifs.gonzalonazareno.org
+dn: dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: juanantonio-reifs.gonzalonazareno.org
+dc: juanantonio-reifs
+
+# admin, juanantonio-reifs.gonzalonazareno.org
+dn: cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2
+</code></pre><p>Como podemos observar en la salida del comando anterior, el primer objeto es la base del cual cuelgan todos los demás objetos que vayamos creando</p>
+<pre><code># juanantonio-reifs.gonzalonazareno.org
+dn: dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: juanantonio-reifs.gonzalonazareno.org
+dc: juanantonio-reifs
+</code></pre><p>El segundo objeto corresponde al administrador, el cual se genera automáticamente en la instalación, el cual cuelga del objeto base mencionado anteriormente</p>
+<pre><code># admin, juanantonio-reifs.gonzalonazareno.org
+dn: cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+</code></pre><p>En la búsqueda anterior se nos han mostrado las <code>ObjectClass</code> a las que pertenecen dichos objetos y algunos atributos como pueden ser el nombre distintivo o <code>dn</code>, el cual se usa para identificar dicho objeto de manera única dentro de la jerarquía, pero no se nos han mostrado todos los atributos, ya que hemos realizado una búsqueda anónima, la cual es cómoda a la hora de buscar rápidamente, ya que no es necesario autentificarse, pero tiene el inconveniente de que al ser anónimos, no se nos muestran ciertos atributos por motivos de seguridad, como por ejemplo las contraseñas encriptadas de los usuarios. Si queremos realizar una búsqueda mostrando todos los atributos, tendríamos que hacer uso del usuario <code>admin</code>.</p>
+<p>Realizaremos una búsqueda con el usuario <code>admin</code> de la siguiente manera:</p>
+<pre><code>debian@freston:~$ ldapsearch -x -D &quot;cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot; -b &quot;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot; -W
+Enter LDAP Password: 
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# juanantonio-reifs.gonzalonazareno.org
+dn: dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: juanantonio-reifs.gonzalonazareno.org
+dc: juanantonio-reifs
+
+# admin, juanantonio-reifs.gonzalonazareno.org
+dn: cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9TUQ1d3g1ajlvUSs3Rm9uVjNLMUN6eVUrdHlRN2JoZ1E=
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2
+</code></pre><ul>
+<li>
+<p><strong>Explicación del comando:</strong></p>
+<ul>
+<li>
+<p><strong><code>-D</code>:</strong> Indicamos el <code>dn</code> del usuario con el que queremos realizar la búsqueda. En este caso, como hemos usado el usuario <code>admin</code>, el comando sería: <code>cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org</code></p>
+</li>
+<li>
+<p><strong><code>-W</code>:</strong> Le decimos al comando que nos pida la contraseña del usuario que hemos usado de manera oculta, en lugar de introducirla en el propio comando, ya que esta es una opción más segura a la hora de introducir una contraseña.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Como podemos ver en la salida del comando anterior, ahora se nos ha mostrado un atributo llamado <code>userPassword</code>, el cual contiene la contraseña encriptada del usuario <code>admin</code>.</p>
+<p>Como la instalación y configuración de LDAP ha finalizado, vamos a comenzar a crear nuestros primero objetos, los cuales van a ser dos unidades organizativas, ya que si queremos tener un esquema de datos organizado, no deberemos de crear objetos que cuelguen de la base de nuestro árbol, para ello crearemos las unidades organizativas <code>personas</code> y <code>grupos</code> y para ello vamos a hacer uso de unos ficheros con una extensión <code>.ldif</code></p>
+<pre><code>debian@freston:~/ldap$ nano unidades.ldif
+
+dn: ou=Personas,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Personas
+
+dn: ou=Grupos,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+</code></pre><ul>
+<li>
+<p><strong>Explicación del contenido del fichero:</strong></p>
+<ul>
+<li>
+<p><strong><code>dn</code>:</strong> En la primera línea hemos indicado el nombre distintivo que tendrá dentro de nuestra jerarquía haciendo uso del único atributo obligatorio <code>ou</code> que utiliza la clase en cuestión, teniendo la certeza de que nunca se va a repetir este nombre.</p>
+</li>
+<li>
+<p><strong><code>objectClass</code>:</strong> En la segunda línea hemos importado la clase <code>organizationalUnit</code>, la cual es necesaria para definir una unidad organizativa.</p>
+</li>
+<li>
+<p><strong><code>ou</code>:</strong> En la tercera línea hemos asignado un valor al atributo obligatorio que usa la clase en cuestión, elcual corresponde con el nombre de la unidad organizativa.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Cuando hayamos terminado de definir nuestro fichero <code>.ldif</code> deberemos importarlo usando el comando <code>ldapadd</code> y usando el usuario <code>admin</code></p>
+<pre><code>debian@freston:~/ldap$ ldapadd -x -D &quot;cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot; -f unidades.ldif -W
+Enter LDAP Password: 
+adding new entry &quot;ou=Personas,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot;
+
+adding new entry &quot;ou=Grupos,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot;
+</code></pre><ul>
+<li>
+<p><strong>Explicación del comando:</strong></p>
+<ul>
+<li><strong><code>-f</code>:</strong> Indicamos el fichero en el cual se encuentran definidos los objetos que queremos añadir a nuestro árbol de datos.</li>
+</ul>
+</li>
+</ul>
+<p>Ahora podemos comprobar que se han creado las dos unidades organizativas haciendo uso del primer comando de búsqueda que vimos</p>
+<pre><code>debian@freston:~/ldap$ ldapsearch -x -b &quot;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot;
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# juanantonio-reifs.gonzalonazareno.org
+dn: dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: juanantonio-reifs.gonzalonazareno.org
+dc: juanantonio-reifs
+
+# admin, juanantonio-reifs.gonzalonazareno.org
+dn: cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# Personas, juanantonio-reifs.gonzalonazareno.org
+dn: ou=Personas,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou:: UGVyc29uYXMg
+
+# Grupos, juanantonio-reifs.gonzalonazareno.org
+dn: ou=Grupos,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 5
+# numEntries: 4
+</code></pre>]]></content>
+        </item>
         
         <item>
             <title>Sistema de copias de seguridad</title>
@@ -5567,223 +5784,6 @@ sudo systemctl restart postfix
             <description>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</description>
             <content type="html"><![CDATA[<p>Bienvenidos a mi nuevo sitio web estático generado con HUGO.</p>
 ]]></content>
-        </item>
-        
-        <item>
-            <title>Instalacion y configuracion inicial de OpenLDAP</title>
-            <link>https://juanan219.github.io/posts/2021/02/instalacion-y-configuracion-inicial-de-openldap/</link>
-            <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
-            
-            <guid>https://juanan219.github.io/posts/2021/02/instalacion-y-configuracion-inicial-de-openldap/</guid>
-            <description>Vemos si el FQDN está bien configurado  debian@freston:~$ hostname -f freston.juanantonio-reifs.gonzalonazareno.org Ahora vamos a instalar el paquete slapd que es la versión de LDAP más extendida  sudo apt-get update &amp;amp;&amp;amp; sudo apt-get -y install slapd Configuramos la contraseña de administrador y la confirmamos  ┌─────────────────────────┤ Configuring slapd ├──────────────────────────┐ │ Please enter the password for the admin entry in your LDAP directory. │ │ │ │ Administrator password: │ │ │ │ *****_________________________________________________________________ │ │ │ │ &amp;lt;Ok&amp;gt; │ │ │ └────────────────────────────────────────────────────────────────────────┘ Ahora que ha finalizado la instalación de LDAP se nos habrá abierto un socket TCP/IP con el puerto 389 (que es el puerto que usa por defecto LDAP), el cual estará escuchando peticiones por todas las interfaces de la máquina, es decir, por la ip 0.</description>
-            <content type="html"><![CDATA[<ol>
-<li>Vemos si el FQDN está bien configurado</li>
-</ol>
-<pre><code>debian@freston:~$ hostname -f
-freston.juanantonio-reifs.gonzalonazareno.org
-</code></pre><ol start="2">
-<li>Ahora vamos a instalar el paquete <code>slapd</code> que es la versión de LDAP más extendida</li>
-</ol>
-<pre><code>sudo apt-get update &amp;&amp; sudo apt-get -y install slapd
-</code></pre><ol start="3">
-<li>Configuramos la contraseña de administrador y la confirmamos</li>
-</ol>
-<pre><code>┌─────────────────────────┤ Configuring slapd ├──────────────────────────┐
-│ Please enter the password for the admin entry in your LDAP directory.  │ 
-│                                                                        │ 
-│ Administrator password:                                                │ 
-│                                                                        │ 
-│ *****_________________________________________________________________ │ 
-│                                                                        │ 
-│                                 &lt;Ok&gt;                                   │ 
-│                                                                        │ 
-└────────────────────────────────────────────────────────────────────────┘ 
-</code></pre><p>Ahora que ha finalizado la instalación de LDAP se nos habrá abierto un socket TCP/IP con el puerto 389 (que es el puerto que usa por defecto LDAP), el cual estará escuchando peticiones por todas las interfaces de la máquina, es decir, por la ip <code>0.0.0.0</code>. Si queremos comprobar esto último ejecutaremos el comando <code>netstat</code>, el cual, si no lo tenéis instalado en vuestra máquina, se encuentra enel paquete <code>net-tools</code></p>
-<pre><code>debian@freston:~$ sudo netstat -tlnp
-Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
-tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN      20141/slapd
-[...]               
-tcp6       0      0 :::389                  :::*                    LISTEN      20141/slapd
-[...]
-</code></pre><p>El siguiente paso va a ser instalar una herramienta que nos va a permitir interactuar con el servidor LDAP, ya que nos permite ejecutar búsquedas, medificaciones, insercciones de objetos, etc&hellip;</p>
-<pre><code>sudo apt-get install ldap-utils
-</code></pre><p>Para realizar búsquedas usaremos el comando <code>ldapsearch</code>.</p>
-<pre><code>debian@freston:~$ ldapsearch -x -b &quot;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot;
-# extended LDIF
-#
-# LDAPv3
-# base &lt;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&gt; with scope subtree
-# filter: (objectclass=*)
-# requesting: ALL
-#
-
-# juanantonio-reifs.gonzalonazareno.org
-dn: dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: top
-objectClass: dcObject
-objectClass: organization
-o: juanantonio-reifs.gonzalonazareno.org
-dc: juanantonio-reifs
-
-# admin, juanantonio-reifs.gonzalonazareno.org
-dn: cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: simpleSecurityObject
-objectClass: organizationalRole
-cn: admin
-description: LDAP administrator
-
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 3
-# numEntries: 2
-</code></pre><p>Como podemos observar en la salida del comando anterior, el primer objeto es la base del cual cuelgan todos los demás objetos que vayamos creando</p>
-<pre><code># juanantonio-reifs.gonzalonazareno.org
-dn: dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: top
-objectClass: dcObject
-objectClass: organization
-o: juanantonio-reifs.gonzalonazareno.org
-dc: juanantonio-reifs
-</code></pre><p>El segundo objeto corresponde al administrador, el cual se genera automáticamente en la instalación, el cual cuelga del objeto base mencionado anteriormente</p>
-<pre><code># admin, juanantonio-reifs.gonzalonazareno.org
-dn: cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: simpleSecurityObject
-objectClass: organizationalRole
-cn: admin
-description: LDAP administrator
-</code></pre><p>En la búsqueda anterior se nos han mostrado las <code>ObjectClass</code> a las que pertenecen dichos objetos y algunos atributos como pueden ser el nombre distintivo o <code>dn</code>, el cual se usa para identificar dicho objeto de manera única dentro de la jerarquía, pero no se nos han mostrado todos los atributos, ya que hemos realizado una búsqueda anónima, la cual es cómoda a la hora de buscar rápidamente, ya que no es necesario autentificarse, pero tiene el inconveniente de que al ser anónimos, no se nos muestran ciertos atributos por motivos de seguridad, como por ejemplo las contraseñas encriptadas de los usuarios. Si queremos realizar una búsqueda mostrando todos los atributos, tendríamos que hacer uso del usuario <code>admin</code>.</p>
-<p>Realizaremos una búsqueda con el usuario <code>admin</code> de la siguiente manera:</p>
-<pre><code>debian@freston:~$ ldapsearch -x -D &quot;cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot; -b &quot;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot; -W
-Enter LDAP Password: 
-# extended LDIF
-#
-# LDAPv3
-# base &lt;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&gt; with scope subtree
-# filter: (objectclass=*)
-# requesting: ALL
-#
-
-# juanantonio-reifs.gonzalonazareno.org
-dn: dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: top
-objectClass: dcObject
-objectClass: organization
-o: juanantonio-reifs.gonzalonazareno.org
-dc: juanantonio-reifs
-
-# admin, juanantonio-reifs.gonzalonazareno.org
-dn: cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: simpleSecurityObject
-objectClass: organizationalRole
-cn: admin
-description: LDAP administrator
-userPassword:: e1NTSEF9TUQ1d3g1ajlvUSs3Rm9uVjNLMUN6eVUrdHlRN2JoZ1E=
-
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 3
-# numEntries: 2
-</code></pre><ul>
-<li>
-<p><strong>Explicación del comando:</strong></p>
-<ul>
-<li>
-<p><strong><code>-D</code>:</strong> Indicamos el <code>dn</code> del usuario con el que queremos realizar la búsqueda. En este caso, como hemos usado el usuario <code>admin</code>, el comando sería: <code>cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org</code></p>
-</li>
-<li>
-<p><strong><code>-W</code>:</strong> Le decimos al comando que nos pida la contraseña del usuario que hemos usado de manera oculta, en lugar de introducirla en el propio comando, ya que esta es una opción más segura a la hora de introducir una contraseña.</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>Como podemos ver en la salida del comando anterior, ahora se nos ha mostrado un atributo llamado <code>userPassword</code>, el cual contiene la contraseña encriptada del usuario <code>admin</code>.</p>
-<p>Como la instalación y configuración de LDAP ha finalizado, vamos a comenzar a crear nuestros primero objetos, los cuales van a ser dos unidades organizativas, ya que si queremos tener un esquema de datos organizado, no deberemos de crear objetos que cuelguen de la base de nuestro árbol, para ello crearemos las unidades organizativas <code>personas</code> y <code>grupos</code> y para ello vamos a hacer uso de unos ficheros con una extensión <code>.ldif</code></p>
-<pre><code>debian@freston:~/ldap$ nano unidades.ldif
-
-dn: ou=Personas,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: organizationalUnit
-ou: Personas
-
-dn: ou=Grupos,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: organizationalUnit
-ou: Grupos
-</code></pre><ul>
-<li>
-<p><strong>Explicación del contenido del fichero:</strong></p>
-<ul>
-<li>
-<p><strong><code>dn</code>:</strong> En la primera línea hemos indicado el nombre distintivo que tendrá dentro de nuestra jerarquía haciendo uso del único atributo obligatorio <code>ou</code> que utiliza la clase en cuestión, teniendo la certeza de que nunca se va a repetir este nombre.</p>
-</li>
-<li>
-<p><strong><code>objectClass</code>:</strong> En la segunda línea hemos importado la clase <code>organizationalUnit</code>, la cual es necesaria para definir una unidad organizativa.</p>
-</li>
-<li>
-<p><strong><code>ou</code>:</strong> En la tercera línea hemos asignado un valor al atributo obligatorio que usa la clase en cuestión, elcual corresponde con el nombre de la unidad organizativa.</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>Cuando hayamos terminado de definir nuestro fichero <code>.ldif</code> deberemos importarlo usando el comando <code>ldapadd</code> y usando el usuario <code>admin</code></p>
-<pre><code>debian@freston:~/ldap$ ldapadd -x -D &quot;cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot; -f unidades.ldif -W
-Enter LDAP Password: 
-adding new entry &quot;ou=Personas,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot;
-
-adding new entry &quot;ou=Grupos,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot;
-</code></pre><ul>
-<li>
-<p><strong>Explicación del comando:</strong></p>
-<ul>
-<li><strong><code>-f</code>:</strong> Indicamos el fichero en el cual se encuentran definidos los objetos que queremos añadir a nuestro árbol de datos.</li>
-</ul>
-</li>
-</ul>
-<p>Ahora podemos comprobar que se han creado las dos unidades organizativas haciendo uso del primer comando de búsqueda que vimos</p>
-<pre><code>debian@freston:~/ldap$ ldapsearch -x -b &quot;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&quot;
-# extended LDIF
-#
-# LDAPv3
-# base &lt;dc=juanantonio-reifs,dc=gonzalonazareno,dc=org&gt; with scope subtree
-# filter: (objectclass=*)
-# requesting: ALL
-#
-
-# juanantonio-reifs.gonzalonazareno.org
-dn: dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: top
-objectClass: dcObject
-objectClass: organization
-o: juanantonio-reifs.gonzalonazareno.org
-dc: juanantonio-reifs
-
-# admin, juanantonio-reifs.gonzalonazareno.org
-dn: cn=admin,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: simpleSecurityObject
-objectClass: organizationalRole
-cn: admin
-description: LDAP administrator
-
-# Personas, juanantonio-reifs.gonzalonazareno.org
-dn: ou=Personas,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: organizationalUnit
-ou:: UGVyc29uYXMg
-
-# Grupos, juanantonio-reifs.gonzalonazareno.org
-dn: ou=Grupos,dc=juanantonio-reifs,dc=gonzalonazareno,dc=org
-objectClass: organizationalUnit
-ou: Grupos
-
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 5
-# numEntries: 4
-</code></pre>]]></content>
         </item>
         
         <item>

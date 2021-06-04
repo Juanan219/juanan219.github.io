@@ -7,13 +7,13 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/ldap/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/ldap/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Instalacion y configuracion inicial de OpenLDAP</title>
-      <link>https://juanan219.github.io/posts/2021/02/instalacion-y-configuracion-inicial-de-openldap/</link>
-      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+      <link>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-inicial-de-openldap/</link>
+      <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://juanan219.github.io/posts/2021/02/instalacion-y-configuracion-inicial-de-openldap/</guid>
+      <guid>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-inicial-de-openldap/</guid>
       <description>Vemos si el FQDN está bien configurado  debian@freston:~$ hostname -f freston.juanantonio-reifs.gonzalonazareno.org Ahora vamos a instalar el paquete slapd que es la versión de LDAP más extendida  sudo apt-get update &amp;amp;&amp;amp; sudo apt-get -y install slapd Configuramos la contraseña de administrador y la confirmamos  ┌─────────────────────────┤ Configuring slapd ├──────────────────────────┐ │ Please enter the password for the admin entry in your LDAP directory. │ │ │ │ Administrator password: │ │ │ │ *****_________________________________________________________________ │ │ │ │ &amp;lt;Ok&amp;gt; │ │ │ └────────────────────────────────────────────────────────────────────────┘ Ahora que ha finalizado la instalación de LDAP se nos habrá abierto un socket TCP/IP con el puerto 389 (que es el puerto que usa por defecto LDAP), el cual estará escuchando peticiones por todas las interfaces de la máquina, es decir, por la ip 0.</description>
     </item>
     

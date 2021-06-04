@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 26 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalacion y configuracion inicial de OpenLDAP</title>
+      <link>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-inicial-de-openldap/</link>
+      <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-inicial-de-openldap/</guid>
+      <description>Vemos si el FQDN está bien configurado  debian@freston:~$ hostname -f freston.juanantonio-reifs.gonzalonazareno.org Ahora vamos a instalar el paquete slapd que es la versión de LDAP más extendida  sudo apt-get update &amp;amp;&amp;amp; sudo apt-get -y install slapd Configuramos la contraseña de administrador y la confirmamos  ┌─────────────────────────┤ Configuring slapd ├──────────────────────────┐ │ Please enter the password for the admin entry in your LDAP directory. │ │ │ │ Administrator password: │ │ │ │ *****_________________________________________________________________ │ │ │ │ &amp;lt;Ok&amp;gt; │ │ │ └────────────────────────────────────────────────────────────────────────┘ Ahora que ha finalizado la instalación de LDAP se nos habrá abierto un socket TCP/IP con el puerto 389 (que es el puerto que usa por defecto LDAP), el cual estará escuchando peticiones por todas las interfaces de la máquina, es decir, por la ip 0.</description>
+    </item>
+    
     <item>
       <title>Sistema de copias de seguridad</title>
       <link>https://juanan219.github.io/posts/2021/05/sistema-de-copias-de-seguridad/</link>
@@ -104,17 +113,6 @@ docker run --name docker_nginx -p 8080:80 -d nginx c45464659bca8dc80372f7fcbcf1f
   Cuando necesitamos varios servicios para que la aplicación funcione, como por ejemplo con Wordpress, necesitaríamos un contenedor para la propia aplicación web y otro contenedor para el servidor de bases de datos MySQL.
   Si tenemos nuestra aplicación construida con microservicios, de los cuales, cada microservicio se ejecutará en un contenedor independiente.
   Cuando trabajamos en escenarios en los que necesitamos varios contenedores, podemos usar docker-compose para gestionarlos.</description>
-    </item>
-    
-    <item>
-      <title>Uso de las Imagenes Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</link>
-      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/uso-de-las-imagenes-docker/</guid>
-      <description>Registros de Imágenes: DockerHub Las imágenes de Docker son plantillas de solo lectura, es decir, una imagen que contiene archivos de un sistema operativo como Debian, solo nos permitirá crear contenedores basados en dicha imagen, pero los cambios que hagamos en el contenedor, una vez que se ha detenido, no se verán reflejados en la imagen.
-El nombre de una imágen suele estar formado por tres partes:
-usuario/nombre:etiqueta   usuario: El nombre del usuario que ha generado la imagen.</description>
     </item>
     
   </channel>
