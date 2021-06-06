@@ -6,8 +6,346 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Fri, 04 Jun 2021 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Instalacion y Configuracion de Oracle 19c en CentOs 8</title>
+            <link>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-de-oracle-19c-en-centos-8/</link>
+            <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-de-oracle-19c-en-centos-8/</guid>
+            <description>En este post voy a explicar como instalar oracle 19c en Linux, concretamente en Centos 8.
+Descarga del paquete Nos dirigimos a la página de descarga Oracle y nos descargamos la versión del paquete Linux x86-64 RPM. Esta acción deberemos realizarla desde un entorno gráfico ya que la descarga de la página de Oracle requiere una autentificación con una cuenta de Oracle, por lo que no se va a poder descargar con wget.</description>
+            <content type="html"><![CDATA[<p>En este post voy a explicar como instalar oracle 19c en Linux, concretamente en Centos 8.</p>
+<h2 id="descarga-del-paquete">Descarga del paquete</h2>
+<p>Nos dirigimos a la <a href="https://www.oracle.com/es/database/technologies/oracle-database-software-downloads.html#19c">página de descarga Oracle</a> y nos descargamos la versión del paquete Linux x86-64 RPM. Esta acción deberemos realizarla desde un entorno gráfico ya que la descarga de la página de Oracle requiere una autentificación con una cuenta de Oracle, por lo que no se va a poder descargar con <code>wget</code>.</p>
+<p>En mi caso he desargado el paquete <code>.rpm</code> desde mi máquina anfitriona y la he pasado a la máquina virtual por <code>scp</code>. Una vez que tenemos el paquete en nuestra máquina comenzamos con los pasos de la instalación.</p>
+<h2 id="preparando-el-escenario-para-la-instalación">Preparando el escenario para la instalación</h2>
+<p>Antes de instalar directamente el paquete que nos hemos descargado vamos a instalar el paquete de la preinstalación que tiene Oracle, el cual nos prepara nuestro sistema para la instalación de Oracle.</p>
+<pre><code>sudo dnf install https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el8.x86_64.rpm
+</code></pre><h2 id="instalación-y-configuración-de-oracle">Instalación y configuración de Oracle</h2>
+<p>Ya que tenemos todo nuestro sistema bien configurado para la instalación de oracle, lo vamos a instalar directamente con el comando <code>rpm</code></p>
+<pre><code>sudo rpm -Uhv  oracle-database-ee-19c-1.0-1.x86_64.rpm
+</code></pre><p>Este comando tarda unos escasos minutos, ya que es el que instala todo el gestor de base de datos y cuando finaliza nos dice que si queremos una base de datos de ejemplo en Oracle, ejecutemos el comando que se nos muestra, así que vamos a ejecutarlo para que cree la base de datos de ejemplo, ya que esa base de datos nos es muy útil en algunas ocasiones si estamos aprendiendo a usar Oracle.</p>
+<pre><code>sudo /etc/init.d/oracledb_ORCLCDB-19c configure
+</code></pre><p>Cuando la base de datos se haya terminado de configurar ya podremos usar oracle desde <code>sqlplus</code> accediendo a la ruta <code>/opt/oracle/product/19c/dbhome_1/bin/</code>, pero para que nos sea más sencillo de usar el comando vamos a editar el fichero <code>.bash_profile</code> del usuario <code>oracle</code> y vamos a añadir las siguientes líneas, de tal forma que el fichero <code>~/.bash_profile</code> quedaría tal que así</p>
+<pre><code>[oracle@oracle1 ~]$ nano .bash_profile
+
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+umask 022
+export ORACLE_SID=ORCLCDB
+export ORACLE_BASE=/opt/oracle/oradata
+export ORACLE_HOME=/opt/oracle/product/19c/dbhome_1
+export PATH=$PATH:$ORACLE_HOME/bin
+
+# User specific environment and startup programs
+</code></pre><p>Guardamos el fichero y aplicamos los cambios haciendo que el sistema vuelva a leer dicho fichero (ya que este fichero se lee en cada inicio de sesión)</p>
+<pre><code>source ~/.bash_profile
+</code></pre><p>Una vez que hayamos configurado esto ya podremos acceder a <code>sqlplus</code> como <code>sysdba</code> de esta forma</p>
+<pre><code>[oracle@oracle1 ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sat Jun 5 12:56:55 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Connected to an idle instance.
+
+SQL&gt;
+</code></pre><p>Para comprobar que está todo correctamente ejecutaremos una consulta para mostrar el nombre de la instancia de oracle, el hostname de nuestra máquina y la versión de oracle</p>
+<pre><code>SQL&gt; SELECT instance_name, host_name, version FROM v$instance;
+SELECT instance_name, host_name, version FROM v$instance
+*
+ERROR at line 1:
+ORA-01034: ORACLE not available
+Process ID: 0
+Session ID: 0 Serial number: 0
+</code></pre><p>Pero como podemos ver, nos aparece que ORACLE no está disponible, esto se debe a que aunque tengamos instalado el gestor de bases de datos, la instancia no está iniciada, lo cual se resuelve escribiendo el comando <code>startup</code> dentro de <code>sqlplus</code> y volveremos a ejecutar el mismo comando para comprobar, que efectivamente, está todo en orden y listo para usarse</p>
+<pre><code>SQL&gt; startup
+
+SQL&gt; SELECT instance_name, host_name, version FROM v$instance;
+
+INSTANCE_NAME
+----------------
+HOST_NAME
+----------------------------------------------------------------
+VERSION
+-----------------
+ORCLCDB
+oracle1
+19.0.0.0.0
+</code></pre><h2 id="creación-de-mi-usuario">Creación de mi usuario</h2>
+<p>En Oracle 19c tiene una novedad con respecto a las versiones anteriores de Oracle y es que en esta versión se diferencian dos tipos de bases de datos:</p>
+<ul>
+<li>
+<p><strong>Container Database (CDB)</strong></p>
+</li>
+<li>
+<p><strong>Pluggabe Database (PDB)</strong></p>
+</li>
+</ul>
+<p>Por eso también se diferencian dos tipos de usuarios:</p>
+<ul>
+<li>
+<p><strong>Common User:</strong> Pertenecen tanto a las <em>CDB</em> como a las <em>PDB</em> y se crean con la sintáxis que conocemos de otras versiones de Oracle <code>create user c##[nombre] indentified by [contraseña]</code>.</p>
+</li>
+<li>
+<p><strong>Local user:</strong> Estos usuarios pertenecen solo a las <em>PDB</em>, es decir, únicamente se les pueden añadir permisos a las <em>PDB</em> que existen. Estos usuarios se crean estableciendo la <em>PDB</em> como variable de sesión (<code>alter session set container = [Nombre PDB]</code>) y después creándolo con la sitáxis de un usuario normal.</p>
+</li>
+</ul>
+<p>Una vez hemos explicado esto, vamos a proceder a crear un <em>Common User</em> para poder usarlo en la <em>CDB</em> como en futuras <em>PDB</em>.</p>
+<pre><code>SQL&gt; create user c##juanan identified by juanan;
+
+Usuario creado.
+</code></pre><p>Ahora le asignaremos todos los privilegios para poder trbaajar con este usuario sin problemas ni restricciones</p>
+<pre><code>SQL&gt; grant all privileges to c##juanan;
+
+Concesion terminada correctamente.
+</code></pre><p>Por último, nos vamos a conectar a nuestro nuevo usuario para comprobar que se ha creado correctamente</p>
+<pre><code>[oracle@oracle1 ~]$ sqlplus c##juanan/juanan
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sat Jun 5 13:21:56 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Hora de Ultima Conexion Correcta: Sab Jun 05 2021 13:21:29 -04:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL&gt;
+</code></pre><h2 id="configuración-de-oracle-para-el-uso-remoto">Configuración de Oracle para el uso remoto</h2>
+<p>Vamos a configurar el <code>listener</code> de Oracle, para ello necesitaremos la ip de nuestra máquina</p>
+<pre><code>[oracle@oracle1 ~]$ ip a
+[...]
+    inet 192.168.1.14/24 brd 192.168.1.255 scope global dynamic noprefixroute enp0s3
+[...]
+</code></pre><p>El ya mencionado <code>listener</code> de Oracle usa el puerto <code>1521</code>, pero si miramos los puertos que tenemos funcionando en nuestra máquina, ninguno se corresponde con este</p>
+<pre><code>[oracle@oracle1 ~]$ netstat -tln
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
+tcp6       0      0 :::21975                :::*                    LISTEN     
+tcp6       0      0 :::111                  :::*                    LISTEN     
+tcp6       0      0 :::22                   :::*                    LISTEN 
+</code></pre><p>Esto se debe a que todavía nuestro <code>listener</code> está parado y sin configurar así que vamos a pasar a la configuración:</p>
+<ol>
+<li>Comprobar que tenemos bien el FQDN de nuestra máquina, para comprobarlo usamos el comando <code>hostname -f</code></li>
+</ol>
+<pre><code>[oracle@oracle1 ~]$ hostname -f
+oracle1.home
+</code></pre><p>En mi caso no lo tengo bien configurado, ya que esta máquina la acabo de crear. Mi dominio (ficticio) es <code>juanan.es</code> por lo que deberé de añadirlo en el fichero <code>/etc/hosts</code></p>
+<pre><code>[oracle@oracle1 ~]$ sudo nano /etc/hosts
+
+[...]
+192.168.1.49   oracle1.juanan.es   oracle
+[...]
+</code></pre><p>Guardamos el fichero y miramos si el hostname lo tenemos correctamente configurado usando el comando <code>hostname</code></p>
+<pre><code>[oracle@oracle1 ~]$ hostname
+oracle1
+</code></pre><p>Yo lo tengo bien configurado, pero en el caso de que no lo tengamos, simplemente editamos el fichero <code>/etc/hostname</code> y le cambiamos el nombre por el que queramos.</p>
+<p>Por último reiniciamos la máquina y ya tendríamos nuestro hostname y FQDN listo</p>
+<pre><code>[oracle@oracle1 ~]$ hostname -f
+oracle1.juanan.es
+[oracle@oracle1 ~]$ hostname
+oracle1
+</code></pre><ol start="2">
+<li>Vamos a modificar el fichero <code>listerner.ora</code>, el cual está ubicado en <code>$ORACLE_HOME/network/admin/listener.ora</code>. Cuando lo abramos nos encontraremos con el siguiente contenido</li>
+</ol>
+<pre><code># listener.ora Network Configuration File: /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+# Generated by Oracle configuration tools.
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = oracle1.home)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+</code></pre><p>En este caso tenemos de manera predeterminada escuchando por el FQDN predeterminado de mi máquina (el cual cambién por mi IP y el FQDN de mi dominio ficticio) y en el puerto 1521 (el puerto predeterminado del listener), el cual dejaremos así, por lo que solo cambiaremos el FQDN por el que hemos puesto en el fichero <code>/etc/hosts</code> de tal manera que el fichero quedaría así</p>
+<pre><code># listener.ora Network Configuration File: /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+# Generated by Oracle configuration tools.
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = oracle1.juanan.es)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+</code></pre><p>Cuando hayamos guardado los cambios vamos a ejecutar el comando para iniciar el listener</p>
+<pre><code>[oracle@oracle1 ~]$ lsnrctl start
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 05-JUN-2021 14:14:05
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Starting /opt/oracle/product/19c/dbhome_1/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+System parameter file is /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Log messages written to /opt/oracle/diag/tnslsnr/oracle1/listener/alert/log.xml
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oracle1.juanan.es)(PORT=1521)))
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle1.juanan.es)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+Start Date                05-JUN-2021 14:14:06
+Uptime                    0 days 0 hr. 0 min. 0 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Listener Log File         /opt/oracle/diag/tnslsnr/oracle1/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oracle1.juanan.es)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+The listener supports no services
+The command completed successfully
+</code></pre><p>Como podemos ver en los mensajes que nos muestra por pantalla el comando, este se ha completado satisfactoriamente (<code>The command completed successfully</code>), pero nos avisa de que no está soportando ningún servicio (<code>The listener supports no services</code>), esto se debe a que hemos arrancado el listener después que la base de datos, por lo que la base de datos no le ha notificado tpdavía que está activa, para ello deberemos esperar alrededor de uno dos minutos. Cuando pase este tiempo y ejecutemos el comando <code>lstnrctl status</code> podremos ver de que ya se encuentra activo</p>
+<pre><code>[oracle@oracle1 ~]$ lsnrctl status
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 05-JUN-2021 14:20:13
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle1.juanan.es)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+Start Date                05-JUN-2021 14:19:33
+Uptime                    0 days 0 hr. 0 min. 39 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Listener Log File         /opt/oracle/diag/tnslsnr/oracle1/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oracle1.juanan.es)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=oracle1.juanan.es)(PORT=5500))(Security=(my_wallet_directory=/opt/oracle/oradata/admin/ORCLCDB/xdb_wallet))(Presentation=HTTP)(Session=RAW))
+Services Summary...
+Service &quot;ORCLCDB&quot; has 1 instance(s).
+  Instance &quot;ORCLCDB&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;ORCLCDBXDB&quot; has 1 instance(s).
+  Instance &quot;ORCLCDB&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;c40852d66a8384dbe0550a0027b5e54f&quot; has 1 instance(s).
+  Instance &quot;ORCLCDB&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;orclpdb1&quot; has 1 instance(s).
+  Instance &quot;ORCLCDB&quot;, status READY, has 1 handler(s) for this service...
+The command completed successfully
+</code></pre><p>Por último vamos a configurar una regla en el cortafuegos de nuestro sistema, para ello ejecutaremos la siguiente regla</p>
+<pre><code>[oracle@oracle1 ~]$ sudo firewall-cmd --permanent --add-port=1521/tcp
+</code></pre><p>Recargamos el cortafuegos</p>
+<pre><code>[oracle@oracle1 ~]$ sudo firewall-cmd --reload
+</code></pre><p>Si listamos todas las reglas del cortafuegos podremos ver que se ha añadido correctamente</p>
+<pre><code>[oracle@oracle1 ~]$ sudo firewall-cmd --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s3
+  sources: 
+  services: cockpit dhcpv6-client ssh
+  ports: 1521/tcp
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules:
+</code></pre><h2 id="prueba-de-funcionamiento">Prueba de funcionamiento</h2>
+<p>Ahora que tenemos todo listo, vamos a comprobar que todo funciona correctamente, para ello vamos a crear una tabla de prueba en la máquina <code>oracle1</code></p>
+<pre><code>// Creamos la tabla de prueba
+
+create table prueba
+(Campo1 varchar2(10),
+ Campo2 varchar2(10),
+ Campo3 varchar2(10),
+ constraint pk_campo1 primary key (Campo1));
+
+// Insertamos los datos de prueba
+
+insert into prueba
+values('Texto 1', 'Texto 2', 'Texto 3');
+
+insert into prueba
+values('Texto 4', 'Texto 5', 'Texto 6');
+
+insert into prueba
+values('Texto 7', 'Texto 8', 'Texto 9');
+
+insert into prueba
+values('Texto 10', 'Texto 11', 'Texto 12');
+</code></pre><p>Esta sería la consulta desde la máquina <code>oracle1</code></p>
+<pre><code>SQL&gt; select * from prueba;
+
+CAMPO1	   CAMPO2     CAMPO3
+---------- ---------- ----------
+Texto 1    Texto 2    Texto 3
+Texto 4    Texto 5    Texto 6
+Texto 7    Texto 8    Texto 9
+Texto 10   Texto 11   Texto 12
+</code></pre><p>Para comprobar la conectividad, vamos a realizar una prueba de ping con una herramienta que trae Oracle, esta herramienta es <code>tnsping</code>, la cual sirva para comprobar la conectividad con el listener.</p>
+<pre><code>[oracle@oracle2 ~]$ tnsping oracle1
+
+TNS Ping Utility for Linux: Version 19.0.0.0.0 - Production on 06-JUN-2021 12:37:11
+
+Copyright (c) 1997, 2019, Oracle.  All rights reserved.
+
+Used parameter files:
+/opt/oracle/product/19c/dbhome_1/network/admin/sqlnet.ora
+
+Used HOSTNAME adapter to resolve the alias
+Attempting to contact (DESCRIPTION=(CONNECT_DATA=(SERVICE_NAME=))(ADDRESS=(PROTOCOL=tcp)(HOST=192.168.1.49)(PORT=1521)))
+OK (0 msec)
+</code></pre><p>Como podemos comprobar, hemos comprobado la conectividad desde la máquina <code>oracle2</code> a la máquina <code>oracle1</code>. Ahora vamos a conectarnos a nuestro usuario <code>juanan</code> de manera remota, es decir, de <code>oracle2</code> a <code>oracle1</code> y haremos un listado de todas las tablas que tenemos en dicho usuario y veremos el contenido de la tabla que hemos creado anteriormente</p>
+<pre><code>[oracle@oracle2 ~]$ sqlplus c##juanan/juanan@oracle1/ORCLCDB
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sun Jun 6 12:52:41 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Hora de Ultima Conexion Correcta: Dom Jun 06 2021 12:25:32 -04:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL&gt; select * from cat;
+
+TABLE_NAME
+--------------------------------------------------------------------------------
+TABLE_TYPE
+-----------
+PRUEBA
+TABLE
+
+SQL&gt; select * from prueba;
+
+CAMPO1	   CAMPO2     CAMPO3
+---------- ---------- ----------
+Texto 1    Texto 2    Texto 3
+Texto 4    Texto 5    Texto 6
+Texto 7    Texto 8    Texto 9
+Texto 10   Texto 11   Texto 12
+</code></pre><p>Como podemos comprobar en las salidas de los comandos anteriores, nos hemos conectado a la máquina <code>oracle1</code> desde <code>oracle2</code>, hemos listado las tablas disponibles en el usuario <code>juanan</code> y hemos listado el contenido de la tabla <code>prueba</code>.</p>
+]]></content>
+        </item>
         
         <item>
             <title>Instalacion y configuracion inicial de OpenLDAP</title>

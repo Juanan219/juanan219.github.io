@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Configuracion on JuananBlog</title>
-    <link>https://juanan219.github.io/tags/configuracion/</link>
-    <description>Recent content in Configuracion on JuananBlog</description>
+    <title>Instalacion on JuananBlog</title>
+    <link>https://juanan219.github.io/tags/instalacion/</link>
+    <description>Recent content in Instalacion on JuananBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/configuracion/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/instalacion/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Instalacion y Configuracion de Oracle 19c en CentOs 8</title>
       <link>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-de-oracle-19c-en-centos-8/</link>
@@ -16,17 +16,6 @@
       <guid>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-de-oracle-19c-en-centos-8/</guid>
       <description>En este post voy a explicar como instalar oracle 19c en Linux, concretamente en Centos 8.
 Descarga del paquete Nos dirigimos a la página de descarga Oracle y nos descargamos la versión del paquete Linux x86-64 RPM. Esta acción deberemos realizarla desde un entorno gráfico ya que la descarga de la página de Oracle requiere una autentificación con una cuenta de Oracle, por lo que no se va a poder descargar con wget.</description>
-    </item>
-    
-    <item>
-      <title>Servidor de correos</title>
-      <link>https://juanan219.github.io/posts/2021/02/servidor-de-correos/</link>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/servidor-de-correos/</guid>
-      <description>En esta entrada vamos a configurar un servidor de correos en un VPS, para ello primero deberemos configurar el nombre del servidor de correos, el cual será mail.iesgn16.es, cuyo nombre aparecerá en el registro MX de nuestro DNS.
-Para configurar el mail en nuestro servidor, vamos a instalar postfix
-sudo apt-get update sudo apt-get install postfix Durante la instalación se nos pedirá que configuremos el mailname, es decir, el nombre del servidor de correo.</description>
     </item>
     
   </channel>

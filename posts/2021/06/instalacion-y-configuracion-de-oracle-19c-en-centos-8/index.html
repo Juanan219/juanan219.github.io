@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:Juan Antonio Reifs]">
+<meta name="description" content="En este post voy a explicar como instalar oracle 19c en Linux, concretamente en Centos 8.
+Descarga del paquete Nos dirigimos a la página de descarga Oracle y nos descargamos la versión del paquete Linux x86-64 RPM. Esta acción deberemos realizarla desde un entorno gráfico ya que la descarga de la página de Oracle requiere una autentificación con una cuenta de Oracle, por lo que no se va a poder descargar con wget." />
+<meta name="keywords" content=", Oracle 19c, BBDD, Instalacion, Configuracion, Interconexion, Listener" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-de-oracle-19c-en-centos-8/" />
+
+
+    <title>
+        
+            Instalacion y Configuracion de Oracle 19c en CentOs 8 :: JuananBlog  — JuananBlog
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://juanan219.github.io/main.154a87e0ff720e102948892a8eb80881aa81a4faf37376f3093be219f6296c3d.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://juanan219.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://juanan219.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://juanan219.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://juanan219.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://juanan219.github.io/safari-pinned-tab.svg" color="#1b1c1d">
+    <link rel="shortcut icon" href="https://juanan219.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#1b1c1d">
+    <meta name="theme-color" content="#1b1c1d">
+
+
+
+<meta itemprop="name" content="Instalacion y Configuracion de Oracle 19c en CentOs 8">
+<meta itemprop="description" content="En este post voy a explicar como instalar oracle 19c en Linux, concretamente en Centos 8.
+Descarga del paquete Nos dirigimos a la página de descarga Oracle y nos descargamos la versión del paquete Linux x86-64 RPM. Esta acción deberemos realizarla desde un entorno gráfico ya que la descarga de la página de Oracle requiere una autentificación con una cuenta de Oracle, por lo que no se va a poder descargar con wget.">
+<meta itemprop="datePublished" content="2021-06-06T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-06-06T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2079">
+<meta itemprop="image" content="https://juanan219.github.io"/>
+
+
+
+<meta itemprop="keywords" content="Oracle 19c,BBDD,Instalacion,Configuracion,Interconexion,Listener," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://juanan219.github.io"/>
+
+<meta name="twitter:title" content="Instalacion y Configuracion de Oracle 19c en CentOs 8"/>
+<meta name="twitter:description" content="En este post voy a explicar como instalar oracle 19c en Linux, concretamente en Centos 8.
+Descarga del paquete Nos dirigimos a la página de descarga Oracle y nos descargamos la versión del paquete Linux x86-64 RPM. Esta acción deberemos realizarla desde un entorno gráfico ya que la descarga de la página de Oracle requiere una autentificación con una cuenta de Oracle, por lo que no se va a poder descargar con wget."/>
+
+
+
+
+    <meta property="og:title" content="Instalacion y Configuracion de Oracle 19c en CentOs 8" />
+<meta property="og:description" content="En este post voy a explicar como instalar oracle 19c en Linux, concretamente en Centos 8.
+Descarga del paquete Nos dirigimos a la página de descarga Oracle y nos descargamos la versión del paquete Linux x86-64 RPM. Esta acción deberemos realizarla desde un entorno gráfico ya que la descarga de la página de Oracle requiere una autentificación con una cuenta de Oracle, por lo que no se va a poder descargar con wget." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-de-oracle-19c-en-centos-8/" />
+<meta property="og:image" content="https://juanan219.github.io"/>
+<meta property="article:published_time" content="2021-06-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-06T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-06-06 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://juanan219.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://juanan219.github.io/about/">About</a></li><li><a href="https://juanan219.github.io/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        10 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-de-oracle-19c-en-centos-8/">Instalacion y Configuracion de Oracle 19c en CentOs 8</a>
+      </h1>
+
+      
+
+      
+
+      <div class="post-content">
+        <p>En este post voy a explicar como instalar oracle 19c en Linux, concretamente en Centos 8.</p>
+<h2 id="descarga-del-paquete">Descarga del paquete</h2>
+<p>Nos dirigimos a la <a href="https://www.oracle.com/es/database/technologies/oracle-database-software-downloads.html#19c">página de descarga Oracle</a> y nos descargamos la versión del paquete Linux x86-64 RPM. Esta acción deberemos realizarla desde un entorno gráfico ya que la descarga de la página de Oracle requiere una autentificación con una cuenta de Oracle, por lo que no se va a poder descargar con <code>wget</code>.</p>
+<p>En mi caso he desargado el paquete <code>.rpm</code> desde mi máquina anfitriona y la he pasado a la máquina virtual por <code>scp</code>. Una vez que tenemos el paquete en nuestra máquina comenzamos con los pasos de la instalación.</p>
+<h2 id="preparando-el-escenario-para-la-instalación">Preparando el escenario para la instalación</h2>
+<p>Antes de instalar directamente el paquete que nos hemos descargado vamos a instalar el paquete de la preinstalación que tiene Oracle, el cual nos prepara nuestro sistema para la instalación de Oracle.</p>
+<pre><code>sudo dnf install https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el8.x86_64.rpm
+</code></pre><h2 id="instalación-y-configuración-de-oracle">Instalación y configuración de Oracle</h2>
+<p>Ya que tenemos todo nuestro sistema bien configurado para la instalación de oracle, lo vamos a instalar directamente con el comando <code>rpm</code></p>
+<pre><code>sudo rpm -Uhv  oracle-database-ee-19c-1.0-1.x86_64.rpm
+</code></pre><p>Este comando tarda unos escasos minutos, ya que es el que instala todo el gestor de base de datos y cuando finaliza nos dice que si queremos una base de datos de ejemplo en Oracle, ejecutemos el comando que se nos muestra, así que vamos a ejecutarlo para que cree la base de datos de ejemplo, ya que esa base de datos nos es muy útil en algunas ocasiones si estamos aprendiendo a usar Oracle.</p>
+<pre><code>sudo /etc/init.d/oracledb_ORCLCDB-19c configure
+</code></pre><p>Cuando la base de datos se haya terminado de configurar ya podremos usar oracle desde <code>sqlplus</code> accediendo a la ruta <code>/opt/oracle/product/19c/dbhome_1/bin/</code>, pero para que nos sea más sencillo de usar el comando vamos a editar el fichero <code>.bash_profile</code> del usuario <code>oracle</code> y vamos a añadir las siguientes líneas, de tal forma que el fichero <code>~/.bash_profile</code> quedaría tal que así</p>
+<pre><code>[oracle@oracle1 ~]$ nano .bash_profile
+
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+umask 022
+export ORACLE_SID=ORCLCDB
+export ORACLE_BASE=/opt/oracle/oradata
+export ORACLE_HOME=/opt/oracle/product/19c/dbhome_1
+export PATH=$PATH:$ORACLE_HOME/bin
+
+# User specific environment and startup programs
+</code></pre><p>Guardamos el fichero y aplicamos los cambios haciendo que el sistema vuelva a leer dicho fichero (ya que este fichero se lee en cada inicio de sesión)</p>
+<pre><code>source ~/.bash_profile
+</code></pre><p>Una vez que hayamos configurado esto ya podremos acceder a <code>sqlplus</code> como <code>sysdba</code> de esta forma</p>
+<pre><code>[oracle@oracle1 ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sat Jun 5 12:56:55 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Connected to an idle instance.
+
+SQL&gt;
+</code></pre><p>Para comprobar que está todo correctamente ejecutaremos una consulta para mostrar el nombre de la instancia de oracle, el hostname de nuestra máquina y la versión de oracle</p>
+<pre><code>SQL&gt; SELECT instance_name, host_name, version FROM v$instance;
+SELECT instance_name, host_name, version FROM v$instance
+*
+ERROR at line 1:
+ORA-01034: ORACLE not available
+Process ID: 0
+Session ID: 0 Serial number: 0
+</code></pre><p>Pero como podemos ver, nos aparece que ORACLE no está disponible, esto se debe a que aunque tengamos instalado el gestor de bases de datos, la instancia no está iniciada, lo cual se resuelve escribiendo el comando <code>startup</code> dentro de <code>sqlplus</code> y volveremos a ejecutar el mismo comando para comprobar, que efectivamente, está todo en orden y listo para usarse</p>
+<pre><code>SQL&gt; startup
+
+SQL&gt; SELECT instance_name, host_name, version FROM v$instance;
+
+INSTANCE_NAME
+----------------
+HOST_NAME
+----------------------------------------------------------------
+VERSION
+-----------------
+ORCLCDB
+oracle1
+19.0.0.0.0
+</code></pre><h2 id="creación-de-mi-usuario">Creación de mi usuario</h2>
+<p>En Oracle 19c tiene una novedad con respecto a las versiones anteriores de Oracle y es que en esta versión se diferencian dos tipos de bases de datos:</p>
+<ul>
+<li>
+<p><strong>Container Database (CDB)</strong></p>
+</li>
+<li>
+<p><strong>Pluggabe Database (PDB)</strong></p>
+</li>
+</ul>
+<p>Por eso también se diferencian dos tipos de usuarios:</p>
+<ul>
+<li>
+<p><strong>Common User:</strong> Pertenecen tanto a las <em>CDB</em> como a las <em>PDB</em> y se crean con la sintáxis que conocemos de otras versiones de Oracle <code>create user c##[nombre] indentified by [contraseña]</code>.</p>
+</li>
+<li>
+<p><strong>Local user:</strong> Estos usuarios pertenecen solo a las <em>PDB</em>, es decir, únicamente se les pueden añadir permisos a las <em>PDB</em> que existen. Estos usuarios se crean estableciendo la <em>PDB</em> como variable de sesión (<code>alter session set container = [Nombre PDB]</code>) y después creándolo con la sitáxis de un usuario normal.</p>
+</li>
+</ul>
+<p>Una vez hemos explicado esto, vamos a proceder a crear un <em>Common User</em> para poder usarlo en la <em>CDB</em> como en futuras <em>PDB</em>.</p>
+<pre><code>SQL&gt; create user c##juanan identified by juanan;
+
+Usuario creado.
+</code></pre><p>Ahora le asignaremos todos los privilegios para poder trbaajar con este usuario sin problemas ni restricciones</p>
+<pre><code>SQL&gt; grant all privileges to c##juanan;
+
+Concesion terminada correctamente.
+</code></pre><p>Por último, nos vamos a conectar a nuestro nuevo usuario para comprobar que se ha creado correctamente</p>
+<pre><code>[oracle@oracle1 ~]$ sqlplus c##juanan/juanan
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sat Jun 5 13:21:56 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Hora de Ultima Conexion Correcta: Sab Jun 05 2021 13:21:29 -04:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL&gt;
+</code></pre><h2 id="configuración-de-oracle-para-el-uso-remoto">Configuración de Oracle para el uso remoto</h2>
+<p>Vamos a configurar el <code>listener</code> de Oracle, para ello necesitaremos la ip de nuestra máquina</p>
+<pre><code>[oracle@oracle1 ~]$ ip a
+[...]
+    inet 192.168.1.14/24 brd 192.168.1.255 scope global dynamic noprefixroute enp0s3
+[...]
+</code></pre><p>El ya mencionado <code>listener</code> de Oracle usa el puerto <code>1521</code>, pero si miramos los puertos que tenemos funcionando en nuestra máquina, ninguno se corresponde con este</p>
+<pre><code>[oracle@oracle1 ~]$ netstat -tln
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
+tcp6       0      0 :::21975                :::*                    LISTEN     
+tcp6       0      0 :::111                  :::*                    LISTEN     
+tcp6       0      0 :::22                   :::*                    LISTEN 
+</code></pre><p>Esto se debe a que todavía nuestro <code>listener</code> está parado y sin configurar así que vamos a pasar a la configuración:</p>
+<ol>
+<li>Comprobar que tenemos bien el FQDN de nuestra máquina, para comprobarlo usamos el comando <code>hostname -f</code></li>
+</ol>
+<pre><code>[oracle@oracle1 ~]$ hostname -f
+oracle1.home
+</code></pre><p>En mi caso no lo tengo bien configurado, ya que esta máquina la acabo de crear. Mi dominio (ficticio) es <code>juanan.es</code> por lo que deberé de añadirlo en el fichero <code>/etc/hosts</code></p>
+<pre><code>[oracle@oracle1 ~]$ sudo nano /etc/hosts
+
+[...]
+192.168.1.49   oracle1.juanan.es   oracle
+[...]
+</code></pre><p>Guardamos el fichero y miramos si el hostname lo tenemos correctamente configurado usando el comando <code>hostname</code></p>
+<pre><code>[oracle@oracle1 ~]$ hostname
+oracle1
+</code></pre><p>Yo lo tengo bien configurado, pero en el caso de que no lo tengamos, simplemente editamos el fichero <code>/etc/hostname</code> y le cambiamos el nombre por el que queramos.</p>
+<p>Por último reiniciamos la máquina y ya tendríamos nuestro hostname y FQDN listo</p>
+<pre><code>[oracle@oracle1 ~]$ hostname -f
+oracle1.juanan.es
+[oracle@oracle1 ~]$ hostname
+oracle1
+</code></pre><ol start="2">
+<li>Vamos a modificar el fichero <code>listerner.ora</code>, el cual está ubicado en <code>$ORACLE_HOME/network/admin/listener.ora</code>. Cuando lo abramos nos encontraremos con el siguiente contenido</li>
+</ol>
+<pre><code># listener.ora Network Configuration File: /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+# Generated by Oracle configuration tools.
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = oracle1.home)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+</code></pre><p>En este caso tenemos de manera predeterminada escuchando por el FQDN predeterminado de mi máquina (el cual cambién por mi IP y el FQDN de mi dominio ficticio) y en el puerto 1521 (el puerto predeterminado del listener), el cual dejaremos así, por lo que solo cambiaremos el FQDN por el que hemos puesto en el fichero <code>/etc/hosts</code> de tal manera que el fichero quedaría así</p>
+<pre><code># listener.ora Network Configuration File: /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+# Generated by Oracle configuration tools.
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = oracle1.juanan.es)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+</code></pre><p>Cuando hayamos guardado los cambios vamos a ejecutar el comando para iniciar el listener</p>
+<pre><code>[oracle@oracle1 ~]$ lsnrctl start
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 05-JUN-2021 14:14:05
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Starting /opt/oracle/product/19c/dbhome_1/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+System parameter file is /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Log messages written to /opt/oracle/diag/tnslsnr/oracle1/listener/alert/log.xml
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oracle1.juanan.es)(PORT=1521)))
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle1.juanan.es)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+Start Date                05-JUN-2021 14:14:06
+Uptime                    0 days 0 hr. 0 min. 0 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Listener Log File         /opt/oracle/diag/tnslsnr/oracle1/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oracle1.juanan.es)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+The listener supports no services
+The command completed successfully
+</code></pre><p>Como podemos ver en los mensajes que nos muestra por pantalla el comando, este se ha completado satisfactoriamente (<code>The command completed successfully</code>), pero nos avisa de que no está soportando ningún servicio (<code>The listener supports no services</code>), esto se debe a que hemos arrancado el listener después que la base de datos, por lo que la base de datos no le ha notificado tpdavía que está activa, para ello deberemos esperar alrededor de uno dos minutos. Cuando pase este tiempo y ejecutemos el comando <code>lstnrctl status</code> podremos ver de que ya se encuentra activo</p>
+<pre><code>[oracle@oracle1 ~]$ lsnrctl status
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 05-JUN-2021 14:20:13
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle1.juanan.es)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+Start Date                05-JUN-2021 14:19:33
+Uptime                    0 days 0 hr. 0 min. 39 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Listener Log File         /opt/oracle/diag/tnslsnr/oracle1/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=oracle1.juanan.es)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=oracle1.juanan.es)(PORT=5500))(Security=(my_wallet_directory=/opt/oracle/oradata/admin/ORCLCDB/xdb_wallet))(Presentation=HTTP)(Session=RAW))
+Services Summary...
+Service &quot;ORCLCDB&quot; has 1 instance(s).
+  Instance &quot;ORCLCDB&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;ORCLCDBXDB&quot; has 1 instance(s).
+  Instance &quot;ORCLCDB&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;c40852d66a8384dbe0550a0027b5e54f&quot; has 1 instance(s).
+  Instance &quot;ORCLCDB&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;orclpdb1&quot; has 1 instance(s).
+  Instance &quot;ORCLCDB&quot;, status READY, has 1 handler(s) for this service...
+The command completed successfully
+</code></pre><p>Por último vamos a configurar una regla en el cortafuegos de nuestro sistema, para ello ejecutaremos la siguiente regla</p>
+<pre><code>[oracle@oracle1 ~]$ sudo firewall-cmd --permanent --add-port=1521/tcp
+</code></pre><p>Recargamos el cortafuegos</p>
+<pre><code>[oracle@oracle1 ~]$ sudo firewall-cmd --reload
+</code></pre><p>Si listamos todas las reglas del cortafuegos podremos ver que se ha añadido correctamente</p>
+<pre><code>[oracle@oracle1 ~]$ sudo firewall-cmd --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: enp0s3
+  sources: 
+  services: cockpit dhcpv6-client ssh
+  ports: 1521/tcp
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules:
+</code></pre><h2 id="prueba-de-funcionamiento">Prueba de funcionamiento</h2>
+<p>Ahora que tenemos todo listo, vamos a comprobar que todo funciona correctamente, para ello vamos a crear una tabla de prueba en la máquina <code>oracle1</code></p>
+<pre><code>// Creamos la tabla de prueba
+
+create table prueba
+(Campo1 varchar2(10),
+ Campo2 varchar2(10),
+ Campo3 varchar2(10),
+ constraint pk_campo1 primary key (Campo1));
+
+// Insertamos los datos de prueba
+
+insert into prueba
+values('Texto 1', 'Texto 2', 'Texto 3');
+
+insert into prueba
+values('Texto 4', 'Texto 5', 'Texto 6');
+
+insert into prueba
+values('Texto 7', 'Texto 8', 'Texto 9');
+
+insert into prueba
+values('Texto 10', 'Texto 11', 'Texto 12');
+</code></pre><p>Esta sería la consulta desde la máquina <code>oracle1</code></p>
+<pre><code>SQL&gt; select * from prueba;
+
+CAMPO1	   CAMPO2     CAMPO3
+---------- ---------- ----------
+Texto 1    Texto 2    Texto 3
+Texto 4    Texto 5    Texto 6
+Texto 7    Texto 8    Texto 9
+Texto 10   Texto 11   Texto 12
+</code></pre><p>Para comprobar la conectividad, vamos a realizar una prueba de ping con una herramienta que trae Oracle, esta herramienta es <code>tnsping</code>, la cual sirva para comprobar la conectividad con el listener.</p>
+<pre><code>[oracle@oracle2 ~]$ tnsping oracle1
+
+TNS Ping Utility for Linux: Version 19.0.0.0.0 - Production on 06-JUN-2021 12:37:11
+
+Copyright (c) 1997, 2019, Oracle.  All rights reserved.
+
+Used parameter files:
+/opt/oracle/product/19c/dbhome_1/network/admin/sqlnet.ora
+
+Used HOSTNAME adapter to resolve the alias
+Attempting to contact (DESCRIPTION=(CONNECT_DATA=(SERVICE_NAME=))(ADDRESS=(PROTOCOL=tcp)(HOST=192.168.1.49)(PORT=1521)))
+OK (0 msec)
+</code></pre><p>Como podemos comprobar, hemos comprobado la conectividad desde la máquina <code>oracle2</code> a la máquina <code>oracle1</code>. Ahora vamos a conectarnos a nuestro usuario <code>juanan</code> de manera remota, es decir, de <code>oracle2</code> a <code>oracle1</code> y haremos un listado de todas las tablas que tenemos en dicho usuario y veremos el contenido de la tabla que hemos creado anteriormente</p>
+<pre><code>[oracle@oracle2 ~]$ sqlplus c##juanan/juanan@oracle1/ORCLCDB
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sun Jun 6 12:52:41 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Hora de Ultima Conexion Correcta: Dom Jun 06 2021 12:25:32 -04:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL&gt; select * from cat;
+
+TABLE_NAME
+--------------------------------------------------------------------------------
+TABLE_TYPE
+-----------
+PRUEBA
+TABLE
+
+SQL&gt; select * from prueba;
+
+CAMPO1	   CAMPO2     CAMPO3
+---------- ---------- ----------
+Texto 1    Texto 2    Texto 3
+Texto 4    Texto 5    Texto 6
+Texto 7    Texto 8    Texto 9
+Texto 10   Texto 11   Texto 12
+</code></pre><p>Como podemos comprobar en las salidas de los comandos anteriores, nos hemos conectado a la máquina <code>oracle1</code> desde <code>oracle2</code>, hemos listado las tablas disponibles en el usuario <code>juanan</code> y hemos listado el contenido de la tabla <code>prueba</code>.</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://juanan219.github.io/tags/oracle-19c/">Oracle 19c</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/bbdd/">BBDD</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/instalacion/">Instalacion</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/configuracion/">Configuracion</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/interconexion/">Interconexion</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/listener/">Listener</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        2079 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          6066-06-00 66:20
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208&amp;caption=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208&amp;canonicalUrl=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208&amp;body=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f&amp;media=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f;description=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f&amp;title=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208&amp;summary=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208&amp;source=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f&amp;resubmit=true&amp;title=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f;title=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208%20https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f&amp;t=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Instalacion%20y%20Configuracion%20de%20Oracle%2019c%20en%20CentOs%208&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2finstalacion-y-configuracion-de-oracle-19c-en-centos-8%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+
+          
+            <span class="button next">
+              <a href="https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-inicial-de-openldap/">
+                <span class="button__text">Instalacion y configuracion inicial de OpenLDAP</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2021</span>
+            <span><a href="https://juanan219.github.io">Juan antonio Reifs</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span><span><a href="https://juanan219.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+          </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://juanan219.github.io/bundle.min.af435e44374f1e99a669ea8cd5bb9a2fceed80588941a451bfddb66b86a67c9f40b0f417e9543a763f809aa7e9300d7b1d69bf99615810ba02ac70396d50fad5.js" integrity="sha512-r0NeRDdPHpmmaeqM1buaL87tgFiJQaRRv922a4amfJ9AsPQX6VQ6dj&#43;AmqfpMA17HWm/mWFYELoCrHA5bVD61Q=="></script>
+
+
+
+    </body>
+</html>

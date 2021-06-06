@@ -7,7 +7,61 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Fri, 04 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BBDD</title>
+      <link>https://juanan219.github.io/tags/bbdd/</link>
+      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/bbdd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Configuracion</title>
+      <link>https://juanan219.github.io/tags/configuracion/</link>
+      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/configuracion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Instalacion</title>
+      <link>https://juanan219.github.io/tags/instalacion/</link>
+      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/instalacion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Interconexion</title>
+      <link>https://juanan219.github.io/tags/interconexion/</link>
+      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/interconexion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Listener</title>
+      <link>https://juanan219.github.io/tags/listener/</link>
+      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/listener/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Oracle 19c</title>
+      <link>https://juanan219.github.io/tags/oracle-19c/</link>
+      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/oracle-19c/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Grupos</title>
       <link>https://juanan219.github.io/tags/grupos/</link>
@@ -41,60 +95,6 @@
       <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/slapd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Usuarios</title>
-      <link>https://juanan219.github.io/tags/usuarios/</link>
-      <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/usuarios/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bacula</title>
-      <link>https://juanan219.github.io/tags/bacula/</link>
-      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/bacula/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CentOs</title>
-      <link>https://juanan219.github.io/tags/centos/</link>
-      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/centos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Copias de seguridad</title>
-      <link>https://juanan219.github.io/tags/copias-de-seguridad/</link>
-      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/copias-de-seguridad/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Debian</title>
-      <link>https://juanan219.github.io/tags/debian/</link>
-      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/debian/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ubuntu</title>
-      <link>https://juanan219.github.io/tags/ubuntu/</link>
-      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/ubuntu/</guid>
       <description></description>
     </item>
     
