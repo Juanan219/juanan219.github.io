@@ -7,7 +7,70 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>19c</title>
+      <link>https://juanan219.github.io/tags/19c/</link>
+      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/19c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bases de datos</title>
+      <link>https://juanan219.github.io/tags/bases-de-datos/</link>
+      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/bases-de-datos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CentOs 8</title>
+      <link>https://juanan219.github.io/tags/centos-8/</link>
+      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/centos-8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Debian</title>
+      <link>https://juanan219.github.io/tags/debian/</link>
+      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/debian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Oracle</title>
+      <link>https://juanan219.github.io/tags/oracle/</link>
+      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/oracle/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Postgres</title>
+      <link>https://juanan219.github.io/tags/postgres/</link>
+      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/postgres/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SQL</title>
+      <link>https://juanan219.github.io/tags/sql/</link>
+      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/sql/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>BBDD</title>
       <link>https://juanan219.github.io/tags/bbdd/</link>
@@ -32,69 +95,6 @@
       <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/instalacion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Interconexion</title>
-      <link>https://juanan219.github.io/tags/interconexion/</link>
-      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/interconexion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Listener</title>
-      <link>https://juanan219.github.io/tags/listener/</link>
-      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/listener/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Oracle 19c</title>
-      <link>https://juanan219.github.io/tags/oracle-19c/</link>
-      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/oracle-19c/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Grupos</title>
-      <link>https://juanan219.github.io/tags/grupos/</link>
-      <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/grupos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>LDAP</title>
-      <link>https://juanan219.github.io/tags/ldap/</link>
-      <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/ldap/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>OpenLDAP</title>
-      <link>https://juanan219.github.io/tags/openldap/</link>
-      <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/openldap/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>slapd</title>
-      <link>https://juanan219.github.io/tags/slapd/</link>
-      <pubDate>Fri, 04 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/slapd/</guid>
       <description></description>
     </item>
     

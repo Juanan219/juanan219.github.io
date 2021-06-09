@@ -7,7 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 06 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/series/hugo-101/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Interconexion de servidores de Bases de Datos</title>
+      <link>https://juanan219.github.io/posts/2021/06/interconexion-de-servidores-de-bases-de-datos/</link>
+      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/06/interconexion-de-servidores-de-bases-de-datos/</guid>
+      <description>En esta práctica vamos a interconectar diferentes servidores de bases de datos entre sí. Esto sirve para poder acceder a datos que no están almacenados en nuestra base de datos local, puediendo así combinarlos con los datos que ya poseemos.
+Vamos a realizar los siguientes puntos:
+  Enlace entre dos servidores ORACLE
+  Enlace entre dos servidores Postgres
+  Enlace entre Oracle y Postgres empleando Heterogeneus Services</description>
+    </item>
+    
     <item>
       <title>Instalacion y Configuracion de Oracle 19c en CentOs 8</title>
       <link>https://juanan219.github.io/posts/2021/06/instalacion-y-configuracion-de-oracle-19c-en-centos-8/</link>
@@ -101,16 +114,6 @@ sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes
       <guid>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</guid>
       <description>Hasta ahora hemos usado imágenes de Docker que han hecho otras personas, pero para crear un contenedor que sirva nuestra aplicación, deberemos crear una imagen personalidada. A esto es a lo que llamamos dockerizar una aplicación.
 Creación de una imagen a partir de un contenedor La primera forma de crear nuestras propias imágenes personalizadas es crearlas a partir de un contenedor que ya está en ejecución. Para ello tenemos varias posibilidades:</description>
-    </item>
-    
-    <item>
-      <title>Almacenamiento en Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/almacenamiento-en-docker/</link>
-      <pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/almacenamiento-en-docker/</guid>
-      <description>Los contenedores son efímeros Los contenedores de docker son efímeros, es decir, todo lo que generamos dentro de un contenedor resisten a las paradas de los contenedores, pero cuando eliminamos un contenedor, todo lo que hay en su interior se elimina con él. Veamos esto creando un contenedor y creando dentro de él un fichero, cuando lo eliminemos, crearemos otro contenedor para comprobar si ese archivo está
-docker run --name docker_nginx -p 8080:80 -d nginx c45464659bca8dc80372f7fcbcf1fa8e2abdb7f3d68dd7eb46a22ef6d5cf824f docker exec docker_nginx bash -c &#39;echo &amp;quot;&amp;lt;h1&amp;gt;Esto es una prueba&amp;lt;/h1&amp;gt;&amp;quot; &amp;gt; /usr/share/nginx/html/index.</description>
     </item>
     
   </channel>
