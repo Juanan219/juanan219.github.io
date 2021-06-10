@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 09 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Practica de Auditoria de Bases de Datos</title>
+      <link>https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/</guid>
+      <description>Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción
+SQL&amp;gt; audit create session whenever not successful; Auditoria terminada correctamente. Realizamos la prueba primero saliendo de la sesión del usuario system y accediendo con una cuenta con la contraseña incorrecta
+SQL&amp;gt; disconnect SQL&amp;gt; connect c##juanan1/prueba ERROR: ORA-01017: nombre de usuario/contrase?</description>
+    </item>
+    
     <item>
       <title>Interconexion de servidores de Bases de Datos</title>
       <link>https://juanan219.github.io/posts/2021/06/interconexion-de-servidores-de-bases-de-datos/</link>
@@ -104,16 +115,6 @@ sudo apt-get install qemu-kvm libvirt-daemon-system Explicación de los paquetes
       
       <guid>https://juanan219.github.io/posts/2021/03/implantaci%C3%B3n-de-aplicaciones-web-php-en-docker/</guid>
       <description>Tarea 1  Crea un script con docker-compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).  Para levantar la aplicación web bookmedik necesitaremos un contenedor con la imagen de mariadb en el cual vamos a crear un usuario llamado book_user con una contraseña book_passwd, una base de datos llamada bookmedik y le vamos a volcar el contenido del fichero schema.sql del repositorio de GitHub de bookmedik, del cual, vamos a eliminar la primera línea para que no nos de conflicto a la hora de ejecutar el script.</description>
-    </item>
-    
-    <item>
-      <title>Creación de Imagenes Docker</title>
-      <link>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</link>
-      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/posts/2021/02/creaci%C3%B3n-de-imagenes-docker/</guid>
-      <description>Hasta ahora hemos usado imágenes de Docker que han hecho otras personas, pero para crear un contenedor que sirva nuestra aplicación, deberemos crear una imagen personalidada. A esto es a lo que llamamos dockerizar una aplicación.
-Creación de una imagen a partir de un contenedor La primera forma de crear nuestras propias imágenes personalizadas es crearlas a partir de un contenedor que ya está en ejecución. Para ello tenemos varias posibilidades:</description>
     </item>
     
   </channel>

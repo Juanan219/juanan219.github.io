@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Practica de Auditoria de Bases de Datos</title>
+      <link>https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/</guid>
+      <description>Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción
+SQL&amp;gt; audit create session whenever not successful; Auditoria terminada correctamente. Realizamos la prueba primero saliendo de la sesión del usuario system y accediendo con una cuenta con la contraseña incorrecta
+SQL&amp;gt; disconnect SQL&amp;gt; connect c##juanan1/prueba ERROR: ORA-01017: nombre de usuario/contrase?</description>
+    </item>
+    
     <item>
       <title>Creando escenarios multicontenedor con docker-compose</title>
       <link>https://juanan219.github.io/posts/2021/02/creando-escenarios-multicontenedor-con-docker-compose/</link>

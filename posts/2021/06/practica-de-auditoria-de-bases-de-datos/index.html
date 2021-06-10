@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:Juan Antonio Reifs]">
+<meta name="description" content="Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción
+SQL&amp;gt; audit create session whenever not successful; Auditoria terminada correctamente. Realizamos la prueba primero saliendo de la sesión del usuario system y accediendo con una cuenta con la contraseña incorrecta
+SQL&amp;gt; disconnect SQL&amp;gt; connect c##juanan1/prueba ERROR: ORA-01017: nombre de usuario/contrase?" />
+<meta name="keywords" content=", Bases de datos, Auditorias, Oracle, 19c, Postgres, MySQL, MariaDB, MongoDB" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/" />
+
+
+    <title>
+        
+            Practica de Auditoria de Bases de Datos :: JuananBlog  — JuananBlog
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://juanan219.github.io/main.154a87e0ff720e102948892a8eb80881aa81a4faf37376f3093be219f6296c3d.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://juanan219.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://juanan219.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://juanan219.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://juanan219.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://juanan219.github.io/safari-pinned-tab.svg" color="#1b1c1d">
+    <link rel="shortcut icon" href="https://juanan219.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#1b1c1d">
+    <meta name="theme-color" content="#1b1c1d">
+
+
+
+<meta itemprop="name" content="Practica de Auditoria de Bases de Datos">
+<meta itemprop="description" content="Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción
+SQL&gt; audit create session whenever not successful; Auditoria terminada correctamente. Realizamos la prueba primero saliendo de la sesión del usuario system y accediendo con una cuenta con la contraseña incorrecta
+SQL&gt; disconnect SQL&gt; connect c##juanan1/prueba ERROR: ORA-01017: nombre de usuario/contrase?">
+<meta itemprop="datePublished" content="2021-06-10T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-06-10T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1923">
+<meta itemprop="image" content="https://juanan219.github.io"/>
+
+
+
+<meta itemprop="keywords" content="Bases de datos,Auditorias,Oracle,19c,Postgres,MySQL,MariaDB,MongoDB," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://juanan219.github.io"/>
+
+<meta name="twitter:title" content="Practica de Auditoria de Bases de Datos"/>
+<meta name="twitter:description" content="Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción
+SQL&gt; audit create session whenever not successful; Auditoria terminada correctamente. Realizamos la prueba primero saliendo de la sesión del usuario system y accediendo con una cuenta con la contraseña incorrecta
+SQL&gt; disconnect SQL&gt; connect c##juanan1/prueba ERROR: ORA-01017: nombre de usuario/contrase?"/>
+
+
+
+
+    <meta property="og:title" content="Practica de Auditoria de Bases de Datos" />
+<meta property="og:description" content="Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción
+SQL&gt; audit create session whenever not successful; Auditoria terminada correctamente. Realizamos la prueba primero saliendo de la sesión del usuario system y accediendo con una cuenta con la contraseña incorrecta
+SQL&gt; disconnect SQL&gt; connect c##juanan1/prueba ERROR: ORA-01017: nombre de usuario/contrase?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/" />
+<meta property="og:image" content="https://juanan219.github.io"/>
+<meta property="article:published_time" content="2021-06-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-10T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-06-10 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://juanan219.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://juanan219.github.io/about/">About</a></li><li><a href="https://juanan219.github.io/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        10 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/">Practica de Auditoria de Bases de Datos</a>
+      </h1>
+
+      
+
+      
+
+      <div class="post-content">
+        <ol>
+<li><strong>Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.</strong></li>
+</ol>
+<p>Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción</p>
+<pre><code>SQL&gt; audit create session whenever not successful;
+
+Auditoria terminada correctamente.
+</code></pre><p>Realizamos la prueba primero saliendo de la sesión del usuario <code>system</code> y accediendo con una cuenta con la contraseña incorrecta</p>
+<pre><code>SQL&gt; disconnect
+
+SQL&gt; connect c##juanan1/prueba
+ERROR:
+ORA-01017: nombre de usuario/contrase?a no validos; conexion denegada
+</code></pre><p>Volvemos a iniciar con el usuario <code>system</code> y comprobamos el log que ha registrado la auditoría</p>
+<pre><code>SQL&gt; select os_username, username, timestamp, returncode
+from dba_audit_session;  2  
+
+OS_USERNAME
+--------------------------------------------------------------------------------
+USERNAME
+--------------------------------------------------------------------------------
+TIMESTAM RETURNCODE
+-------- ----------
+oracle
+C##JUANAN1
+09/06/21       1017
+</code></pre><ol start="2">
+<li><strong>Realiza un procedimiento en PL/SQL que te muestre los accesos fallidos junto con el motivo de los mismos, transformando el código de error almacenado en un mensaje de texto comprensible.</strong></li>
+</ol>
+<pre><code># Iniciamos sesión como sysdba, ya que como system nos dará error
+
+SQL&gt; connect / as sysdba;
+
+# Creamos una función que convierta los códigos numéricos en texto
+
+create or replace function cod_texto (p_codigo NUMBER)
+return varchar2
+is
+	v_texto varchar2(30);
+begin
+	if p_codigo = 28000
+	then
+		v_texto := 'Cuenta Bloqueada';
+	elsif p_codigo = 1017
+	then
+		v_texto := 'Contraseña incorrecta';
+	else
+		v_texto := 'Error desconocido';
+	end if;
+	return v_texto;
+end;
+/
+
+# Creamos el procedimiento que convierte los códigos de error en texto
+
+create or replace procedure logins_erroneos
+is
+	cursor c_registro
+	is
+	select returncode, os_username, username, timestamp
+	from dba_audit_session
+	where action_name = 'LOGON'
+	and returncode != 0
+	order by timestamp;
+
+	v_texto varchar2(30);
+begin
+	for v_registro in c_registro loop
+		v_texto := cod_texto(v_registro.returncode);
+		dbms_output.put_line('- Usuario del sistema: '||v_registro.os_username|| '. Usuario de error: '||v_registro.username|| '. Hora: '||v_registro.timestamp|| '. Error: '||v_texto||'. Cod: '||v_registro.returncode);
+	end loop;
+end;
+/
+</code></pre><ol start="3">
+<li><strong>Activa la auditoría de las operaciones DML realizadas por SCOTT. Comprueba su funcionamiento.</strong></li>
+</ol>
+<p>Activamos la auditoría en el usuario scot para todas las operaciones DML</p>
+<pre><code>SQL&gt; audit insert table, update table, delete table by scott;
+
+Auditoria terminada correctamente.
+</code></pre><p>Ahora nos conectamos como scott y en mi caso, para no tocar el esquema que tenemos voy a crear una tabla de prueba</p>
+<pre><code>SQL&gt; connect scott/TIGER
+Conectado.
+
+SQL&gt; create table prueba
+(Columna1 varchar2(10),
+ Columna2 varchar2(10),
+ constraint pk_columna1 primary key (Columna1));  2    3    4  
+
+Tabla creada.
+</code></pre><p>Vamos a realizar todas las acciones que debe registrar la auditoría</p>
+<pre><code># Insertar datos en la tabla
+
+SQL&gt; insert into prueba
+	values('Texto 1', 'Texto 2');  2  
+
+1 fila creada.
+
+# Modificar la tabla
+
+SQL&gt; alter table prueba
+add Columna3 varchar2(10);  2  
+
+Tabla modificada.
+
+# Eliminar un registro de la tabla
+
+SQL&gt; delete from prueba
+	where Columna1 = 'Texto 1';  2  
+
+1 fila suprimida.
+</code></pre><p>Nos conectamos como <code>sysdba</code> y comprobamos la auditoría de <code>SCOTT</code></p>
+<pre><code>SQL&gt; connect / as sysdba
+Conectado.
+
+SQL&gt; select os_username, username, action_name, timestamp
+from dba_audit_object
+where username='SCOTT';  2    3  
+
+OS_USERNAME
+--------------------------------------------------------------------------------
+USERNAME
+--------------------------------------------------------------------------------
+ACTION_NAME		     TIMESTAM
+---------------------------- --------
+oracle
+SCOTT
+INSERT			     09/06/21
+
+oracle
+SCOTT
+DELETE			     09/06/21
+
+OS_USERNAME
+--------------------------------------------------------------------------------
+USERNAME
+--------------------------------------------------------------------------------
+ACTION_NAME		     TIMESTAM
+---------------------------- --------
+</code></pre><ol start="4">
+<li><strong>Realiza una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 en la tabla emp de scott.</strong></li>
+</ol>
+<p>Creamos un procedimiento para controlar la insercción de empleados del departamento 10.</p>
+<pre><code>SQL&gt; begin
+	DBMS_FGA.ADD_POLICY (
+		object_schema      =&gt;  'SCOTT',
+		object_name        =&gt;  'EMP',
+		policy_name        =&gt;  'InsertEmp1',
+		audit_condition    =&gt;  'DEPTNO = 10',
+		statement_types    =&gt;  'INSERT');
+end;
+/  2    3    4    5    6    7    8    9  
+
+Procedimiento PL/SQL terminado correctamente.
+</code></pre><p>Para comprobar su funcionamiento, vamos a conectarnos como <code>SCOTT</code> y me voy a insertar como empleado</p>
+<pre><code>SQL&gt; connect scott/TIGER
+Conectado.
+SQL&gt; insert into emp
+	values(115, 'JUANAN', 'TIC', NULL,TO_DATE('21-07-1998','DD-MM-YYYY'), 90000, NULL, 10);  2  
+
+1 fila creada.
+</code></pre><p>Ahora volvemos a iniciar sesióln como <code>sysdba</code> y comprobamos los registros</p>
+<pre><code>SQL&gt; select db_user, object_name, policy_name, sql_text
+from dba_fga_audit_trail;  2  
+
+DB_USER
+--------------------------------------------------------------------------------
+OBJECT_NAME
+--------------------------------------------------------------------------------
+POLICY_NAME
+--------------------------------------------------------------------------------
+SQL_TEXT
+--------------------------------------------------------------------------------
+SCOTT
+EMP
+INSERTEMP1
+insert into emp
+	values(115, 'JUANAN', 'TIC', NULL,TO_DATE('21-07-1998','DD-MM-YYYY'), 90000, NULL, 10)
+</code></pre><ol start="5">
+<li><strong>Explica la diferencia entre auditar una operación by access o by session.</strong></li>
+</ol>
+<p>La principal diferencia es que si auditamos <code>by access</code>, la auditoría guarda esa operación tantas veces como nosotros la repitamos, mientras que si auditamos <code>by session</code>, por muchas veces que nosotros repitamos una misma operación, esta solo se almacenará una sola vez.</p>
+<ol start="6">
+<li><strong>Documenta las diferencias entre los valores db y db, extended del parámetro audit_trail de ORACLE. Demuéstralas poniendo un ejemplo de la información sobre una operación concreta recopilada con cada uno de ellos.</strong></li>
+</ol>
+<ul>
+<li>
+<p><strong>Valor <code>db</code>:</strong> Este activa la auditoría y los datos se almacenarán en la taba <code>SYS.AUD$</code>.</p>
+</li>
+<li>
+<p><strong>Valor <code>db, extended</code>:</strong> A parte de almacenar los datos en la misma tabla que el anterior valor (en <code>SYS.AUD$</code>) también escribirá los datos en las columnas <code>SQLBIND</code> y <code>SQLTEXT</code> de dicha tabla.</p>
+</li>
+</ul>
+<p>Vamos a ver el estado que tiene nuestro <code>audit_trail</code></p>
+<pre><code>SQL&gt; show parameter audit;
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+[...]
+audit_trail			     string	 DB
+[...]
+</code></pre><p>Como podemos ver, tiene el valor <code>DB</code>. Si queremos activar el valor <code>DB, EXTENDED</code>, deberemos ejecutar la siguiente instrucción</p>
+<pre><code>SQL&gt; alter system set audit_trail=db,extended scope=spfile;
+
+Sistema modificado.
+</code></pre><p>Para que se apliquen los cambios deberemos reinciar la base de datos, para ello haremos uso del comando <code>shutdown</code> y volveremos a iniciarla con <code>startup</code>, para más tarde volver a mostrar los parámetros de <code>audit</code></p>
+<pre><code># Apagamos la base de datos
+
+SQL&gt; shutdown
+Base de datos cerrada.
+Base de datos desmontada.
+Instancia ORACLE cerrada.
+
+# Volvemos a encenderla
+
+SQL&gt; startup
+Instancia ORACLE iniciada.
+
+Total System Global Area 1577055360 bytes
+Fixed Size		    9135232 bytes
+Variable Size		  939524096 bytes
+Database Buffers	  620756992 bytes
+Redo Buffers		    7639040 bytes
+Base de datos montada.
+Base de datos abierta.
+
+# Mostramos los parámetros
+
+SQL&gt; show parameter audit;
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+[...]
+audit_trail			     string	 DB, EXTENDED
+[...]
+</code></pre><p>Como podemos ver, se ha cambiado del valor <code>DB</code> a <code>DB,EXTENDED</code>ç</p>
+<ol start="7">
+<li>
+<p><strong>Localiza en Enterprise Manager las posibilidades para realizar una auditoría e intenta repetir con dicha herramienta los apartados 1, 3 y 4.</strong></p>
+</li>
+<li>
+<p><strong>Averigua si en Postgres se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</strong></p>
+</li>
+</ol>
+<p>Para realizar la auditoría en Postgres realizamos los siguientes pasos:</p>
+<ul>
+<li>Creamos la tabla de auditoría</li>
+</ul>
+<pre><code>CREATE schema audit;
+REVOKE CREATE ON schema audit FROM public;
+ 
+CREATE TABLE audit.logged_actions (
+    schema_name text NOT NULL,
+    TABLE_NAME text NOT NULL,
+    user_name text,
+    action_tstamp TIMESTAMP WITH TIME zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    action TEXT NOT NULL CHECK (action IN ('I','D','U')),
+    original_data text,
+    new_data text,
+    query text
+) WITH (fillfactor=100);
+ 
+REVOKE ALL ON audit.logged_actions FROM public; 
+</code></pre><ul>
+<li>Modificamos los permisos en la tabla que acabamos de crear</li>
+</ul>
+<pre><code>CREATE INDEX logged_actions_schema_table_idx 
+ON audit.logged_actions(((schema_name||'.'||TABLE_NAME)::TEXT));
+ 
+CREATE INDEX logged_actions_action_tstamp_idx 
+ON audit.logged_actions(action_tstamp);
+ 
+CREATE INDEX logged_actions_action_idx 
+ON audit.logged_actions(action);
+</code></pre><ul>
+<li>Creamos la función de auditoría</li>
+</ul>
+<pre><code>CREATE OR REPLACE FUNCTION audit.if_modified_func() RETURNS TRIGGER AS $body$
+DECLARE
+    v_old_data TEXT;
+    v_new_data TEXT;
+BEGIN
+ 
+    IF (TG_OP = 'UPDATE') THEN
+        v_old_data := ROW(OLD.*);
+        v_new_data := ROW(NEW.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_name,action,original_data,new_data,query) 
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_old_data,v_new_data, current_query());
+        RETURN NEW;
+    ELSIF (TG_OP = 'DELETE') THEN
+        v_old_data := ROW(OLD.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_name,action,original_data,query)
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_old_data, current_query());
+        RETURN OLD;
+    ELSIF (TG_OP = 'INSERT') THEN
+        v_new_data := ROW(NEW.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_name,action,new_data,query)
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_new_data, current_query());
+        RETURN NEW;
+    ELSE
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - Other action occurred: %, at %',TG_OP,now();
+        RETURN NULL;
+    END IF;
+ 
+EXCEPTION
+    WHEN data_exception THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [DATA EXCEPTION] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+    WHEN unique_violation THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [UNIQUE] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+    WHEN OTHERS THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [OTHER] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+END;
+$body$
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, audit;
+</code></pre><ul>
+<li>Creamos una tabla de prueba</li>
+</ul>
+<pre><code>CREATE TABLE categories (
+    category_id smallint NOT NULL,
+    category_name character varying(15) NOT NULL,
+    description text,
+    picture bytea
+);
+</code></pre><ul>
+<li>Creamos el trigger de auditoría</li>
+</ul>
+<pre><code>CREATE TRIGGER t_if_modified_trg 
+ AFTER INSERT OR UPDATE OR DELETE ON categories
+ FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+</code></pre><ul>
+<li>Insertamos los datos de prueba en la tabla que acabamos de crear</li>
+</ul>
+<pre><code>INSERT INTO categories VALUES (1, 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
+INSERT INTO categories VALUES (2, 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
+</code></pre><ul>
+<li>Vemos los resultados</li>
+</ul>
+<pre><code>SELECT *
+FROM audit.logged_actions;
+
+schema_name | table_name | user_name |         action_tstamp         | action | original_data |                                     new_data                                      |                                                        query                                                         
+-------------+------------+-----------+-------------------------------+--------+---------------+-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------
+ public      | categories | postgres  | 2021-06-10 11:57:08.248772+02 | I      |               | (1,Beverages,&quot;Soft drinks, coffees, teas, beers, and ales&quot;,&quot;\\x&quot;)                 | INSERT INTO categories VALUES (1, 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
+ public      | categories | postgres  | 2021-06-10 11:57:09.151275+02 | I      |               | (2,Condiments,&quot;Sweet and savory sauces, relishes, spreads, and seasonings&quot;,&quot;\\x&quot;) | INSERT INTO categories VALUES (2, 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
+(2 filas)
+</code></pre><ol start="9">
+<li><strong>Averigua si en MySQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</strong></li>
+</ol>
+<p>Creamos una base de datos y una tabla dentro de ella</p>
+<pre><code>MariaDB [(none)]&gt; create database personas;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]&gt; use personas
+Database changed
+
+MariaDB [personas]&gt; create table usuarios
+    -&gt; (ID numeric,
+    -&gt;  Nombre varchar(30),
+    -&gt;  Apellidos varchar(50),
+    -&gt;  Ciudad varchar(50),
+    -&gt;  constraint pk_id primary key (ID));
+Query OK, 0 rows affected, 1 warning (0.063 sec)
+</code></pre><p>Creamos la base de datos para las auditorías y dentro de ella creamos una tabla para almacenar los logs que nos mande el trigger que vamos a crear más adelante</p>
+<pre><code>MariaDB [personas]&gt; create database auditorias;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [personas]&gt; use auditorias;
+Database changed
+
+MariaDB [auditorias]&gt; CREATE TABLE accesos
+    -&gt;  (
+    -&gt;    codigo int(11) NOT NULL AUTO_INCREMENT,
+    -&gt;    usuario varchar(100),
+    -&gt;    fecha datetime,
+    -&gt;    PRIMARY KEY (`codigo`)
+    -&gt;  )
+    -&gt;  ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+Query OK, 0 rows affected (0.011 sec)
+</code></pre><p>Creamos el trigger que nos dará los logs</p>
+<pre><code>MariaDB [auditorias]&gt; delimiter $$
+MariaDB [auditorias]&gt; CREATE TRIGGER personas.usuarios
+    -&gt; BEFORE INSERT ON personas.usuarios
+    -&gt; FOR EACH ROW
+    -&gt; BEGIN
+    -&gt; INSERT INTO auditorias.accesos (usuario, fecha)
+    -&gt; values (CURRENT_USER(), NOW());
+    -&gt; END$$
+Query OK, 0 rows affected (0.019 sec)
+</code></pre><p>Ahora que tenemos hecho el trigger, vamos a dirigirnos a la tabla <code>usuarios</code> que hemos creado y vamos a insertar algunos datos de prueba</p>
+<pre><code>MariaDB [auditorias]&gt; use personas
+Database changed
+
+MariaDB [personas]&gt; insert into usuarios
+    -&gt; values('00', 'Juan Antonio', 'Reifs Ramírez', 'Dos Hermanas');
+Query OK, 1 row affected (0.011 sec)
+</code></pre><p>Por último, vamos a dirigirnos a la base de datos <code>auditorias</code> y vamos a revisar el contenido de la tabla de <code>accesos</code></p>
+<pre><code>MariaDB [personas]&gt; use auditorias
+Database changed
+
+MariaDB [auditorias]&gt; select * from accesos;
++--------+----------------+---------------------+
+| codigo | usuario        | fecha               |
++--------+----------------+---------------------+
+|      1 | root@localhost | 2021-06-10 12:13:28 |
++--------+----------------+---------------------+
+1 row in set (0.001 sec)
+</code></pre><p>Como podemos comprobar, se ha registrado el log que hemos hecho. Las auditorías tanto en PostgreSQL y MariaDB no existen como en Oracle, pero si que podemos tener algo parecido si las programamos con ciertos Triggers que nos den esa funcionalidad.</p>
+<ol start="10">
+<li><strong>Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento.</strong></li>
+</ol>
+<p>MongoDB sí que nos pemite realizar una auditoría de ciertas tareas</p>
+<pre><code>--auditFilter
+</code></pre><p>Podemos auditar auditar la creación y eliminación de colecciones con el siguiente comando</p>
+<pre><code>{ atype: { $in: [ &quot;createCollection&quot;, &quot;dropCollection&quot; ] } }
+</code></pre><p>Con la siguiente instrucción auditamos la creación o eliminación de colecciones indicando como salida un fichero <code>.bson</code></p>
+<pre><code>mongod --dbpath data/db --auditDestination file --auditFilter '{ atype: { $in: [ “createCollection”, “dropCollection” ] } }' --auditFormat BSON --auditPath data/db/auditLog.bson
+</code></pre><ol start="11">
+<li><strong>Averigua si en MongoDB se pueden auditar los accesos al sistema.</strong></li>
+</ol>
+<p>Auditamos los accesos al sistema con la instrucción</p>
+<pre><code>{ atype: &quot;authenticate&quot;, &quot;param.db&quot;: &quot;test&quot; }
+</code></pre><p>Con la siguiente instrucción, al igual que en el anterior ejercicio, podemos extraer la información en un fichero <code>.bson</code></p>
+<pre><code>mongod --dbpath data/db --auth --auditDestination file --auditFilter '{ atype: &quot;authenticate&quot;, &quot;param.db&quot;: &quot;test&quot; }' --auditFormat BSON --auditPath data/db/auditLog.bson
+</code></pre>
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://juanan219.github.io/tags/bases-de-datos/">Bases de datos</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/auditorias/">Auditorias</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/oracle/">Oracle</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/19c/">19c</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/postgres/">Postgres</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/mysql/">MySQL</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/mariadb/">MariaDB</a></span>
+        <span class="tag"><a href="https://juanan219.github.io/tags/mongodb/">MongoDB</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1923 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          10106-10-00 66:20
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos&amp;caption=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos&amp;canonicalUrl=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos&amp;body=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f&amp;media=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f;description=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f&amp;title=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos&amp;summary=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos&amp;source=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f&amp;resubmit=true&amp;title=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f;title=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos%20https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f&amp;t=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Practica%20de%20Auditoria%20de%20Bases%20de%20Datos&amp;url=https%3a%2f%2fjuanan219.github.io%2fposts%2f2021%2f06%2fpractica-de-auditoria-de-bases-de-datos%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+      <div class="pagination">
+        <div class="pagination__title">
+          <span class="pagination__title-h"></span>
+          <hr />
+        </div>
+
+        <div class="pagination__buttons">
+          
+
+          
+            <span class="button next">
+              <a href="https://juanan219.github.io/posts/2021/06/interconexion-de-servidores-de-bases-de-datos/">
+                <span class="button__text">Interconexion de servidores de Bases de Datos</span>
+                <span class="button__icon">→</span>
+              </a>
+            </span>
+          
+        </div>
+      </div>
+    
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2021</span>
+            <span><a href="https://juanan219.github.io">Juan antonio Reifs</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span><span><a href="https://juanan219.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+          </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://juanan219.github.io/bundle.min.af435e44374f1e99a669ea8cd5bb9a2fceed80588941a451bfddb66b86a67c9f40b0f417e9543a763f809aa7e9300d7b1d69bf99615810ba02ac70396d50fad5.js" integrity="sha512-r0NeRDdPHpmmaeqM1buaL87tgFiJQaRRv922a4amfJ9AsPQX6VQ6dj&#43;AmqfpMA17HWm/mWFYELoCrHA5bVD61Q=="></script>
+
+
+
+    </body>
+</html>

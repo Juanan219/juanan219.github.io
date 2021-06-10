@@ -6,8 +6,448 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Wed, 09 Jun 2021 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate>
         <atom:link href="https://juanan219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Practica de Auditoria de Bases de Datos</title>
+            <link>https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/</link>
+            <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/06/practica-de-auditoria-de-bases-de-datos/</guid>
+            <description>Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.  Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción
+SQL&amp;gt; audit create session whenever not successful; Auditoria terminada correctamente. Realizamos la prueba primero saliendo de la sesión del usuario system y accediendo con una cuenta con la contraseña incorrecta
+SQL&amp;gt; disconnect SQL&amp;gt; connect c##juanan1/prueba ERROR: ORA-01017: nombre de usuario/contrase?</description>
+            <content type="html"><![CDATA[<ol>
+<li><strong>Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema. Comprueba su funcionamiento.</strong></li>
+</ol>
+<p>Oracle, por defecto, tiene las auditorías activadas, así que configuraremos que registre los accesos no válidos ejecutamos la siguiente instrucción</p>
+<pre><code>SQL&gt; audit create session whenever not successful;
+
+Auditoria terminada correctamente.
+</code></pre><p>Realizamos la prueba primero saliendo de la sesión del usuario <code>system</code> y accediendo con una cuenta con la contraseña incorrecta</p>
+<pre><code>SQL&gt; disconnect
+
+SQL&gt; connect c##juanan1/prueba
+ERROR:
+ORA-01017: nombre de usuario/contrase?a no validos; conexion denegada
+</code></pre><p>Volvemos a iniciar con el usuario <code>system</code> y comprobamos el log que ha registrado la auditoría</p>
+<pre><code>SQL&gt; select os_username, username, timestamp, returncode
+from dba_audit_session;  2  
+
+OS_USERNAME
+--------------------------------------------------------------------------------
+USERNAME
+--------------------------------------------------------------------------------
+TIMESTAM RETURNCODE
+-------- ----------
+oracle
+C##JUANAN1
+09/06/21       1017
+</code></pre><ol start="2">
+<li><strong>Realiza un procedimiento en PL/SQL que te muestre los accesos fallidos junto con el motivo de los mismos, transformando el código de error almacenado en un mensaje de texto comprensible.</strong></li>
+</ol>
+<pre><code># Iniciamos sesión como sysdba, ya que como system nos dará error
+
+SQL&gt; connect / as sysdba;
+
+# Creamos una función que convierta los códigos numéricos en texto
+
+create or replace function cod_texto (p_codigo NUMBER)
+return varchar2
+is
+	v_texto varchar2(30);
+begin
+	if p_codigo = 28000
+	then
+		v_texto := 'Cuenta Bloqueada';
+	elsif p_codigo = 1017
+	then
+		v_texto := 'Contraseña incorrecta';
+	else
+		v_texto := 'Error desconocido';
+	end if;
+	return v_texto;
+end;
+/
+
+# Creamos el procedimiento que convierte los códigos de error en texto
+
+create or replace procedure logins_erroneos
+is
+	cursor c_registro
+	is
+	select returncode, os_username, username, timestamp
+	from dba_audit_session
+	where action_name = 'LOGON'
+	and returncode != 0
+	order by timestamp;
+
+	v_texto varchar2(30);
+begin
+	for v_registro in c_registro loop
+		v_texto := cod_texto(v_registro.returncode);
+		dbms_output.put_line('- Usuario del sistema: '||v_registro.os_username|| '. Usuario de error: '||v_registro.username|| '. Hora: '||v_registro.timestamp|| '. Error: '||v_texto||'. Cod: '||v_registro.returncode);
+	end loop;
+end;
+/
+</code></pre><ol start="3">
+<li><strong>Activa la auditoría de las operaciones DML realizadas por SCOTT. Comprueba su funcionamiento.</strong></li>
+</ol>
+<p>Activamos la auditoría en el usuario scot para todas las operaciones DML</p>
+<pre><code>SQL&gt; audit insert table, update table, delete table by scott;
+
+Auditoria terminada correctamente.
+</code></pre><p>Ahora nos conectamos como scott y en mi caso, para no tocar el esquema que tenemos voy a crear una tabla de prueba</p>
+<pre><code>SQL&gt; connect scott/TIGER
+Conectado.
+
+SQL&gt; create table prueba
+(Columna1 varchar2(10),
+ Columna2 varchar2(10),
+ constraint pk_columna1 primary key (Columna1));  2    3    4  
+
+Tabla creada.
+</code></pre><p>Vamos a realizar todas las acciones que debe registrar la auditoría</p>
+<pre><code># Insertar datos en la tabla
+
+SQL&gt; insert into prueba
+	values('Texto 1', 'Texto 2');  2  
+
+1 fila creada.
+
+# Modificar la tabla
+
+SQL&gt; alter table prueba
+add Columna3 varchar2(10);  2  
+
+Tabla modificada.
+
+# Eliminar un registro de la tabla
+
+SQL&gt; delete from prueba
+	where Columna1 = 'Texto 1';  2  
+
+1 fila suprimida.
+</code></pre><p>Nos conectamos como <code>sysdba</code> y comprobamos la auditoría de <code>SCOTT</code></p>
+<pre><code>SQL&gt; connect / as sysdba
+Conectado.
+
+SQL&gt; select os_username, username, action_name, timestamp
+from dba_audit_object
+where username='SCOTT';  2    3  
+
+OS_USERNAME
+--------------------------------------------------------------------------------
+USERNAME
+--------------------------------------------------------------------------------
+ACTION_NAME		     TIMESTAM
+---------------------------- --------
+oracle
+SCOTT
+INSERT			     09/06/21
+
+oracle
+SCOTT
+DELETE			     09/06/21
+
+OS_USERNAME
+--------------------------------------------------------------------------------
+USERNAME
+--------------------------------------------------------------------------------
+ACTION_NAME		     TIMESTAM
+---------------------------- --------
+</code></pre><ol start="4">
+<li><strong>Realiza una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 en la tabla emp de scott.</strong></li>
+</ol>
+<p>Creamos un procedimiento para controlar la insercción de empleados del departamento 10.</p>
+<pre><code>SQL&gt; begin
+	DBMS_FGA.ADD_POLICY (
+		object_schema      =&gt;  'SCOTT',
+		object_name        =&gt;  'EMP',
+		policy_name        =&gt;  'InsertEmp1',
+		audit_condition    =&gt;  'DEPTNO = 10',
+		statement_types    =&gt;  'INSERT');
+end;
+/  2    3    4    5    6    7    8    9  
+
+Procedimiento PL/SQL terminado correctamente.
+</code></pre><p>Para comprobar su funcionamiento, vamos a conectarnos como <code>SCOTT</code> y me voy a insertar como empleado</p>
+<pre><code>SQL&gt; connect scott/TIGER
+Conectado.
+SQL&gt; insert into emp
+	values(115, 'JUANAN', 'TIC', NULL,TO_DATE('21-07-1998','DD-MM-YYYY'), 90000, NULL, 10);  2  
+
+1 fila creada.
+</code></pre><p>Ahora volvemos a iniciar sesióln como <code>sysdba</code> y comprobamos los registros</p>
+<pre><code>SQL&gt; select db_user, object_name, policy_name, sql_text
+from dba_fga_audit_trail;  2  
+
+DB_USER
+--------------------------------------------------------------------------------
+OBJECT_NAME
+--------------------------------------------------------------------------------
+POLICY_NAME
+--------------------------------------------------------------------------------
+SQL_TEXT
+--------------------------------------------------------------------------------
+SCOTT
+EMP
+INSERTEMP1
+insert into emp
+	values(115, 'JUANAN', 'TIC', NULL,TO_DATE('21-07-1998','DD-MM-YYYY'), 90000, NULL, 10)
+</code></pre><ol start="5">
+<li><strong>Explica la diferencia entre auditar una operación by access o by session.</strong></li>
+</ol>
+<p>La principal diferencia es que si auditamos <code>by access</code>, la auditoría guarda esa operación tantas veces como nosotros la repitamos, mientras que si auditamos <code>by session</code>, por muchas veces que nosotros repitamos una misma operación, esta solo se almacenará una sola vez.</p>
+<ol start="6">
+<li><strong>Documenta las diferencias entre los valores db y db, extended del parámetro audit_trail de ORACLE. Demuéstralas poniendo un ejemplo de la información sobre una operación concreta recopilada con cada uno de ellos.</strong></li>
+</ol>
+<ul>
+<li>
+<p><strong>Valor <code>db</code>:</strong> Este activa la auditoría y los datos se almacenarán en la taba <code>SYS.AUD$</code>.</p>
+</li>
+<li>
+<p><strong>Valor <code>db, extended</code>:</strong> A parte de almacenar los datos en la misma tabla que el anterior valor (en <code>SYS.AUD$</code>) también escribirá los datos en las columnas <code>SQLBIND</code> y <code>SQLTEXT</code> de dicha tabla.</p>
+</li>
+</ul>
+<p>Vamos a ver el estado que tiene nuestro <code>audit_trail</code></p>
+<pre><code>SQL&gt; show parameter audit;
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+[...]
+audit_trail			     string	 DB
+[...]
+</code></pre><p>Como podemos ver, tiene el valor <code>DB</code>. Si queremos activar el valor <code>DB, EXTENDED</code>, deberemos ejecutar la siguiente instrucción</p>
+<pre><code>SQL&gt; alter system set audit_trail=db,extended scope=spfile;
+
+Sistema modificado.
+</code></pre><p>Para que se apliquen los cambios deberemos reinciar la base de datos, para ello haremos uso del comando <code>shutdown</code> y volveremos a iniciarla con <code>startup</code>, para más tarde volver a mostrar los parámetros de <code>audit</code></p>
+<pre><code># Apagamos la base de datos
+
+SQL&gt; shutdown
+Base de datos cerrada.
+Base de datos desmontada.
+Instancia ORACLE cerrada.
+
+# Volvemos a encenderla
+
+SQL&gt; startup
+Instancia ORACLE iniciada.
+
+Total System Global Area 1577055360 bytes
+Fixed Size		    9135232 bytes
+Variable Size		  939524096 bytes
+Database Buffers	  620756992 bytes
+Redo Buffers		    7639040 bytes
+Base de datos montada.
+Base de datos abierta.
+
+# Mostramos los parámetros
+
+SQL&gt; show parameter audit;
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+[...]
+audit_trail			     string	 DB, EXTENDED
+[...]
+</code></pre><p>Como podemos ver, se ha cambiado del valor <code>DB</code> a <code>DB,EXTENDED</code>ç</p>
+<ol start="7">
+<li>
+<p><strong>Localiza en Enterprise Manager las posibilidades para realizar una auditoría e intenta repetir con dicha herramienta los apartados 1, 3 y 4.</strong></p>
+</li>
+<li>
+<p><strong>Averigua si en Postgres se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</strong></p>
+</li>
+</ol>
+<p>Para realizar la auditoría en Postgres realizamos los siguientes pasos:</p>
+<ul>
+<li>Creamos la tabla de auditoría</li>
+</ul>
+<pre><code>CREATE schema audit;
+REVOKE CREATE ON schema audit FROM public;
+ 
+CREATE TABLE audit.logged_actions (
+    schema_name text NOT NULL,
+    TABLE_NAME text NOT NULL,
+    user_name text,
+    action_tstamp TIMESTAMP WITH TIME zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    action TEXT NOT NULL CHECK (action IN ('I','D','U')),
+    original_data text,
+    new_data text,
+    query text
+) WITH (fillfactor=100);
+ 
+REVOKE ALL ON audit.logged_actions FROM public; 
+</code></pre><ul>
+<li>Modificamos los permisos en la tabla que acabamos de crear</li>
+</ul>
+<pre><code>CREATE INDEX logged_actions_schema_table_idx 
+ON audit.logged_actions(((schema_name||'.'||TABLE_NAME)::TEXT));
+ 
+CREATE INDEX logged_actions_action_tstamp_idx 
+ON audit.logged_actions(action_tstamp);
+ 
+CREATE INDEX logged_actions_action_idx 
+ON audit.logged_actions(action);
+</code></pre><ul>
+<li>Creamos la función de auditoría</li>
+</ul>
+<pre><code>CREATE OR REPLACE FUNCTION audit.if_modified_func() RETURNS TRIGGER AS $body$
+DECLARE
+    v_old_data TEXT;
+    v_new_data TEXT;
+BEGIN
+ 
+    IF (TG_OP = 'UPDATE') THEN
+        v_old_data := ROW(OLD.*);
+        v_new_data := ROW(NEW.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_name,action,original_data,new_data,query) 
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_old_data,v_new_data, current_query());
+        RETURN NEW;
+    ELSIF (TG_OP = 'DELETE') THEN
+        v_old_data := ROW(OLD.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_name,action,original_data,query)
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_old_data, current_query());
+        RETURN OLD;
+    ELSIF (TG_OP = 'INSERT') THEN
+        v_new_data := ROW(NEW.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_name,action,new_data,query)
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_new_data, current_query());
+        RETURN NEW;
+    ELSE
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - Other action occurred: %, at %',TG_OP,now();
+        RETURN NULL;
+    END IF;
+ 
+EXCEPTION
+    WHEN data_exception THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [DATA EXCEPTION] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+    WHEN unique_violation THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [UNIQUE] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+    WHEN OTHERS THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [OTHER] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+END;
+$body$
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, audit;
+</code></pre><ul>
+<li>Creamos una tabla de prueba</li>
+</ul>
+<pre><code>CREATE TABLE categories (
+    category_id smallint NOT NULL,
+    category_name character varying(15) NOT NULL,
+    description text,
+    picture bytea
+);
+</code></pre><ul>
+<li>Creamos el trigger de auditoría</li>
+</ul>
+<pre><code>CREATE TRIGGER t_if_modified_trg 
+ AFTER INSERT OR UPDATE OR DELETE ON categories
+ FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+</code></pre><ul>
+<li>Insertamos los datos de prueba en la tabla que acabamos de crear</li>
+</ul>
+<pre><code>INSERT INTO categories VALUES (1, 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
+INSERT INTO categories VALUES (2, 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
+</code></pre><ul>
+<li>Vemos los resultados</li>
+</ul>
+<pre><code>SELECT *
+FROM audit.logged_actions;
+
+schema_name | table_name | user_name |         action_tstamp         | action | original_data |                                     new_data                                      |                                                        query                                                         
+-------------+------------+-----------+-------------------------------+--------+---------------+-----------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------
+ public      | categories | postgres  | 2021-06-10 11:57:08.248772+02 | I      |               | (1,Beverages,&quot;Soft drinks, coffees, teas, beers, and ales&quot;,&quot;\\x&quot;)                 | INSERT INTO categories VALUES (1, 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
+ public      | categories | postgres  | 2021-06-10 11:57:09.151275+02 | I      |               | (2,Condiments,&quot;Sweet and savory sauces, relishes, spreads, and seasonings&quot;,&quot;\\x&quot;) | INSERT INTO categories VALUES (2, 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
+(2 filas)
+</code></pre><ol start="9">
+<li><strong>Averigua si en MySQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</strong></li>
+</ol>
+<p>Creamos una base de datos y una tabla dentro de ella</p>
+<pre><code>MariaDB [(none)]&gt; create database personas;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]&gt; use personas
+Database changed
+
+MariaDB [personas]&gt; create table usuarios
+    -&gt; (ID numeric,
+    -&gt;  Nombre varchar(30),
+    -&gt;  Apellidos varchar(50),
+    -&gt;  Ciudad varchar(50),
+    -&gt;  constraint pk_id primary key (ID));
+Query OK, 0 rows affected, 1 warning (0.063 sec)
+</code></pre><p>Creamos la base de datos para las auditorías y dentro de ella creamos una tabla para almacenar los logs que nos mande el trigger que vamos a crear más adelante</p>
+<pre><code>MariaDB [personas]&gt; create database auditorias;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [personas]&gt; use auditorias;
+Database changed
+
+MariaDB [auditorias]&gt; CREATE TABLE accesos
+    -&gt;  (
+    -&gt;    codigo int(11) NOT NULL AUTO_INCREMENT,
+    -&gt;    usuario varchar(100),
+    -&gt;    fecha datetime,
+    -&gt;    PRIMARY KEY (`codigo`)
+    -&gt;  )
+    -&gt;  ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+Query OK, 0 rows affected (0.011 sec)
+</code></pre><p>Creamos el trigger que nos dará los logs</p>
+<pre><code>MariaDB [auditorias]&gt; delimiter $$
+MariaDB [auditorias]&gt; CREATE TRIGGER personas.usuarios
+    -&gt; BEFORE INSERT ON personas.usuarios
+    -&gt; FOR EACH ROW
+    -&gt; BEGIN
+    -&gt; INSERT INTO auditorias.accesos (usuario, fecha)
+    -&gt; values (CURRENT_USER(), NOW());
+    -&gt; END$$
+Query OK, 0 rows affected (0.019 sec)
+</code></pre><p>Ahora que tenemos hecho el trigger, vamos a dirigirnos a la tabla <code>usuarios</code> que hemos creado y vamos a insertar algunos datos de prueba</p>
+<pre><code>MariaDB [auditorias]&gt; use personas
+Database changed
+
+MariaDB [personas]&gt; insert into usuarios
+    -&gt; values('00', 'Juan Antonio', 'Reifs Ramírez', 'Dos Hermanas');
+Query OK, 1 row affected (0.011 sec)
+</code></pre><p>Por último, vamos a dirigirnos a la base de datos <code>auditorias</code> y vamos a revisar el contenido de la tabla de <code>accesos</code></p>
+<pre><code>MariaDB [personas]&gt; use auditorias
+Database changed
+
+MariaDB [auditorias]&gt; select * from accesos;
++--------+----------------+---------------------+
+| codigo | usuario        | fecha               |
++--------+----------------+---------------------+
+|      1 | root@localhost | 2021-06-10 12:13:28 |
++--------+----------------+---------------------+
+1 row in set (0.001 sec)
+</code></pre><p>Como podemos comprobar, se ha registrado el log que hemos hecho. Las auditorías tanto en PostgreSQL y MariaDB no existen como en Oracle, pero si que podemos tener algo parecido si las programamos con ciertos Triggers que nos den esa funcionalidad.</p>
+<ol start="10">
+<li><strong>Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento.</strong></li>
+</ol>
+<p>MongoDB sí que nos pemite realizar una auditoría de ciertas tareas</p>
+<pre><code>--auditFilter
+</code></pre><p>Podemos auditar auditar la creación y eliminación de colecciones con el siguiente comando</p>
+<pre><code>{ atype: { $in: [ &quot;createCollection&quot;, &quot;dropCollection&quot; ] } }
+</code></pre><p>Con la siguiente instrucción auditamos la creación o eliminación de colecciones indicando como salida un fichero <code>.bson</code></p>
+<pre><code>mongod --dbpath data/db --auditDestination file --auditFilter '{ atype: { $in: [ “createCollection”, “dropCollection” ] } }' --auditFormat BSON --auditPath data/db/auditLog.bson
+</code></pre><ol start="11">
+<li><strong>Averigua si en MongoDB se pueden auditar los accesos al sistema.</strong></li>
+</ol>
+<p>Auditamos los accesos al sistema con la instrucción</p>
+<pre><code>{ atype: &quot;authenticate&quot;, &quot;param.db&quot;: &quot;test&quot; }
+</code></pre><p>Con la siguiente instrucción, al igual que en el anterior ejercicio, podemos extraer la información en un fichero <code>.bson</code></p>
+<pre><code>mongod --dbpath data/db --auth --auditDestination file --auditFilter '{ atype: &quot;authenticate&quot;, &quot;param.db&quot;: &quot;test&quot; }' --auditFormat BSON --auditPath data/db/auditLog.bson
+</code></pre>]]></content>
+        </item>
         
         <item>
             <title>Interconexion de servidores de Bases de Datos</title>

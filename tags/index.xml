@@ -7,22 +7,76 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 09 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>19c</title>
       <link>https://juanan219.github.io/tags/19c/</link>
-      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/19c/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>Auditorias</title>
+      <link>https://juanan219.github.io/tags/auditorias/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/auditorias/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Bases de datos</title>
       <link>https://juanan219.github.io/tags/bases-de-datos/</link>
-      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/bases-de-datos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MariaDB</title>
+      <link>https://juanan219.github.io/tags/mariadb/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/mariadb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MongoDB</title>
+      <link>https://juanan219.github.io/tags/mongodb/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/mongodb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MySQL</title>
+      <link>https://juanan219.github.io/tags/mysql/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Oracle</title>
+      <link>https://juanan219.github.io/tags/oracle/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/oracle/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Postgres</title>
+      <link>https://juanan219.github.io/tags/postgres/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/tags/postgres/</guid>
       <description></description>
     </item>
     
@@ -41,60 +95,6 @@
       <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://juanan219.github.io/tags/debian/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Oracle</title>
-      <link>https://juanan219.github.io/tags/oracle/</link>
-      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/oracle/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Postgres</title>
-      <link>https://juanan219.github.io/tags/postgres/</link>
-      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/postgres/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>SQL</title>
-      <link>https://juanan219.github.io/tags/sql/</link>
-      <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/sql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>BBDD</title>
-      <link>https://juanan219.github.io/tags/bbdd/</link>
-      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/bbdd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Configuracion</title>
-      <link>https://juanan219.github.io/tags/configuracion/</link>
-      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/configuracion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Instalacion</title>
-      <link>https://juanan219.github.io/tags/instalacion/</link>
-      <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://juanan219.github.io/tags/instalacion/</guid>
       <description></description>
     </item>
     
