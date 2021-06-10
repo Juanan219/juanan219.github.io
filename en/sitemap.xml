@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/posts/2021/06/practica-de-gestion-del-almacenamiento-en-bases-de-datos/</loc>
+    <lastmod>2021-06-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/2021/06/interconexion-de-servidores-de-bases-de-datos/</loc>
     <lastmod>2021-06-09T00:00:00+00:00</lastmod>
   </url>
@@ -128,12 +133,22 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/tags/almacenamiento/</loc>
+    <lastmod>2021-06-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/tags/auditorias/</loc>
     <lastmod>2021-06-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://juanan219.github.io/tags/bases-de-datos/</loc>
+    <lastmod>2021-06-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/bbdd/</loc>
     <lastmod>2021-06-10T00:00:00+00:00</lastmod>
   </url>
   
@@ -183,7 +198,17 @@
   </url>
   
   <url>
+    <loc>https://juanan219.github.io/tags/postgresql/</loc>
+    <lastmod>2021-06-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://juanan219.github.io/posts/</loc>
+    <lastmod>2021-06-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://juanan219.github.io/tags/practica/</loc>
     <lastmod>2021-06-10T00:00:00+00:00</lastmod>
   </url>
   
@@ -230,11 +255,6 @@
   <url>
     <loc>https://juanan219.github.io/tags/sql/</loc>
     <lastmod>2021-06-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/bbdd/</loc>
-    <lastmod>2021-06-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -353,11 +373,6 @@
   </url>
   
   <url>
-    <loc>https://juanan219.github.io/tags/practica/</loc>
-    <lastmod>2021-04-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://juanan219.github.io/tags/telegraf/</loc>
     <lastmod>2021-04-28T00:00:00+00:00</lastmod>
   </url>
@@ -465,11 +480,6 @@
   <url>
     <loc>https://juanan219.github.io/tags/linux/</loc>
     <lastmod>2021-02-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://juanan219.github.io/tags/almacenamiento/</loc>
-    <lastmod>2021-02-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>

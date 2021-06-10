@@ -450,6 +450,234 @@ MariaDB [auditorias]&gt; select * from accesos;
         </item>
         
         <item>
+            <title>Practica de gestion del almacenamiento en Bases de Datos</title>
+            <link>https://juanan219.github.io/posts/2021/06/practica-de-gestion-del-almacenamiento-en-bases-de-datos/</link>
+            <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://juanan219.github.io/posts/2021/06/practica-de-gestion-del-almacenamiento-en-bases-de-datos/</guid>
+            <description>Esta práctica se va a dividir en tres partes:
+  Oracle
+  PostgreSQL
+  MariaDB
+  Oracle  Muestra los espacios de tablas existentes en tu base de datos y la ruta de los ficheros que los componen. ¿Están las extensiones gestionadas localmente o por diccionario?  Para poder ver los tablespaces de nuestro sistema deberemos ejecutar el siguiente comando
+SQL&amp;gt; col FILE_NAME form A40; Después ejecutamos esta consulta</description>
+            <content type="html"><![CDATA[<p>Esta práctica se va a dividir en tres partes:</p>
+<ul>
+<li>
+<p><strong>Oracle</strong></p>
+</li>
+<li>
+<p><strong>PostgreSQL</strong></p>
+</li>
+<li>
+<p><strong>MariaDB</strong></p>
+</li>
+</ul>
+<h2 id="oracle">Oracle</h2>
+<ol>
+<li><strong>Muestra los espacios de tablas existentes en tu base de datos y la ruta de los ficheros que los componen. ¿Están las extensiones gestionadas localmente o por diccionario?</strong></li>
+</ol>
+<p>Para poder ver los <code>tablespaces</code> de nuestro sistema deberemos ejecutar el siguiente comando</p>
+<pre><code>SQL&gt; col FILE_NAME form A40;
+</code></pre><p>Después ejecutamos esta consulta</p>
+<pre><code>SQL&gt; select FILE_NAME, TABLESPACE_NAME
+from dba_data_files
+UNION
+select FILE_NAME, TABLESPACE_NAME
+from dba_temp_files;
+
+FILE_NAME				 TABLESPACE_NAME
+---------------------------------------- ------------------------------
+/opt/oracle/oradata/ORCLCDB/sysaux01.dbf SYSAUX
+/opt/oracle/oradata/ORCLCDB/system01.dbf SYSTEM
+/opt/oracle/oradata/ORCLCDB/temp01.dbf	 TEMP
+/opt/oracle/oradata/ORCLCDB/undotbs01.db UNDOTBS1
+f
+
+/opt/oracle/oradata/ORCLCDB/users01.dbf  USERS
+</code></pre><ol start="2">
+<li><strong>Usa la vista del diccionario de datos <code>v$datafile</code> para mirar cuando fue la última vez que se ejecutó el proceso <code>CKPT</code> en tu base de datos.</strong></li>
+</ol>
+<pre><code>SQL&gt; select max(CHECKPOINT_TIME) from v$datafile;
+
+MAX(CHEC
+--------
+10/06/21
+</code></pre><ol start="3">
+<li><strong>Intenta crear el tablespace TS1 con un fichero de 2M en tu disco que crezca automáticamente cuando sea necesario. ¿Puedes hacer que la gestión de extensiones sea por diccionario? Averigua la razón.</strong></li>
+</ol>
+<pre><code>SQL&gt; create tablespace TS1
+datafile 'TS1.dbf'
+size 2M
+autoextend on;  2    3    4  
+
+Tablespace creado.
+</code></pre><p>Si en la instalación se ha especificado la gestión manual del almacenamiento, se puede configurar para que la gestión de las extensiones sea por diccionario, pero en mi caso no es así.</p>
+<ol start="4">
+<li><strong>Averigua el tamaño de un bloque de datos en tu base de datos. Cámbialo al doble del valor que tenga.</strong></li>
+</ol>
+<pre><code>SQL&gt; select distinct bytes/blocks
+from user_segments; 
+
+BYTES/BLOCKS
+------------
+	8192
+</code></pre><p>Oracle no nos permite modificar el tamaño de bloques de un <code>tablespace</code> ya creado, pero sí que podemos modificar un valor del sistema para que a partir de ahora los bloques de los tablespaces tenga el tamaño que nosotros queramos. Esto se haría de la siguiente manera</p>
+<pre><code>SQL&gt; ALTER SYSTEM SET DB_16k_CACHE_SIZE=100M;
+
+Sistema modificado.
+</code></pre><p>Reiniciamos la base de datos para que se apliquen los cambios</p>
+<pre><code>SQL&gt; shutdown 
+Base de datos cerrada.
+Base de datos desmontada.
+Instancia ORACLE cerrada.
+SQL&gt; startup
+Instancia ORACLE iniciada.
+
+Total System Global Area 1577055360 bytes
+Fixed Size		    9135232 bytes
+Variable Size		  939524096 bytes
+Database Buffers	  620756992 bytes
+Redo Buffers		    7639040 bytes
+Base de datos montada.
+Base de datos abierta.
+</code></pre><p>Ahora creamos el tablespace y ejecutamos la consulta para ver los bloques</p>
+<pre><code>SQL&gt; create tablespace prueba
+datafile '/home/oracle/prueba.img'
+size 1M blocksize 16K;  2    3  
+
+Tablespace creado.
+
+SQL&gt; select tablespace_name, block_size
+from dba_tablespaces
+where tablespace_name='PRUEBA';  2    3  
+
+TABLESPACE_NAME 	       BLOCK_SIZE
+------------------------------ ----------
+PRUEBA				    16384
+</code></pre><h2 id="postgresql">PostgreSQL</h2>
+<ol start="6">
+<li><strong>Averigua si existe el concepto de tablespace en Postgres, en qué consiste y las diferencias con los tablespaces de ORACLE.</strong></li>
+</ol>
+<p>Sí, los <em>tablespaces</em> existen en postgres, pero como todo en postgres, tiene ciertas diferencias con respecto a los <em>tablespaces</em> de Oracle, ya que estos permiten la segmentación y distribución física de los datos al poder ubicarlos en directorios diferentes. Esta no es la única diferencia, ya que por ejemplo, en Oracle se usan los llamados <em>datafiles</em> y en postgres, como hemos dicho anteriormente, usamos directorios. Otra de las diferencias más esenciales entre estos dos gestores de bases de datos es que Oracle nos permite realizar una definición más precisa de estos <em>tablespaces</em>, mientras que en postgres no podemos ni definir siquiera un tamaño máximo.</p>
+<h2 id="mysql">MySQL</h2>
+<ol start="7">
+<li><strong>Averigua si pueden establecerse claúsulas de almacenamiento para las tablas o los espacios de tablas en MySQL.</strong></li>
+</ol>
+<p>En MySQL podemos usar una serie de parámetros a la hora de crear tablas para definir aspectos como el número máximo de registros, la ruta donde se ubicará el fichero que contendrá dicha tabla, etc&hellip; Si queremos ver todos los parámetros que podemos usar a la hora de crear tablas, podemos ejecutar la siguiente instrucción</p>
+<pre><code>MariaDB [(none)]&gt; create table help;
+[...]
+table_options:
+    table_option [[,] table_option] ...
+
+table_option:
+    ENGINE [=] engine_name
+  | AUTO_INCREMENT [=] value
+  | AVG_ROW_LENGTH [=] value
+  | [DEFAULT] CHARACTER SET [=] charset_name
+  | CHECKSUM [=] {0 | 1}
+  | [DEFAULT] COLLATE [=] collation_name
+  | COMMENT [=] 'string'
+  | CONNECTION [=] 'connect_string'
+  | DATA DIRECTORY [=] 'absolute path to directory'
+  | DELAY_KEY_WRITE [=] {0 | 1}
+  | INDEX DIRECTORY [=] 'absolute path to directory'
+  | INSERT_METHOD [=] { NO | FIRST | LAST }
+  | KEY_BLOCK_SIZE [=] value
+  | MAX_ROWS [=] value
+  | MIN_ROWS [=] value
+  | PACK_KEYS [=] {0 | 1 | DEFAULT}
+  | PASSWORD [=] 'string'
+  | ROW_FORMAT [=] {DEFAULT|DYNAMIC|FIXED|COMPRESSED|REDUNDANT|COMPACT}
+  | TABLESPACE tablespace_name [STORAGE {DISK|MEMORY|DEFAULT}]
+  | UNION [=] (tbl_name[,tbl_name]...)
+
+partition_options:
+    PARTITION BY
+        { [LINEAR] HASH(expr)
+        | [LINEAR] KEY(column_list)
+        | RANGE{(expr) | COLUMNS(column_list)}
+        | LIST{(expr) | COLUMNS(column_list)} }
+    [PARTITIONS num]
+    [SUBPARTITION BY
+        { [LINEAR] HASH(expr)
+        | [LINEAR] KEY(column_list) }
+      [SUBPARTITIONS num]
+    ]
+    [(partition_definition [, partition_definition] ...)]
+
+partition_definition:
+    PARTITION partition_name
+        [VALUES 
+            {LESS THAN {(expr | value_list) | MAXVALUE} 
+            | 
+            IN (value_list)}]
+        [[STORAGE] ENGINE [=] engine_name]
+        [COMMENT [=] 'comment_text' ]
+        [DATA DIRECTORY [=] 'data_dir']
+        [INDEX DIRECTORY [=] 'index_dir']
+        [MAX_ROWS [=] max_number_of_rows]
+        [MIN_ROWS [=] min_number_of_rows]
+        [TABLESPACE [=] tablespace_name]
+        [NODEGROUP [=] node_group_id]
+        [(subpartition_definition [, subpartition_definition] ...)]
+
+subpartition_definition:
+    SUBPARTITION logical_name
+        [[STORAGE] ENGINE [=] engine_name]
+        [COMMENT [=] 'comment_text' ]
+        [DATA DIRECTORY [=] 'data_dir']
+        [INDEX DIRECTORY [=] 'index_dir']
+        [MAX_ROWS [=] max_number_of_rows]
+        [MIN_ROWS [=] min_number_of_rows]
+        [TABLESPACE [=] tablespace_name]
+        [NODEGROUP [=] node_group_id]
+
+select_statement:
+    [IGNORE | REPLACE] [AS] SELECT ...   (Some valid select statement)
+
+CREATE TABLE creates a table with the given name. You must have the
+CREATE privilege for the table.
+
+Rules for permissible table names are given in
+https://mariadb.com/kb/en/identifier-names/. By default,
+the table is created in the default database, using the InnoDB storage
+engine. An error occurs if the table exists, if there is no default
+database, or if the database does not exist.
+
+URL: https://mariadb.com/kb/en/create-table/
+</code></pre><p>En un MySQL normal, no podemos crear <em>tablespaces</em>, si queremos disponer de esta funcionalidad, deberemos tener instalada la versión de MySQL de alta disponibilidad, llamada <em>MySQL NDB</em>. Si disponemos de esta versión instalada, la sintáxis sería como la que se encuentra en <a href="https://dev.mysql.com/doc/refman/5.7/en/create-tablespace.html">su documentación oficial</a>.</p>
+<h2 id="mongodb">MongoDB</h2>
+<ol start="8">
+<li><strong>Averigua si existe el concepto de índice en MongoDB y las diferencias con los índices de ORACLE. Explica los distintos tipos de índice que ofrece MongoDB.</strong></li>
+</ol>
+<p>MongoDB nos ofrece diferentes tipos de índices, dependiendo de la funcionalidad que queramos, es decir, existen índices aplicados sobre un campo o varios, en orden ascendente, descendente, etc&hellip; y en Oracle disponemos de un tipo de índice, el cual contiene la mayoría de estas funciones.</p>
+<ul>
+<li><strong>Simples:</strong> Se aplican a un solo campo y usando los valores <code>1</code> o <code>-1</code> indicamos si queremos listar de forma ascendente o descendente. Ejemplo:</li>
+</ul>
+<pre><code>db.alumnos.createIndex( { &quot;nombre&quot; : 1 } )
+</code></pre><ul>
+<li><strong>Compound:</strong> Se aplican sobre varios campos y se usan de la misma forma que los <em>simples</em>, por lo que en cada campo podemos especificar el orden de la búsqueda. Por ejemplo, si queremos listar los alumnos en orden ascendente pero las notas en orden descendente ejecutaremos la siguiente consulta</li>
+</ul>
+<pre><code>db.alumnos.createIndex( { &quot;nombre&quot; : 1, &quot;nota&quot;: -1 } ) 
+</code></pre><ul>
+<li>
+<p><strong>Multikey:</strong> Normalmente cuando MongoDB recorre un documento, lo hace con <em>arrays</em>, recorre cada uno de sus valores, mientras que si usamos este tipo de índices, podemos asegurarnos que soo recorra aquellos <em>arrays</em> que contengan los valores que hemos especificado.</p>
+</li>
+<li>
+<p><strong>Unique:</strong> Elimina los campos duplicados, esta función también se encuentra en oracle cuando realizamos una consulta con el parámetro <code>distinct</code>.</p>
+</li>
+</ul>
+<pre><code>db.alumnos.createIndex( { &quot;nota&quot; : 1 }, {&quot;unique&quot;:true} )
+</code></pre><ol start="9">
+<li><strong>Explica en qué consiste el sharding en MongoDB.</strong></li>
+</ol>
+<p>El <em>sharding</em> (o fragmentación) es una función de escalado horizontal que nos ofrece MongoDB, ya que si no es posible almacenar la totalidad de los datos en un solo servidor, este nos permite repartir dicha información en varios de estos, de tal forma de que cada servidor tenga una fracción de toda la información de la que disponemos en nuestra base de datos. Al clúster de servidores que están configurados de esta forma se le llama <em>sharded cluster</em> (o en español, conjunto fragmentado).</p>
+<p>Para asegurar la alta disponibilidad de dicha información se monta cada shard de forma replicada, así incrementamos la tolerancia a fallos de cada servidor por separado.</p>
+]]></content>
+        </item>
+        
+        <item>
             <title>Interconexion de servidores de Bases de Datos</title>
             <link>https://juanan219.github.io/posts/2021/06/interconexion-de-servidores-de-bases-de-datos/</link>
             <pubDate>Wed, 09 Jun 2021 00:00:00 +0000</pubDate>

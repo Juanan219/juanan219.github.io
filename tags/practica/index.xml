@@ -7,7 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/practica/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://juanan219.github.io/tags/practica/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Practica de gestion del almacenamiento en Bases de Datos</title>
+      <link>https://juanan219.github.io/posts/2021/06/practica-de-gestion-del-almacenamiento-en-bases-de-datos/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://juanan219.github.io/posts/2021/06/practica-de-gestion-del-almacenamiento-en-bases-de-datos/</guid>
+      <description>Esta práctica se va a dividir en tres partes:
+  Oracle
+  PostgreSQL
+  MariaDB
+  Oracle  Muestra los espacios de tablas existentes en tu base de datos y la ruta de los ficheros que los componen. ¿Están las extensiones gestionadas localmente o por diccionario?  Para poder ver los tablespaces de nuestro sistema deberemos ejecutar el siguiente comando
+SQL&amp;gt; col FILE_NAME form A40; Después ejecutamos esta consulta</description>
+    </item>
+    
     <item>
       <title>Metricas logs y monitorizacion</title>
       <link>https://juanan219.github.io/posts/2021/04/metricas-logs-y-monitorizacion/</link>
